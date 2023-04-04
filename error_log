@@ -1,0 +1,5 @@
+[28-Mar-2023 05:10:48 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Front\CartController::add_to_cart_count() in /home/nirrtjiu/demo.spotlightattires.com/app/Http/Controllers/Front/CartController.php on line 171
+[28-Mar-2023 05:10:48 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Front\CartController::add_to_cart_count() in /home/nirrtjiu/demo.spotlightattires.com/app/Http/Controllers/Front/CartController.php on line 171
+[28-Mar-2023 05:11:16 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Front\CartController::add_to_cart_count() in /home/nirrtjiu/demo.spotlightattires.com/app/Http/Controllers/Front/CartController.php on line 171
+[28-Mar-2023 05:11:16 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Front\CartController::add_to_cart_count() in /home/nirrtjiu/demo.spotlightattires.com/app/Http/Controllers/Front/CartController.php on line 171
+[28-Mar-2023 05:11:27 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Front\CartController::add_to_cart_count() in /home/nirrtjiu/demo.spotlightattires.com/app/Http/Controllers/Front/CartController.php on line 171

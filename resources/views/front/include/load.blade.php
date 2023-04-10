@@ -15,9 +15,6 @@
                         O
                 </span>
 
-                <span data-text-preloader="A" class="letters-loading">
-                        A
-                </span>
 
                 <span data-text-preloader="T" class="letters-loading">
                         T

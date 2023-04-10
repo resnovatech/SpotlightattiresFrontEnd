@@ -22,7 +22,7 @@
                      $sub_cat_list = DB::table('categories')
                      ->where('cat_name',$all_get_all_category->cat_name)
                      ->whereNotNull('sub_cat')
-                     ->select('sub_cat')->distinct()->latest()->get();
+                     ->select('sub_cat')->groupby('sub_cat')->get();
                         ?>
 
                                 <li class="header__mega--menu__li">
@@ -45,16 +45,22 @@
                         <li class="header__menu--items">
                             <a class="header__menu--link" href="{{ route('blog_new') }}">Blog</a>
                         </li>
-                        <li class="header__menu--items d-none d-xl-block">
-                            <a class="header__menu--link" href="{{ route('animationCategoryProductList') }}">Anim Character </a>
+ <li class="header__menu--items style2">
+                            <a class="header__menu--link" href="{{ route('offerAndEventProduct') }}">Offers & Events</a>
                         </li>
+
+                       <!-- <li class="header__menu--items d-none d-xl-block">
+                            <a class="header__menu--link" href="{{ route('animationCategoryProductList') }}">Anim Character </a>
+                        </li> -->
                         <li class="header__menu--items">
                             <a class="header__menu--link" href="{{ route('contact_us_new') }}">Contact </a>
                         </li>
                     </ul>
                 </nav>
             </div>
-            <p class="header__discount--text"><img class="header__discount--icon__img" src="{{ asset('/') }}public/front/assets/img/icon/lamp.png" alt="lamp-img">{{ $offer_title }}</p>
+            <p class="header__discount--text">
+<!--<img class="header__discount--icon__img" src="{{ asset('/') }}public/front/assets/img/icon/lamp.png" alt="lamp-img">{{ $offer_title }}-->
+</p>
         </div>
     </div>
 </div>

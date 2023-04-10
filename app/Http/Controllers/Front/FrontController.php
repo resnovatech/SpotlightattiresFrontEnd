@@ -29,14 +29,14 @@ class FrontController extends Controller
     foreach ($products as $key => $product) {
                 
 
-                $image_location = 'https://admin.spotlightattires.com/'.$product->front_image;
+                $image_location = 'https://adminpanel.spotlightattires.com/'.$product->front_image;
 
                 $product_url_single = url('productDetail/'.$product->slug);
 
             $data.='<tr>'.
             '<td>'.' <img src="'.$image_location.'"  class="searchImage" style="height:40px;"> '. '</td>'.
             '<td>'.'<a href="'.$product_url_single.'">'.$product->product_name.'</a>'.'</td>'.
- '<td>'.'<a href="">'.$product->selling_price.'</a>'.'</td>'.
+ '<td>'.'<a href="">&#2547; '.$product->selling_price.'</a>'.'</td>'.
             //'<td>'.'<button onclick="singleData('.$product->product_slug.')">'.$product->product_name.'</button>'.'</td>'.
 
             '</tr>';
@@ -50,20 +50,12 @@ class FrontController extends Controller
     
     
     public function search_product(Request $request){
-
+//dd($request->all());
       
-        $data="";
-        if($request->category_name == 1){
-
+       
             $main_product=DB::table('main_products')->where('product_name','LIKE','%'.$request->product_name.'%')->get();
 
-        }else{
-
-
-        $main_product=DB::table('main_products')->where('cat_name',$request->category_name)
-        ->where('product_name','LIKE','%'.$request->product_name.'%')->get();
-    }
-
+    
      
         $cartCollection1 = \Cart::getContent();
 
@@ -97,14 +89,14 @@ return view('front.productPages.productList',compact('size_atttribute','color_at
             foreach ($products as $key => $product) {
                 
 
-                $image_location = 'https://admin.spotlightattires.com/'.$product->front_image;
+                $image_location = 'https://adminpanel.spotlightattires.com/'.$product->front_image;
 
                 $product_url_single = url('productDetail/'.$product->slug);
 
             $data.='<tr>'.
             '<td>'.' <img src="'.$image_location.'"  class="searchImage" style="height:40px;"> '. '</td>'.
             '<td>'.'<a href="'.$product_url_single.'">'.$product->product_name.'</a>'.'</td>'.
- '<td>'.'<a href="">'.$product->selling_price.'</a>'.'</td>'.
+ '<td>'.'<a href="">&#2547;'.$product->selling_price.'</a>'.'</td>'.
             //'<td>'.'<button onclick="singleData('.$product->product_slug.')">'.$product->product_name.'</button>'.'</td>'.
 
             '</tr>';
@@ -165,6 +157,28 @@ return view('front.productPages.productList',compact('size_atttribute','color_at
     }
 
 
+ public function shop(){
+
+        $cartCollection1 = \Cart::getContent();
+
+          
+    $main_product = DB::table('main_products')->latest()->paginate(28);;
+$main_category = DB::table('product_categories')->get();
+
+$cat_name = 'Shop';
+
+$color_atttribute = DB::table('attribute_details')
+->where('main_id_att','color')->latest()->get();
+
+$size_atttribute = DB::table('attribute_details')
+->where('main_id_att','size')->latest()->get();
+
+return view('front.productPages.productList',compact('size_atttribute','color_atttribute','cartCollection1','cat_name','main_category','main_product'));
+
+    }
+
+
+
     public function categoryProduct($id){
 
         $cartCollection1 = \Cart::getContent();
@@ -178,10 +192,10 @@ $separated_data_title = explode(" ", $convert_name_title);
 
 if($id == 'allProduct'){
     
-    $main_product = DB::table('main_products')->latest()->get();
+    $main_product = DB::table('main_products')->latest()->paginate(28);
 }else{
 
-$main_product = DB::table('main_products')->whereIn('slug',$separated_data_title)->latest()->get();
+$main_product = DB::table('main_products')->whereIn('slug',$separated_data_title)->latest()->paginate(28);
 }
 $main_category = DB::table('product_categories')->get();
 
@@ -209,7 +223,7 @@ return view('front.productPages.productList',compact('size_atttribute','color_at
 
 $separated_data_title = explode(" ", $convert_name_title);
 
-$main_product = DB::table('main_products')->whereIn('slug',$separated_data_title)->latest()->get();
+$main_product = DB::table('main_products')->whereIn('slug',$separated_data_title)->latest()->paginate(28);
 
 $main_category = DB::table('product_categories')->get();
 
@@ -237,7 +251,7 @@ return view('front.productPages.productList',compact('size_atttribute','color_at
 
 $separated_data_title = explode(" ", $convert_name_title);
 
-$main_product = DB::table('main_products')->whereIn('id',$separated_data_title)->latest()->get();
+$main_product = DB::table('main_products')->whereIn('id',$separated_data_title)->latest()->paginate(28);
 
 $main_category = DB::table('animationcategories')->get();
 
@@ -267,7 +281,7 @@ return view('front.productPages.animationCategoryProductList',compact('size_attt
 
 $separated_data_title = explode(" ", $convert_name_title);
 
-$main_product = DB::table('main_products')->whereIn('id',$separated_data_title)->latest()->get();
+$main_product = DB::table('main_products')->whereIn('id',$separated_data_title)->latest()->paginate(28);
 
 $main_category = DB::table('animationcategories')->get();
 
@@ -368,5 +382,39 @@ return view('front.productPages.animationCategoryProductList',compact('size_attt
         $data = view('front.productPages.quick_view_data3',compact('total_quantity'))->render();
         return response()->json($data);
 
+       }
+
+  public function forget_password_link(){
+
+        $cartCollection1 = \Cart::getContent();
+
+        return view('front.otherPage.forget_password_link',compact('cartCollection1'));
+       }
+
+       public function send_code_for_verification(Request $request){
+
+
+       // dd($request->all());
+
+        $user_id = User::where('email',$request->email)->value('id');
+        //dd($user_id);
+        $cartCollection1 = \Cart::getContent();
+        return view('front.otherPage.password_update_page',compact('cartCollection1','user_id'));
+
+       }
+
+
+       public function password_update_store(Request $request){
+       // dd($request->all());
+
+        // DB::table('users')
+        // ->where('id', $get_id_user)
+        // ->update(['is_email_verified' => 1,'email'=>$get_the_email]);
+
+        $customer =  User::find($request->id);
+        $customer->password = Hash::make($request->password);
+        $customer->save();
+
+        return redirect('/login_page_dash');
        }
 }

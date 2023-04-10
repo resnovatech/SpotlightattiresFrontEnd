@@ -4,7 +4,8 @@
 <head>
   <meta charset="utf-8">
   <title>{{ $product_information->product_name }}</title>
-  <meta name="description" content="Morden Bootstrap HTML5 Template">
+  <meta name="description" content="">
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
    <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta property="og:url"           content="{{ route('productDetail',['id'=>$product_information->slug]) }}" />
@@ -219,11 +220,23 @@
                                 @csrf
                                 <h2 class="product__details--info__title mb-15">{{ $product_information->product_name }}</h2>
                                 <div class="product__details--info__price mb-10">
+
+@if($product_information->discount == 0)
                                     <input type="hidden" value="{{ $product_information->selling_price }}" name="s_price"/>
 <input type="hidden" value="{{ $product_information->id }}" name="m_id"/>
                                     <span class="current__price">৳ {{ $product_information->selling_price }}</span>
                                     {{-- <span class="price__divided"></span>
                                     <span class="old__price">$178</span> --}}
+
+@else
+ <input type="hidden" value="{{ $product_information->selling_price - $product_information->discount }}" name="s_price"/>
+<input type="hidden" value="{{ $product_information->id }}" name="m_id"/>
+                                    <span class="current__price">৳ {{ $product_information->selling_price - $product_information->discount }}</span>
+                                    <span class="price__divided"></span>
+                                    <span class="old__price">৳ {{ $product_information->selling_price }}</span>
+
+
+@endif
                                 </div>
                                 <div class="product__details--info__rating d-flex align-items-center mb-15">
                                     <ul class="rating d-flex justify-content-center">
@@ -331,7 +344,7 @@
                                    
 
                         $total_quantityM = DB::table('product_colors')
-                        ->where('product_name',$product_information->id)->count();
+                        ->where('product_name',$product_information->id)->sum('quantity');
                                         
                                         
                                         ?>
@@ -623,7 +636,7 @@
                                     <span class="product__items--content__subtitle">{{ $all_feature_product_list->cat_name }}</span>
                                     <h4 class="product__items--content__title"><a href="{{ route('productDetail',$all_feature_product_list->slug) }}">{{ $all_feature_product_list->product_name }}</a></h4>
                                     <div class="product__items--price">
-                                        <span class="current__price">৳ {{ $all_feature_product_list->selling_price }}</span>
+                                        <span class="current__price">৳ {{ $all_feature_product_list->selling_price - $all_feature_product_list->discount}}</span>
                                         {{-- <span class="price__divided"></span>
                                         <span class="old__price">$68</span> --}}
                                     </div>
@@ -676,7 +689,7 @@
                 <div class="shipping__section2--inner shipping__style3--inner d-flex justify-content-between">
                     <div class="shipping__items2 d-flex align-items-center">
                         <div class="shipping__items2--icon">
-                            <img src="{{ asset('/') }}public/front/assets/img/other/shipping1.png" alt="">
+                            <img src="{{ asset('/') }}public/shipping1.png" alt="">
                         </div>
                         <div class="shipping__items2--content">
                             <h2 class="shipping__items2--content__title h3">Shipping</h2>
@@ -685,7 +698,7 @@
                     </div>
                     <div class="shipping__items2 d-flex align-items-center">
                         <div class="shipping__items2--icon">
-                            <img src="{{ asset('/') }}public/front/assets/img/other/shipping2.png" alt="">
+                            <img src="{{ asset('/') }}public/shipping2.png" alt="">
                         </div>
                         <div class="shipping__items2--content">
                             <h2 class="shipping__items2--content__title h3">Payment</h2>
@@ -694,7 +707,7 @@
                     </div>
                     <div class="shipping__items2 d-flex align-items-center">
                         <div class="shipping__items2--icon">
-                            <img src="{{ asset('/') }}public/front/assets/img/other/shipping3.png" alt="">
+                            <img src="{{ asset('/') }}public/shipping3.png" alt="">
                         </div>
                         <div class="shipping__items2--content">
                             <h2 class="shipping__items2--content__title h3">Return</h2>
@@ -703,7 +716,7 @@
                     </div>
                     <div class="shipping__items2 d-flex align-items-center">
                         <div class="shipping__items2--icon">
-                            <img src="{{ asset('/') }}public/front/assets/img/other/shipping4.png" alt="">
+                            <img src="{{ asset('/') }}public/shipping4.png" alt="">
                         </div>
                         <div class="shipping__items2--content">
                             <h2 class="shipping__items2--content__title h3">Support</h2>
@@ -817,7 +830,7 @@ else{
         //alert(product_name_length);
 
          $.ajax({
-        url: "{{ route('search_product_ajax') }}",
+        url: "https://spotlightattires.com/search_product_ajax",
         method: 'GET',
         data: {category_name:category_name,product_name:product_name},
         success: function(data) {
@@ -854,7 +867,7 @@ else{
 
 
             $.ajax({
-url: "{{ route('add_to_card_all_product') }}",
+url: "https://spotlightattires.com/add_to_card_all_product",
 type: "GET",
 data: {
 'after_string_slice_id': after_string_slice_id
@@ -875,7 +888,7 @@ alertify.set('notifier','position', 'top-center');
 
 
 $.ajax({
-url: "{{ route('add_to_cart_count_new') }}",
+url: "https://spotlightattires.com/add_to_cart_count_new",
 type: "GET",
 data: {
 'after_string_slice_id': after_string_slice_id
@@ -1026,7 +1039,7 @@ $('#main_cart_count3').html(data);
         //alert(url_main);
 
         $.ajax({
-        url: "{{ route('quick_view_data') }}",
+        url: "https://spotlightattires.com/quick_view_data",
         method: 'GET',
         data: {id_for_pass:id_for_pass},
         success: function(data) {
@@ -1037,7 +1050,7 @@ $('#main_cart_count3').html(data);
 
 
         $.ajax({
-        url: "{{ route('quick_view_data1') }}",
+        url: "https://spotlightattires.com/quick_view_data1",
         method: 'GET',
         data: {id_for_pass:id_for_pass},
         success: function(data) {
@@ -1049,7 +1062,7 @@ $('#main_cart_count3').html(data);
 
 
         $.ajax({
-        url: "{{ route('quick_view_data2') }}",
+        url: "https://spotlightattires.com/quick_view_data2",
         method: 'GET',
         data: {id_for_pass:id_for_pass},
         success: function(data) {
@@ -1060,7 +1073,7 @@ $('#main_cart_count3').html(data);
 
 
         $.ajax({
-        url: "{{ route('quick_view_data3') }}",
+        url: "https://spotlightattires.com/quick_view_data3",
         method: 'GET',
         data: {id_for_pass:id_for_pass},
         success: function(data) {
@@ -1086,7 +1099,7 @@ $('#main_cart_count3').html(data);
         //alert(email);
 
          $.ajax({
-        url: "{{ route('mobile_search_product') }}",
+        url: "https://spotlightattires.com/mobile_search_product",
         method: 'GET',
         data: {search_product_in_mobile:search_product_in_mobile},
         success: function(data) {
@@ -1129,7 +1142,7 @@ if(search_product_in_mobile_length == 0){
                $('#main_cart_count3').html(get_main_value);
                
                   $.ajax({
-url: "{{ route('add_to_card_all_product') }}",
+url: "https://spotlightattires.com/add_to_card_all_product",
 type: "GET",
 data: {
 'after_string_slice_id': after_string_slice_id
@@ -1183,7 +1196,7 @@ alertify.set('notifier','position', 'top-center');
             if(final_quantity == 0){
                 
                                $.ajax({
-url: "{{ route('delete_from_sidebar_new') }}",
+url: "https://spotlightattires.com/delete_from_sidebar_new",
 type: "GET",
 data: {
 'after_string_slice_id': after_string_slice_id
@@ -1202,7 +1215,7 @@ alertify.set('notifier','position', 'top-center');
                 
             }else{
                                $.ajax({
-url: "{{ route('dcrease_data_from_side_bar') }}",
+url: "https://spotlightattires.com/dcrease_data_from_side_bar",
 type: "GET",
 data: {
 'after_string_slice_id': after_string_slice_id,'final_quantity':final_quantity

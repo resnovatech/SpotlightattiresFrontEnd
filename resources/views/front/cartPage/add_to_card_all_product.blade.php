@@ -84,7 +84,7 @@
                $('#main_cart_count3').html(get_main_value);
                
                   $.ajax({
-url: "{{ route('add_to_card_all_product') }}",
+url: "https://spotlightattires.com/add_to_card_all_product",
 type: "GET",
 data: {
 'after_string_slice_id': after_string_slice_id
@@ -138,7 +138,7 @@ alertify.set('notifier','position', 'top-center');
             if(final_quantity == 0){
                 
                                $.ajax({
-url: "{{ route('delete_from_sidebar_new') }}",
+url: "https://spotlightattires.com/delete_from_sidebar_new",
 type: "GET",
 data: {
 'after_string_slice_id': after_string_slice_id
@@ -157,7 +157,7 @@ alertify.set('notifier','position', 'top-center');
                 
             }else{
                                $.ajax({
-url: "{{ route('dcrease_data_from_side_bar') }}",
+url: "https://spotlightattires.com/dcrease_data_from_side_bar",
 type: "GET",
 data: {
 'after_string_slice_id': after_string_slice_id,'final_quantity':final_quantity

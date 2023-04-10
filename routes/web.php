@@ -30,7 +30,7 @@ Route::get('/clear', function() {
 
 Route::controller(FilterController::class)->group(function () {
 
-
+Route::get('/shop_page_filter','shop_page_filter')->name('shop_page_filter');
     Route::get('/search_filter_data','search_filter_data')->name('search_filter_data');
     Route::get('/search_product','search_product')->name('search_product');
 
@@ -144,6 +144,9 @@ Route::get('/get_filter_data_from_page', 'get_filter_data_from_page')->name('get
 
 
 Route::controller(FrontController::class)->group(function () {
+
+
+Route::get('/shop', 'shop')->name('shop');
     
   
     Route::get('/cart_update_from_side_bar', 'cart_update_from_side_bar')->name('cart_update_from_side_bar');
@@ -175,6 +178,10 @@ Route::get('/quick_view_data2','quick_view_data2')->name('quick_view_data2');
 Route::get('/quick_view_data3','quick_view_data3')->name('quick_view_data3');
 
 
+Route::get('/forget_password_link','forget_password_link')->name('forget_password_link');
+Route::post('/send_code_for_verification','send_code_for_verification')->name('send_code_for_verification');
+Route::get('/password_update_page','password_update_page')->name('password_update_page');
+Route::post('/password_update_store','password_update_store')->name('password_update_store');
 
 
 

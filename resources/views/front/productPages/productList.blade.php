@@ -44,7 +44,7 @@ input.checkbox:checked + label:before {
                     <div class="breadcrumb__content text-center">
                         <h1 class="breadcrumb__content--title text-white mb-25">Spotlight Attires</h1>
                         <ul class="breadcrumb__content--menu d-flex justify-content-center">
-                            <li class="breadcrumb__content--menu__items"><a class="text-white" href="index.php">Home</a>
+                            <li class="breadcrumb__content--menu__items"><a class="text-white" href="#">Home</a>
                             </li>
                             <li class="breadcrumb__content--menu__items"><span class="text-white">Shop</span></li>
                         </ul>
@@ -56,6 +56,121 @@ input.checkbox:checked + label:before {
     <!-- End breadcrumb section -->
 
     <!-- Start shop section -->
+     <!-- Start offcanvas filter sidebar -->
+ <div class="offcanvas__filter--sidebar widget__area">
+    <button type="button" class="offcanvas__filter--close" data-offcanvas>
+        <svg class="minicart__close--icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M368 368L144 144M368 144L144 368"></path></svg> <span class="offcanvas__filter--close__text">Close</span>
+    </button>
+    <div class="offcanvas__filter--sidebar__inner">
+        <div class="single__widget widget__bg">
+            <h2 class="widget__title h3">Categories</h2>
+            <ul class="widget__categories--menu">
+                @foreach($main_category as $all_main_category)
+                <li class="widget__categories--menu__list">
+                    <label class="widget__categories--menu__label d-flex align-items-center">
+                        <img class="widget__categories--menu__img"
+                             src="{{ $url_name }}{{ $all_main_category->icon }}" alt="categories-img">
+                        <span class="widget__categories--menu__text">{{$all_main_category->cat_name}}</span>
+                        <svg class="widget__categories--menu__arrowdown--icon"
+                             xmlns="http://www.w3.org/2000/svg" width="12.355" height="8.394">
+                            <path d="M15.138,8.59l-3.961,3.952L7.217,8.59,6,9.807l5.178,5.178,5.178-5.178Z"
+                                  transform="translate(-6 -8.59)" fill="currentColor"></path>
+                        </svg>
+                    </label>
+
+                    <?php
+
+                    $sub_cat_list = DB::table('categories')
+                    ->where('cat_name',$all_main_category->cat_name)
+                    ->whereNotNull('sub_cat')
+                    ->select('sub_cat')->groupby('sub_cat')->get();
+                       ?>
+
+
+
+                    <ul class="widget__categories--sub__menu">
+
+                                <input class="widget__form--check__input"  name="cat_name_hidden" value="{{$all_main_category->cat_name}}" type="hidden">
+
+
+
+                        @foreach($sub_cat_list as $key=>$all_sub_cat_list)
+                        <li class="widget__categories--sub__menu--list">
+                            <div class="widget__form--check__list">
+                                <label class="widget__form--check__label" for="category_name{{$key+1}}">{{$all_sub_cat_list->sub_cat}}</label>
+                                <input class="widget__form--check__input" name="subcat[]" id="category_name{{$key+1}}" value="{{$all_sub_cat_list->sub_cat}}" type="checkbox">
+                                <span class="widget__form--checkmark"></span>
+                            </div>
+                        </li>
+                        @endforeach
+                    </ul>
+                </li>
+                @endforeach
+            </ul>
+        </div>
+        <div class="single__widget widget__bg">
+            <h2 class="widget__title h3">Size</h2>
+            <ul class="widget__form--check">
+                @foreach($size_atttribute as $key=>$all_size_atttribute)
+                                <li class="widget__form--check__list">
+                                    <label class="widget__form--check__label" for="size_value{{ $key+1 }}">{{ $all_size_atttribute->name_list }}</label>
+                                    <input class="widget__form--check__input" name="size[]" id="size_value{{ $key+1 }}" value="{{ $all_size_atttribute->name_list }}" type="checkbox">
+                                    <span class="widget__form--checkmark"></span>
+                                </li>
+                                @endforeach
+            </ul>
+        </div>
+        <div class="single__widget price__filter widget__bg">
+            <h2 class="widget__title h3">Filter By Price</h2>
+
+                                <div class="price__filter--form__inner mb-15 d-flex align-items-center">
+                                    <div class="price__filter--group">
+                                        <label class="price__filter--label" for="Filter-Price-GTE2">From</label>
+                                        <div class="price__filter--input border-radius-5 d-flex align-items-center">
+                                            <span class="price__filter--currency">৳</span>
+                                            <label>
+                                                <input class="price__filter--input__field border-0"
+                                                       type="number" name="from" id="min_price" placeholder="0" min="0"
+                                                       >
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="price__divider">
+                                        <span>-</span>
+                                    </div>
+                                    <div class="price__filter--group">
+                                        <label class="price__filter--label" for="Filter-Price-LTE2">To</label>
+                                        <div class="price__filter--input border-radius-5 d-flex align-items-center">
+                                            <span class="price__filter--currency">৳</span>
+                                            <label>
+                                                <input class="price__filter--input__field border-0"
+                                                       name="to" type="number" id="max_price" min="0"
+                                                       placeholder="250" >
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+        </div>
+        <div class="single__widget widget__bg">
+            <h2 class="widget__title h3">Color</h2>
+            <ul class="widget__tagcloud">
+
+
+                @foreach($color_atttribute as $key=>$all_color_atttribute)
+                <li class="widget__tagcloud--list">
+
+                <input class="checkbox" id="color_value{{ $key+1 }}" type="checkbox" name="color[]" value="{{ $all_color_atttribute->name_list}}" name="lists" />
+                <label for="color_value{{ $key+1 }}" class="widget__tagcloud--link"><span class="check">✓</span>{{ $all_color_atttribute->name_list}}</label>
+
+                <li>
+               @endforeach
+
+
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- End offcanvas filter sidebar -->
     <section class="shop__section section--padding">
         <div class="container-fluid">
             <div class="shop__header bg__gray--color d-flex align-items-center justify-content-between mb-30">
@@ -95,6 +210,23 @@ input.checkbox:checked + label:before {
                         <div class="single__widget widget__bg">
                             <h2 class="widget__title h3">Categories</h2>
                             <ul class="widget__categories--menu">
+
+<a href="{{url('shop')}}" >
+                                <li class="widget__categories--menu__list">
+                                    <label class="widget__categories--menu__label d-flex align-items-center">
+<img class="widget__categories--menu__img"
+                                             src="https://adminpanel.spotlightattires.com/public/uploads/small-product3.png" alt="categories-img">
+
+                                                                          <span class="widget__categories--menu__text">All</span></a>
+
+                                                                        </label>
+
+                                 
+
+                                </li>
+</a>
+                        
+
                                 @foreach($main_category as $all_main_category)
                                 <li class="widget__categories--menu__list">
                                     <label class="widget__categories--menu__label d-flex align-items-center">
@@ -113,7 +245,7 @@ input.checkbox:checked + label:before {
                                     $sub_cat_list = DB::table('categories')
                                     ->where('cat_name',$all_main_category->cat_name)
                                     ->whereNotNull('sub_cat')
-                                    ->select('sub_cat')->distinct()->latest()->get();
+                                    ->select('sub_cat')->groupby('sub_cat')->get();
                                        ?>
 
 
@@ -124,11 +256,11 @@ input.checkbox:checked + label:before {
 
 
 
-                                        @foreach($sub_cat_list as $all_sub_cat_list)
+                                        @foreach($sub_cat_list as $key=>$all_sub_cat_list)
                                         <li class="widget__categories--sub__menu--list">
                                             <div class="widget__form--check__list">
-                                                <label class="widget__form--check__label" for="check2">{{$all_sub_cat_list->sub_cat}}</label>
-                                                <input class="widget__form--check__input" name="subcat[]" id="check2" value="{{$all_sub_cat_list->sub_cat}}" type="checkbox">
+                                                <label class="widget__form--check__label" for="category_name{{$key+1}}">{{$all_sub_cat_list->sub_cat}}</label>
+                                                <input class="widget__form--check__input" name="subcat[]" id="category_name{{$key+1}}" value="{{$all_sub_cat_list->sub_cat}}" type="checkbox">
                                                 <span class="widget__form--checkmark"></span>
                                             </div>
                                         </li>
@@ -143,8 +275,8 @@ input.checkbox:checked + label:before {
                             <ul class="widget__form--check">
                                 @foreach($size_atttribute as $key=>$all_size_atttribute)
                                 <li class="widget__form--check__list">
-                                    <label class="widget__form--check__label" for="check{{ $key+1 }}">{{ $all_size_atttribute->name_list }}</label>
-                                    <input class="widget__form--check__input" name="size[]" id="check{{ $key+1 }}" value="{{ $all_size_atttribute->name_list }}" type="checkbox">
+                                    <label class="widget__form--check__label" for="size_value{{ $key+1 }}">{{ $all_size_atttribute->name_list }}</label>
+                                    <input class="widget__form--check__input" name="size[]" id="size_value{{ $key+1 }}" value="{{ $all_size_atttribute->name_list }}" type="checkbox">
                                     <span class="widget__form--checkmark"></span>
                                 </li>
                                 @endforeach
@@ -160,7 +292,7 @@ input.checkbox:checked + label:before {
                                             <span class="price__filter--currency">৳</span>
                                             <label>
                                                 <input class="price__filter--input__field border-0"
-                                                       type="number" name="from" placeholder="0" min="0"
+                                                       type="number" name="from" id="min_price" placeholder="0" min="0"
                                                        >
                                             </label>
                                         </div>
@@ -174,7 +306,7 @@ input.checkbox:checked + label:before {
                                             <span class="price__filter--currency">৳</span>
                                             <label>
                                                 <input class="price__filter--input__field border-0"
-                                                       name="to" type="number" min="0"
+                                                       name="to" type="number" id="max_price" min="0"
                                                        placeholder="250" >
                                             </label>
                                         </div>
@@ -191,8 +323,8 @@ input.checkbox:checked + label:before {
                                 @foreach($color_atttribute as $key=>$all_color_atttribute)
                                 <li class="widget__tagcloud--list">
 
-                                <input class="checkbox" id="lists{{ $key+1 }}" type="checkbox" name="color[]" value="{{ $all_color_atttribute->name_list}}" name="lists" />
-                                <label for="lists{{ $key+1 }}" class="widget__tagcloud--link"><span class="check">✓</span>{{ $all_color_atttribute->name_list}}</label>
+                                <input class="checkbox" id="color_value{{ $key+1 }}" type="checkbox" name="color[]" value="{{ $all_color_atttribute->name_list}}" name="lists" />
+                                <label for="color_value{{ $key+1 }}" class="widget__tagcloud--link"><span class="check">✓</span>{{ $all_color_atttribute->name_list}}</label>
 
                                 <li>
                                @endforeach
@@ -210,13 +342,12 @@ input.checkbox:checked + label:before {
                             <div class="filter-text">
                                 <p>Filtered By:</p>
                             </div>
-                            {{-- <div class="filter-box">
-                                <div class="d-flex">
-                                    <span class="pe-2">Denim Jacket</span>
-                                    <a href=""><img src="assets/img/icon/pngwing.com.png" alt=""></a>
-                                </div>
-                            </div>
+
                             <div class="filter-box">
+                                <div class="d-flex">
+                                    <span class="pe-2" id="f_list">{{ $cat_name }}</span>                                </div>
+                            </div>
+                            {{--<div class="filter-box">
                                 <div class="d-flex">
                                     <span class="pe-2">Denim Jacket</span>
                                     <a href=""><img src="assets/img/icon/pngwing.com.png" alt=""></a>
@@ -224,7 +355,7 @@ input.checkbox:checked + label:before {
                             </div> --}}
                         </div>
                     </div>
-                    <div class="shop__product--wrapper">
+                    <div class="shop__product--wrapper"  id="main_content_table_filter">
                         <div class="product__section--inner product__grid--inner">
                             <div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-3 row-cols-2 mb--n30">
 
@@ -245,7 +376,7 @@ input.checkbox:checked + label:before {
                                                     <span class="product__items--content__subtitle">{{ $all_feature_product_list->cat_name }}</span>
                                                     <h3 class="product__items--content__title h4"><a href="{{ route('productDetail',$all_feature_product_list->slug) }}">{{ $all_feature_product_list->product_name }}</a></h3>
                                                     <div class="product__items--price">
-                                                        <span class="current__price">৳ {{ $all_feature_product_list->selling_price }}</span>
+                                                        <span class="current__price">৳ {{ $all_feature_product_list->selling_price - $all_feature_product_list->discount  }}</span>
 
                                                     </div>
  <ul class="rating product__rating d-flex">
@@ -283,18 +414,18 @@ input.checkbox:checked + label:before {
 @endif
                               </ul>
                                                     <ul class="product__items--action d-flex">
-                                                       <?php  
-                                   
+                                                       <?php
+
 
                         $total_quantityM = DB::table('product_colors')
-                        ->where('product_name',$all_feature_product_list->id)->count();
-                                        
-                                        
+                        ->where('product_name',$all_feature_product_list->id)->sum('quantity');
+
+
                                         ?>
                                          @if( $total_quantityM >= 1)
-                                        <li class="product__items--action__list">
-                                           
-                                            <a class="product__items--action__btn add__to--cart" id="add_to_cart_m{{ $all_feature_product_list->id }}">
+                                        <li class="product__items--action__list" data-detailp = "{{ $all_feature_product_list->product_detail }}" data-pricep = "{{ $all_feature_product_list->selling_price }}" data-namep = "{{ $all_feature_product_list->product_name }}" id="qq_view{{ $all_feature_product_list->id }}">
+
+                                            <a class="product__items--action__btn add__to--cart" data-open="modal1">
                                                 <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg" width="22.51" height="20.443" viewBox="0 0 14.706 13.534">
                                                     <g transform="translate(0 0)">
                                                       <g>
@@ -307,9 +438,9 @@ input.checkbox:checked + label:before {
                                                 <span class="add__to--cart__text"> + Add to cart</span>
                                             </a>
                                         </li>
-                                        @else
+@else
                                         <li class="product__items--action__list">
-                                           
+
                                             <a class="product__items--action__btn">
                                                 <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg" width="22.51" height="20.443" viewBox="0 0 14.706 13.534">
                                                     <g transform="translate(0 0)">
@@ -344,6 +475,9 @@ input.checkbox:checked + label:before {
 
                                         @endforeach
                             </div>
+<div class="d-flex justify-content-center">
+     {!! $main_product->links() !!}
+</div>
                         </div>
                     </div>
                 </div>
@@ -358,7 +492,7 @@ input.checkbox:checked + label:before {
             <div class="shipping__section2--inner shipping__style3--inner d-flex justify-content-between">
                 <div class="shipping__items2 d-flex align-items-center">
                     <div class="shipping__items2--icon">
-                        <img src="assets/img/other/shipping1.png" alt="">
+                        <img src="{{ asset('/') }}public/shipping1.png" alt="">
                     </div>
                     <div class="shipping__items2--content">
                         <h2 class="shipping__items2--content__title h3">Shipping</h2>
@@ -367,7 +501,7 @@ input.checkbox:checked + label:before {
                 </div>
                 <div class="shipping__items2 d-flex align-items-center">
                     <div class="shipping__items2--icon">
-                        <img src="assets/img/other/shipping2.png" alt="">
+                        <img src="{{ asset('/') }}public/shipping2.png" alt="">
                     </div>
                     <div class="shipping__items2--content">
                         <h2 class="shipping__items2--content__title h3">Payment</h2>
@@ -376,7 +510,7 @@ input.checkbox:checked + label:before {
                 </div>
                 <div class="shipping__items2 d-flex align-items-center">
                     <div class="shipping__items2--icon">
-                        <img src="assets/img/other/shipping3.png" alt="">
+                        <img src="{{ asset('/') }}public/shipping3.png" alt="">
                     </div>
                     <div class="shipping__items2--content">
                         <h2 class="shipping__items2--content__title h3">Return</h2>
@@ -385,7 +519,7 @@ input.checkbox:checked + label:before {
                 </div>
                 <div class="shipping__items2 d-flex align-items-center">
                     <div class="shipping__items2--icon">
-                        <img src="assets/img/other/shipping4.png" alt="">
+                        <img src="{{ asset('/') }}public/shipping4.png" alt="">
                     </div>
                     <div class="shipping__items2--content">
                         <h2 class="shipping__items2--content__title h3">Support</h2>
@@ -398,5 +532,294 @@ input.checkbox:checked + label:before {
     <!-- End shipping section -->
 
 </main>
+
+@endsection
+
+@section('script')
+
+<script>
+    $(document).ready(function () {
+
+
+
+
+//catch category from filter
+$('input[id^="category_name"]').on('change', function (event) {
+
+
+
+    //category
+
+    var category_name = $('input[id^="category_name"]:checked').map(function(_, el) {
+        return $(el).val();
+    }).get();
+
+    //category
+
+    //color value
+    var color_value = $('input[id^="color_value"]:checked').map(function(_, el) {
+        return $(el).val();
+    }).get();
+    //end color value
+
+    //size value
+
+    var size_value = $('input[id^="size_value"]:checked').map(function(_, el) {
+        return $(el).val();
+    }).get();
+    //end size value
+
+
+    //price section
+
+
+
+
+  var price_list_mainmin = $('#min_price').val();
+
+
+var price_list_mainmax = $('#max_price').val();
+
+
+    //end price section
+
+   // alert(category_name);
+
+let text = category_name.toString();
+let text1 = color_value.toString();
+let text2 = size_value.toString();
+
+$('#f_list').html(text + text1 + text2  );
+
+
+    $.ajax({
+    url: "{{ route('shop_page_filter') }}",
+    method: 'GET',
+    data: {category_name:category_name,color_value:color_value,size_value:size_value,price_list_mainmin:price_list_mainmin,price_list_mainmax:price_list_mainmax},
+    success: function(data) {
+      $("#main_content_table_filter").html('');
+      $("#main_content_table_filter").html(data);
+    }
+    });
+
+});
+//end category from filter
+
+
+
+
+//catch color from filter
+$('input[id^="color_value"]').on('change', function (event) {
+
+//category
+
+var category_name = $('input[id^="category_name"]:checked').map(function(_, el) {
+        return $(el).val();
+    }).get();
+
+//category
+
+//color value
+var color_value = $('input[id^="color_value"]:checked').map(function(_, el) {
+    return $(el).val();
+}).get();
+//end color value
+
+//size value
+
+var size_value = $('input[id^="size_value"]:checked').map(function(_, el) {
+    return $(el).val();
+}).get();
+//end size value
+
+
+//price section
+
+
+  var price_list_mainmin = $('#min_price').val();
+  var price_list_mainmax = $('#max_price').val();
+
+
+//end price section
+
+let text = category_name.toString();
+let text1 = color_value.toString();
+let text2 = size_value.toString();
+
+$('#f_list').html(text + text1 + text2  );
+
+
+$.ajax({
+url: "{{ route('shop_page_filter') }}",
+method: 'GET',
+data: {category_name:category_name,color_value:color_value,size_value:size_value,price_list_mainmin:price_list_mainmin,price_list_mainmax:price_list_mainmax},
+success: function(data) {
+  $("#main_content_table_filter").html('');
+  $("#main_content_table_filter").html(data);
+}
+});
+
+});
+//end color from filter
+
+//catch size from filter
+$('input[id^="size_value"]').on('change', function (event) {
+
+//category
+
+var category_name = $('input[id^="category_name"]:checked').map(function(_, el) {
+        return $(el).val();
+    }).get();
+
+//category
+
+//color value
+var color_value = $('input[id^="color_value"]:checked').map(function(_, el) {
+    return $(el).val();
+}).get();
+//end color value
+
+//size value
+
+var size_value = $('input[id^="size_value"]:checked').map(function(_, el) {
+    return $(el).val();
+}).get();
+//end size value
+
+
+//price section
+
+
+  var price_list_mainmin = $('#min_price').val();
+  var price_list_mainmax = $('#max_price').val();
+
+
+//end price section
+
+let text = category_name.toString();
+let text1 = color_value.toString();
+let text2 = size_value.toString();
+
+$('#f_list').html(text + text1 + text2  );
+
+
+$.ajax({
+url: "{{ route('shop_page_filter') }}",
+method: 'GET',
+data: {category_name:category_name,color_value:color_value,size_value:size_value,price_list_mainmin:price_list_mainmin,price_list_mainmax:price_list_mainmax},
+success: function(data) {
+  $("#main_content_table_filter").html('');
+  $("#main_content_table_filter").html(data);
+}
+});
+
+});
+//end size from filter
+
+
+
+
+//minmum size
+$('#max_price').on('keyup', function () {
+
+    //category
+
+var category_name = $('input[id^="category_name"]:checked').map(function(_, el) {
+        return $(el).val();
+    }).get();
+
+//category
+
+//color value
+var color_value = $('input[id^="color_value"]:checked').map(function(_, el) {
+    return $(el).val();
+}).get();
+//end color value
+
+//size value
+
+var size_value = $('input[id^="size_value"]:checked').map(function(_, el) {
+    return $(el).val();
+}).get();
+//end size value
+
+
+//price section
+
+  var price_list_mainmin = $('#min_price').val();
+  var price_list_mainmax = $(this).val();
+
+
+//end price section
+
+
+
+$.ajax({
+url: "{{ route('shop_page_filter') }}",
+method: 'GET',
+data: {category_name:category_name,color_value:color_value,size_value:size_value,price_list_mainmin:price_list_mainmin,price_list_mainmax:price_list_mainmax},
+success: function(data) {
+  $("#main_content_table").html('');
+  $("#main_content_table").html(data);
+}
+});
+
+});
+//maximum size
+
+$('#min_price').on('keyup', function () {
+
+    //category
+
+var category_name = $('input[id^="category_name"]:checked').map(function(_, el) {
+        return $(el).val();
+    }).get();
+
+//category
+
+//color value
+var color_value = $('input[id^="color_value"]:checked').map(function(_, el) {
+    return $(el).val();
+}).get();
+//end color value
+
+//size value
+
+var size_value = $('input[id^="size_value"]:checked').map(function(_, el) {
+    return $(el).val();
+}).get();
+//end size value
+
+
+//price section
+
+
+  var price_list_mainmin = $(this).val();
+  var price_list_mainmax = $('#max_price').val();
+
+
+//end price section
+
+
+
+$.ajax({
+url: "{{ route('shop_page_filter') }}",
+method: 'GET',
+data: {category_name:category_name,color_value:color_value,size_value:size_value,price_list_mainmin:price_list_mainmin,price_list_mainmax:price_list_mainmax},
+success: function(data) {
+  $("#main_content_table").html('');
+  $("#main_content_table").html(data);
+}
+});
+
+});
+
+
+//price filter from select tag
+
+//end price filter from selct tag
+
+    });
+</script>
 
 @endsection

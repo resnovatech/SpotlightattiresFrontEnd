@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>@yield('title')</title>
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="description" content="Spotlight Attires">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="{{$url_name}}{{ $icon }}">
@@ -234,6 +235,135 @@
 
 
   @yield('script')
+@if(Route::is('check_out'))
+/////
+
+ <script>
+    $(document).ready(function(){
+          $("[id^=increase_data_from_side_bar]").click(function(){
+              
+              
+                var currentId  = $(this).attr('id');
+                var after_string_slice_id = currentId.slice(27);
+                
+                 var previous_cart_quantity  = parseInt($('#main_cart_count1').html());
+                 
+                 var get_main_value = parseInt(previous_cart_quantity+1);
+                 
+                 var main_quantity = $('#sidebarQuantity'+after_string_slice_id).val()
+                 
+                 var final_quantity = parseInt(main_quantity+1);
+                
+                //alert(main_quantity);
+                
+                $('#main_cart_count1').html(get_main_value);
+                $('#main_cart_count2').html(get_main_value);
+               $('#main_cart_count3').html(get_main_value);
+               
+                  $.ajax({
+url: "https://spotlightattires.com/add_to_card_all_product",
+type: "GET",
+data: {
+'after_string_slice_id': after_string_slice_id
+},
+success: function (data) {
+
+$("#main_sidebar").html('');
+$('#main_sidebar').html(data);
+location.reload(true);
+alertify.set('notifier','position', 'top-center');
+    alertify.success('Added To Cart!');
+
+}
+
+});
+
+               
+               
+               
+              
+          });
+          
+          ///////
+          
+           $("[id^=dcrease_data_from_side_bar]").click(function(){
+              
+              
+                var currentId  = $(this).attr('id');
+                var after_string_slice_id = currentId.slice(26);
+                
+                //alert(after_string_slice_id);
+                
+                  var previous_cart_quantity  = parseInt($('#main_cart_count1').html());
+                 
+                 var get_main_value = parseInt(previous_cart_quantity-1);
+                
+           
+                 
+                 
+                
+               var main_quantity = $('#sidebarQuantity'+after_string_slice_id).val()
+                 
+                 var final_quantity = parseInt(main_quantity-1);
+                 
+                // alert(final_quantity);
+                
+            $('#main_cart_count1').html(get_main_value);
+            $('#main_cart_count2').html(get_main_value);
+            $('#main_cart_count3').html(get_main_value);
+            
+            if(final_quantity == 0){
+                
+                               $.ajax({
+url: "https://spotlightattires.com/delete_from_sidebar_new",
+type: "GET",
+data: {
+'after_string_slice_id': after_string_slice_id
+},
+success: function (data) {
+
+$("#main_sidebar").html('');
+$('#main_sidebar').html(data);
+location.reload(true);
+alertify.set('notifier','position', 'top-center');
+    alertify.success('Delete From Cart!');
+
+}
+
+});
+                
+            }else{
+                               $.ajax({
+url: "https://spotlightattires.com/dcrease_data_from_side_bar",
+type: "GET",
+data: {
+'after_string_slice_id': after_string_slice_id,'final_quantity':final_quantity
+},
+success: function (data) {
+
+$("#main_sidebar").html('');
+$('#main_sidebar').html(data);
+location.reload(true);
+alertify.set('notifier','position', 'top-center');
+    alertify.success('Remove From Cart!');
+
+}
+
+});
+                
+            }
+              
+              
+          });
+  
+    });
+    </script>
+
+
+
+/////
+
+@else
   
   <script>
     $(document).ready(function(){
@@ -258,7 +388,7 @@
                $('#main_cart_count3').html(get_main_value);
                
                   $.ajax({
-url: "{{ route('add_to_card_all_product') }}",
+url: "https://spotlightattires.com/add_to_card_all_product",
 type: "GET",
 data: {
 'after_string_slice_id': after_string_slice_id
@@ -312,7 +442,7 @@ alertify.set('notifier','position', 'top-center');
             if(final_quantity == 0){
                 
                                $.ajax({
-url: "{{ route('delete_from_sidebar_new') }}",
+url: "https://spotlightattires.com/delete_from_sidebar_new",
 type: "GET",
 data: {
 'after_string_slice_id': after_string_slice_id
@@ -331,7 +461,7 @@ alertify.set('notifier','position', 'top-center');
                 
             }else{
                                $.ajax({
-url: "{{ route('dcrease_data_from_side_bar') }}",
+url: "https://spotlightattires.com/dcrease_data_from_side_bar",
 type: "GET",
 data: {
 'after_string_slice_id': after_string_slice_id,'final_quantity':final_quantity
@@ -355,6 +485,7 @@ alertify.set('notifier','position', 'top-center');
   
     });
     </script>
+@endif
     
 <script>
     $(document).ready(function(){
@@ -371,7 +502,7 @@ alertify.set('notifier','position', 'top-center');
 
 
             $.ajax({
-url: "{{ route('add_to_card_all_product') }}",
+url: "https://spotlightattires.com/add_to_card_all_product",
 type: "GET",
 data: {
 'after_string_slice_id': after_string_slice_id
@@ -392,7 +523,7 @@ alertify.set('notifier','position', 'top-center');
 
 
 $.ajax({
-url: "{{ route('add_to_cart_count_new') }}",
+url: "https://spotlightattires.com/add_to_cart_count_new",
 type: "GET",
 data: {
 'after_string_slice_id': after_string_slice_id
@@ -543,7 +674,7 @@ $('#main_cart_count3').html(data);
         //alert(url_main);
 
         $.ajax({
-        url: "{{ route('quick_view_data') }}",
+        url: "https://spotlightattires.com/quick_view_data",
         method: 'GET',
         data: {id_for_pass:id_for_pass},
         success: function(data) {
@@ -554,7 +685,7 @@ $('#main_cart_count3').html(data);
 
 
         $.ajax({
-        url: "{{ route('quick_view_data1') }}",
+        url: "https://spotlightattires.com/quick_view_data1",
         method: 'GET',
         data: {id_for_pass:id_for_pass},
         success: function(data) {
@@ -566,7 +697,7 @@ $('#main_cart_count3').html(data);
 
 
         $.ajax({
-        url: "{{ route('quick_view_data2') }}",
+        url: "https://spotlightattires.com/quick_view_data2",
         method: 'GET',
         data: {id_for_pass:id_for_pass},
         success: function(data) {
@@ -577,7 +708,7 @@ $('#main_cart_count3').html(data);
 
 
         $.ajax({
-        url: "{{ route('quick_view_data3') }}",
+        url: "https://spotlightattires.com/quick_view_data3",
         method: 'GET',
         data: {id_for_pass:id_for_pass},
         success: function(data) {
@@ -602,7 +733,7 @@ $('#main_cart_count3').html(data);
         //alert(product_name_length);
 
          $.ajax({
-        url: "{{ route('search_product_ajax') }}",
+        url: "https://spotlightattires.com/search_product_ajax",
         method: 'GET',
         data: {category_name:category_name,product_name:product_name},
         success: function(data) {
@@ -638,7 +769,7 @@ $('#main_cart_count3').html(data);
         //alert(email);
 
          $.ajax({
-        url: "{{ route('mobile_search_product') }}",
+        url: "https://spotlightattires.com/mobile_search_product",
         method: 'GET',
         data: {search_product_in_mobile:search_product_in_mobile},
         success: function(data) {

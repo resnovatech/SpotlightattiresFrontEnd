@@ -138,7 +138,7 @@ $feature_image_two =DB::table('feature_product_images')->where('product_name',$a
                                     <span class="product__items--content__subtitle">{{ $all_feature_product_list->cat_name }}</span>
                                     <h3 class="product__items--content__title h4"><a href="{{ route('productDetail',$all_feature_product_list->slug) }}">{{ $all_feature_product_list->product_name }}</a></h3>
                                     <div class="product__items--price">
-                                        <span class="current__price">৳ {{ $all_feature_product_list->selling_price }}</span>
+                                        <span class="current__price">৳ {{ $all_feature_product_list->selling_price - $all_feature_product_list->discount}}</span>
                                         {{-- <span class="price__divided"></span>
                                         <span class="old__price">$78</span> --}}
                                     </div>
@@ -189,14 +189,14 @@ $feature_image_two =DB::table('feature_product_images')->where('product_name',$a
                                    
 
                         $total_quantityM = DB::table('product_colors')
-                        ->where('product_name',$all_feature_product_list->id)->count();
-                                        
+                        ->where('product_name',$all_feature_product_list->id)->sum('quantity');
+                                       
                                         
                                         ?>
                                          @if( $total_quantityM >= 1)
-                                        <li class="product__items--action__list">
-                                           
-                                            <a class="product__items--action__btn add__to--cart" id="add_to_cart_m{{ $all_feature_product_list->id }}">
+                                                                 <li class="product__items--action__list" data-detailp = "{{ $all_feature_product_list->product_detail }}" data-pricep = "{{ $all_feature_product_list->selling_price }}" data-namep = "{{ $all_feature_product_list->product_name }}" id="qq_view{{ $all_feature_product_list->id }}">
+
+                                            <a class="product__items--action__btn add__to--cart" data-open="modal1">
                                                 <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg" width="22.51" height="20.443" viewBox="0 0 14.706 13.534">
                                                     <g transform="translate(0 0)">
                                                       <g>
@@ -208,8 +208,8 @@ $feature_image_two =DB::table('feature_product_images')->where('product_name',$a
                                                 </svg>
                                                 <span class="add__to--cart__text"> + Add to cart</span>
                                             </a>
-                                        </li>
-                                        @else
+                                        </li>                                       
+ @else
                                         <li class="product__items--action__list">
                                            
                                             <a class="product__items--action__btn">
@@ -290,7 +290,7 @@ $feature_image_two =DB::table('feature_product_images')->where('product_name',$a
                                                                                             <span class="product__items--content__subtitle">{{ $all_feature_product_list->cat_name }}</span>
                                                                                             <h3 class="product__items--content__title h4"><a href="{{ route('productDetail',$all_feature_product_list->slug) }}">{{ $all_feature_product_list->product_name }}</a></h3>
                                                                                             <div class="product__items--price">
-                                                                                                <span class="current__price">৳ {{ $all_feature_product_list->selling_price }}</span>
+                                                                                                <span class="current__price">৳ {{ $all_feature_product_list->selling_price - $all_feature_product_list->discount }}</span>
                                                                                                 {{-- <span class="price__divided"></span>
                                                                                                 <span class="old__price">$78</span> --}}
                                                                                             </div>
@@ -334,14 +334,14 @@ $feature_image_two =DB::table('feature_product_images')->where('product_name',$a
                                    
 
                         $total_quantityM = DB::table('product_colors')
-                        ->where('product_name',$all_feature_product_list->id)->count();
+                        ->where('product_name',$all_feature_product_list->id)->sum('quantity');
                                         
                                         
                                         ?>
                                          @if( $total_quantityM >= 1)
-                                        <li class="product__items--action__list">
-                                           
-                                            <a class="product__items--action__btn add__to--cart" id="add_to_cart_m{{ $all_feature_product_list->id }}">
+                                                                 <li class="product__items--action__list" data-detailp = "{{ $all_feature_product_list->product_detail }}" data-pricep = "{{ $all_feature_product_list->selling_price }}" data-namep = "{{ $all_feature_product_list->product_name }}" id="qq_view{{ $all_feature_product_list->id }}">
+
+                                            <a class="product__items--action__btn add__to--cart" data-open="modal1">
                                                 <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg" width="22.51" height="20.443" viewBox="0 0 14.706 13.534">
                                                     <g transform="translate(0 0)">
                                                       <g>
@@ -353,8 +353,8 @@ $feature_image_two =DB::table('feature_product_images')->where('product_name',$a
                                                 </svg>
                                                 <span class="add__to--cart__text"> + Add to cart</span>
                                             </a>
-                                        </li>
-                                        @else
+                                        </li>                                        
+@else
                                         <li class="product__items--action__list">
                                            
                                             <a class="product__items--action__btn">
@@ -432,7 +432,7 @@ $feature_image_two =DB::table('feature_product_images')->where('product_name',$a
                                                                                             <span class="product__items--content__subtitle">{{ $all_feature_product_list->cat_name }}</span>
                                                                                             <h3 class="product__items--content__title h4"><a href="{{ route('productDetail',$all_feature_product_list->slug) }}">{{ $all_feature_product_list->product_name }}</a></h3>
                                                                                             <div class="product__items--price">
-                                                                                                <span class="current__price">৳ {{ $all_feature_product_list->selling_price }}</span>
+                                                                                                <span class="current__price">৳ {{ $all_feature_product_list->selling_price - $all_feature_product_list->discount }}</span>
                                                                                                 {{-- <span class="price__divided"></span>
                                                                                                 <span class="old__price">$78</span> --}}
                                                                                             </div>
@@ -476,14 +476,14 @@ $feature_image_two =DB::table('feature_product_images')->where('product_name',$a
                                    
 
                         $total_quantityM = DB::table('product_colors')
-                        ->where('product_name',$all_feature_product_list->id)->count();
+                        ->where('product_name',$all_feature_product_list->id)->sum('quantity');
                                         
                                         
                                         ?>
                                          @if( $total_quantityM >= 1)
-                                        <li class="product__items--action__list">
-                                           
-                                            <a class="product__items--action__btn add__to--cart" id="add_to_cart_m{{ $all_feature_product_list->id }}">
+                                                                 <li class="product__items--action__list" data-detailp = "{{ $all_feature_product_list->product_detail }}" data-pricep = "{{ $all_feature_product_list->selling_price }}" data-namep = "{{ $all_feature_product_list->product_name }}" id="qq_view{{ $all_feature_product_list->id }}">
+
+                                            <a class="product__items--action__btn add__to--cart" data-open="modal1">
                                                 <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg" width="22.51" height="20.443" viewBox="0 0 14.706 13.534">
                                                     <g transform="translate(0 0)">
                                                       <g>
@@ -495,8 +495,8 @@ $feature_image_two =DB::table('feature_product_images')->where('product_name',$a
                                                 </svg>
                                                 <span class="add__to--cart__text"> + Add to cart</span>
                                             </a>
-                                        </li>
-                                        @else
+                                        </li>                                        
+@else
                                         <li class="product__items--action__list">
                                            
                                             <a class="product__items--action__btn">
@@ -601,7 +601,7 @@ $feature_image_two =DB::table('feature_product_images')->where('product_name',$a
                   <div class="swiper-slide">
                       <div class="product__items ">
                           <div class="product__items--thumbnail">
-                              <a class="product__items--link" href="product-details.html">
+                              <a class="product__items--link" href="{{ route('productDetail',$all_feature_product_list->slug) }}">
                                   <img class="product__items--img product__primary--img" src="{{$url_name}}{{ $all_feature_product_list->front_image  }}" alt="product-img">
                                   <img class="product__items--img product__secondary--img" src="{{$url_name}}{{ $all_feature_product_list->back_image  }}" alt="product-img">
                               </a>
@@ -613,7 +613,7 @@ $feature_image_two =DB::table('feature_product_images')->where('product_name',$a
                               <span class="product__items--content__subtitle">{{ $all_feature_product_list->cat_name }}</span>
                               <h3 class="product__items--content__title h4"><a href="{{ route('productDetail',$all_feature_product_list->slug) }}">{{ $all_feature_product_list->product_name }}</a></h3>
                               <div class="product__items--price">
-                                  <span class="current__price">৳ {{ $all_feature_product_list->selling_price }}</span>
+                                  <span class="current__price">৳ {{ $all_feature_product_list->selling_price - $all_feature_product_list->discount}}</span>
                                   {{-- <span class="price__divided"></span>
                                   <span class="old__price">$78</span> --}}
                               </div>
@@ -656,14 +656,14 @@ $feature_image_two =DB::table('feature_product_images')->where('product_name',$a
                                    
 
                         $total_quantityM = DB::table('product_colors')
-                        ->where('product_name',$all_feature_product_list->id)->count();
+                        ->where('product_name',$all_feature_product_list->id)->sum('quantity');
                                         
                                         
                                         ?>
                                          @if( $total_quantityM >= 1)
-                                        <li class="product__items--action__list">
-                                           
-                                            <a class="product__items--action__btn add__to--cart" id="add_to_cart_m{{ $all_feature_product_list->id }}">
+                                                                 <li class="product__items--action__list" data-detailp = "{{ $all_feature_product_list->product_detail }}" data-pricep = "{{ $all_feature_product_list->selling_price }}" data-namep = "{{ $all_feature_product_list->product_name }}" id="qq_view{{ $all_feature_product_list->id }}">
+
+                                            <a class="product__items--action__btn add__to--cart" data-open="modal1">
                                                 <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg" width="22.51" height="20.443" viewBox="0 0 14.706 13.534">
                                                     <g transform="translate(0 0)">
                                                       <g>
@@ -675,8 +675,8 @@ $feature_image_two =DB::table('feature_product_images')->where('product_name',$a
                                                 </svg>
                                                 <span class="add__to--cart__text"> + Add to cart</span>
                                             </a>
-                                        </li>
-                                        @else
+                                        </li>                                       
+ @else
                                         <li class="product__items--action__list">
                                            
                                             <a class="product__items--action__btn">

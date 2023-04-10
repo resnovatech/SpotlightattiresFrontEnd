@@ -22,7 +22,7 @@
              $sub_cat_list = DB::table('categories')
              ->where('cat_name',$all_get_all_category->cat_name)
              ->whereNotNull('sub_cat')
-             ->select('sub_cat')->distinct()->latest()->get();
+               ->select('sub_cat')->groupby('sub_cat')->get();
                 ?>
                         <li class="offcanvas__sub_menu_li">
                             <a href="{{ route('categoryProduct',$all_get_all_category->cat_name) }}" class="offcanvas__sub_menu_item">{{ $all_get_all_category->cat_name }}</a>

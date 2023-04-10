@@ -48,7 +48,7 @@ Verify Your Account
 <div class="login__section section--padding">
     <div class="container">
         <div class="row justify-content-md-center">
-             @include('flash_message')
+            
             <div class="col-md-8 text-center">
                        <form action="{{route('verification_page_post')}}" method="post"  enctype="multipart/form-data" id="form1" data-parsley-validate="">
                 @csrf
@@ -90,7 +90,7 @@ Verify Your Account
                 <div class="shipping__section2--inner shipping__style3--inner d-flex justify-content-between">
                     <div class="shipping__items2 d-flex align-items-center">
                         <div class="shipping__items2--icon">
-                            <img src="{{asset('/')}}public/front/assets/img/other/shipping1.png" alt="">
+                            <img src="{{asset('/')}}public/shipping1.png" alt="">
                         </div>
                         <div class="shipping__items2--content">
                             <h2 class="shipping__items2--content__title h3">Shipping</h2>
@@ -99,7 +99,7 @@ Verify Your Account
                     </div>
                     <div class="shipping__items2 d-flex align-items-center">
                         <div class="shipping__items2--icon">
-                            <img src="{{asset('/')}}public/front/assets/img/other/shipping2.png" alt="">
+                            <img src="{{asset('/')}}public/shipping2.png" alt="">
                         </div>
                         <div class="shipping__items2--content">
                             <h2 class="shipping__items2--content__title h3">Payment</h2>
@@ -108,7 +108,7 @@ Verify Your Account
                     </div>
                     <div class="shipping__items2 d-flex align-items-center">
                         <div class="shipping__items2--icon">
-                            <img src="{{asset('/')}}public/front/assets/img/other/shipping3.png" alt="">
+                            <img src="{{asset('/')}}public/shipping3.png" alt="">
                         </div>
                         <div class="shipping__items2--content">
                             <h2 class="shipping__items2--content__title h3">Return</h2>
@@ -117,7 +117,7 @@ Verify Your Account
                     </div>
                     <div class="shipping__items2 d-flex align-items-center">
                         <div class="shipping__items2--icon">
-                            <img src="{{asset('/')}}public/front/assets/img/other/shipping4.png" alt="">
+                            <img src="{{asset('/')}}public/shipping4.png" alt="">
                         </div>
                         <div class="shipping__items2--content">
                             <h2 class="shipping__items2--content__title h3">Support</h2>
@@ -139,7 +139,7 @@ Verify Your Account
         //alert(email);
 
          $.ajax({
-        url: "{{ route('check_email_value') }}",
+        url: "https://spotlightattires.com/check_email_value",
         method: 'GET',
         data: {email:email},
         success: function(data) {

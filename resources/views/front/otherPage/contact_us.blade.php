@@ -189,7 +189,7 @@ Contact Us
                         @foreach($brand_list_all as $all_brand_list_all)
 
                         <div class="brand__logo--items">
-                            <img class="brand__logo--items__thumbnail--img display-block" src="http://localhost/2023/moin_new_feb_14/{{ $all_brand_list_all->image }}" alt="brand logo">
+                            <img class="brand__logo--items__thumbnail--img display-block" src="{{$url_name}}{{ $all_brand_list_all->image }}" alt="brand logo" style="height:250px;">
                         </div>
 @endforeach
 
@@ -207,7 +207,7 @@ Contact Us
             <div class="shipping__section2--inner shipping__style3--inner d-flex justify-content-between">
                 <div class="shipping__items2 d-flex align-items-center">
                     <div class="shipping__items2--icon">
-                        <img src="{{ asset('/') }}public/front/assets/img/other/shipping1.png" alt="">
+                        <img src="{{ asset('/') }}public/shipping1.png" alt="">
                     </div>
                     <div class="shipping__items2--content">
                         <h2 class="shipping__items2--content__title h3">Shipping</h2>
@@ -216,7 +216,7 @@ Contact Us
                 </div>
                 <div class="shipping__items2 d-flex align-items-center">
                     <div class="shipping__items2--icon">
-                        <img src="{{ asset('/') }}public/front/assets/img/other/shipping2.png" alt="">
+                        <img src="{{ asset('/') }}public/shipping2.png" alt="">
                     </div>
                     <div class="shipping__items2--content">
                         <h2 class="shipping__items2--content__title h3">Payment</h2>
@@ -225,7 +225,7 @@ Contact Us
                 </div>
                 <div class="shipping__items2 d-flex align-items-center">
                     <div class="shipping__items2--icon">
-                        <img src="{{ asset('/') }}public/front/assets/img/other/shipping3.png" alt="">
+                        <img src="{{ asset('/') }}public/shipping3.png" alt="">
                     </div>
                     <div class="shipping__items2--content">
                         <h2 class="shipping__items2--content__title h3">Return</h2>
@@ -234,7 +234,7 @@ Contact Us
                 </div>
                 <div class="shipping__items2 d-flex align-items-center">
                     <div class="shipping__items2--icon">
-                        <img src="{{ asset('/') }}public/front/assets/img/other/shipping4.png" alt="">
+                        <img src="{{ asset('/') }}public/shipping4.png" alt="">
                     </div>
                     <div class="shipping__items2--content">
                         <h2 class="shipping__items2--content__title h3">Support</h2>
@@ -266,7 +266,7 @@ Contact Us
         let message = $('#main_msg').val();
 
         $.ajax({
-          url: "{{ route('post_message') }}",
+          url: "https://spotlightattires.com/post_message",
           type:"POST",
           data:{
             "_token": "{{ csrf_token() }}",

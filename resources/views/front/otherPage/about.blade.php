@@ -35,10 +35,10 @@ About Us
                 <div class="col-lg-6">
                     <div class="about__thumb d-flex">
                         <div class="about__thumb--items">
-                            <img class="about__thumb--img border-radius-5 display-block" src="http://localhost/2023/moin_new_feb_14/{{ $about_us_first->image }}" alt="about-thumb">
+                            <img class="about__thumb--img border-radius-5 display-block" src="{{$url_name}}{{ $about_us_first->image }}" alt="about-thumb">
                         </div>
                         <div class="about__thumb--items position__relative">
-                            <img class="about__thumb--img border-radius-5 display-block" src="http://localhost/2023/moin_new_feb_14/{{ $about_us_second->image }}" alt="about-thumb">
+                            <img class="about__thumb--img border-radius-5 display-block" src="{{$url_name}}{{ $about_us_second->image }}" alt="about-thumb">
                             <div class="banner__bideo--play about__thumb--play">
                                 <a class="banner__bideo--play__icon about__thumb--play__icon glightbox" href="{{ $about_us_second->des }}" data-gallery="video">
                                     <svg id="play" xmlns="http://www.w3.org/2000/svg" width="40.302" height="40.302" viewBox="0 0 46.302 46.302">
@@ -99,7 +99,7 @@ About Us
             <div class="shipping__section2--inner shipping__style3--inner d-flex justify-content-between">
                 <div class="shipping__items2 d-flex align-items-center">
                     <div class="shipping__items2--icon">
-                        <img src="{{ asset('/') }}public/front/assets/img/other/shipping1.png" alt="">
+                        <img src="{{ asset('/') }}public/shipping1.png" alt="">
                     </div>
                     <div class="shipping__items2--content">
                         <h2 class="shipping__items2--content__title h3">Shipping</h2>
@@ -108,7 +108,7 @@ About Us
                 </div>
                 <div class="shipping__items2 d-flex align-items-center">
                     <div class="shipping__items2--icon">
-                        <img src="{{ asset('/') }}public/front/assets/img/other/shipping2.png" alt="">
+                        <img src="{{ asset('/') }}public/shipping2.png" alt="">
                     </div>
                     <div class="shipping__items2--content">
                         <h2 class="shipping__items2--content__title h3">Payment</h2>
@@ -117,16 +117,16 @@ About Us
                 </div>
                 <div class="shipping__items2 d-flex align-items-center">
                     <div class="shipping__items2--icon">
-                        <img src="assets/img/other/shipping3.png" alt="">
+                        <img src="{{ asset('/') }}public/shipping3.png" alt="">
                     </div>
-                    <div class="{{ asset('/') }}public/front/shipping__items2--content">
+                    <div class="shipping__items2--content">
                         <h2 class="shipping__items2--content__title h3">Return</h2>
                         <p class="shipping__items2--content__desc">From handpicked sellers</p>
                     </div>
                 </div>
                 <div class="shipping__items2 d-flex align-items-center">
                     <div class="shipping__items2--icon">
-                        <img src="{{ asset('/') }}public/front/assets/img/other/shipping4.png" alt="">
+                        <img src="{{ asset('/') }}public/shipping4.png" alt="">
                     </div>
                     <div class="shipping__items2--content">
                         <h2 class="shipping__items2--content__title h3">Support</h2>
@@ -147,7 +147,7 @@ About Us
 
 @foreach($brand_list_all as $all_brand_list_all)
                         <div class="brand__logo--items">
-                            <img class="brand__logo--items__thumbnail--img display-block" src="{{ asset('/') }}{{ $all_brand_list_all->image }}" alt="brand logo">
+                            <img class="brand__logo--items__thumbnail--img display-block" style="height:150px;" src="{{ $url_name }}{{ $all_brand_list_all->image }}" alt="brand logo">
                         </div>
                         @endforeach
 

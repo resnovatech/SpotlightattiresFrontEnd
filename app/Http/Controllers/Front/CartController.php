@@ -25,6 +25,13 @@ use GuzzleHttp;
 use DateTimezone;
 class CartController extends Controller
 {
+
+public function privacyPolicy(){
+  $cartCollection12 = \Cart::getContent();
+        $cartCollection1 = $cartCollection12->sort();
+return view('front.otherPage.privacyPolicy',compact('cartCollection1'));
+
+}
     
     public function cart_page_all_update_minus(Request $request){
         
@@ -46,7 +53,8 @@ class CartController extends Controller
   
 
         }
-        $cartCollection1 = \Cart::getContent();
+        $cartCollection12 = \Cart::getContent();
+        $cartCollection1 = $cartCollection12->sort();
         $data = view('front.cartPage.cart_page_all_update',compact('cartCollection1'))->render();
         return response()->json($data);
     }
@@ -73,11 +81,15 @@ class CartController extends Controller
     
     $product_name = DB::table('main_products')->where('id',$request->id_for_pass)->value('product_name');
         $product_price = DB::table('main_products')->where('id',$request->id_for_pass)->value('selling_price');
+
+
+        $product_price_discount = DB::table('main_products')->where('id',$request->id_for_pass)->value('discount');
+
         $feature_image_first = DB::table('main_products')->where('id',$request->id_for_pass)->value('front_image');
                 \Cart::add(array(
                     'id' => $request->id_for_pass,
                     'name' => $product_name,
-                    'price' => $product_price,
+                    'price' => $product_price -  $product_price_discount,
                     'quantity' => 1,
                     'attributes' => array(
                         'image' => $feature_image_first,
@@ -87,7 +99,8 @@ class CartController extends Controller
                 ));
 
         }
-        $cartCollection1 = \Cart::getContent();
+       $cartCollection12 = \Cart::getContent();
+        $cartCollection1 = $cartCollection12->sort();
         $data = view('front.cartPage.cart_page_all_update',compact('cartCollection1'))->render();
         return response()->json($data);
 
@@ -234,11 +247,12 @@ class CartController extends Controller
 
         $product_name = DB::table('main_products')->where('id',$request->after_string_slice_id)->value('product_name');
         $product_price = DB::table('main_products')->where('id',$request->after_string_slice_id)->value('selling_price');
+$product_price_discount = DB::table('main_products')->where('id',$request->id_for_pass)->value('discount');
         $feature_image_first = DB::table('main_products')->where('id',$request->after_string_slice_id)->value('front_image');
                 \Cart::add(array(
                     'id' => $request->after_string_slice_id,
                     'name' => $product_name,
-                    'price' => $product_price,
+                    'price' => $product_price - $product_price_discount,
                     'quantity' => 1,
                     'attributes' => array(
                         'image' => $feature_image_first,
@@ -247,7 +261,8 @@ class CartController extends Controller
                     )
                 ));
 
-                $cartCollection1 = \Cart::getContent();
+              $cartCollection12 = \Cart::getContent();
+        $cartCollection1 = $cartCollection12->sort();
                 //return view('front.cart.sidebar',['cartCollection1'=>$cartCollection1]);
 
                 $data = view('front.cartPage.add_to_card_all_product',['cartCollection1'=>$cartCollection1])->render();
@@ -262,12 +277,13 @@ class CartController extends Controller
 
         $product_name = DB::table('main_products')->where('id',$request->product_id)->value('product_name');
         $product_price = DB::table('main_products')->where('id',$request->product_id)->value('selling_price');
+$product_price_discount = DB::table('main_products')->where('id',$request->id_for_pass)->value('discount');
         $feature_image_first = DB::table('main_products')->where('id',$request->product_id)->value('front_image');
                 \Cart::add(array(
                     'id' => $request->product_id,
                     'name' => $product_name,
-                    'price' => $product_price,
-                    'quantity' =>$request->quantity,
+                    'price' => $product_price - $product_price_discount,
+                    'quantity' =>1,
                     'attributes' => array(
                         'image' => $feature_image_first,
                         'color' =>$request->color,
@@ -275,7 +291,8 @@ class CartController extends Controller
                     )
                 ));
 
-                $cartCollection1 = \Cart::getContent();
+                $cartCollection12 = \Cart::getContent();
+        $cartCollection1 = $cartCollection12->sort();
                 return redirect()->back();
     }
 
@@ -288,11 +305,13 @@ class CartController extends Controller
 
          $product_name = DB::table('main_products')->where('id',$request->m_id)->value('product_name');
          $product_price = DB::table('main_products')->where('id',$request->m_id)->value('selling_price');
+$product_price_discount = DB::table('main_products')->where('id',$request->id_for_pass)->value('discount');
+
          $feature_image_first = DB::table('main_products')->where('id',$request->m_id)->value('front_image');
                  \Cart::add(array(
                      'id' => $request->m_id,
                      'name' => $product_name,
-                     'price' => $product_price,
+                     'price' => $product_price - $product_price_discount,
                      'quantity' =>$request->quantity,
                      'attributes' => array(
                          'image' => $feature_image_first,
@@ -359,7 +378,8 @@ return redirect('/check_out');
     
     public function delete_from_sidebar_new(Request $request){
         \Cart::remove($request->after_string_slice_id);
-        $cartCollection1 = \Cart::getContent();
+       $cartCollection12 = \Cart::getContent();
+        $cartCollection1 = $cartCollection12->sort();
         
         $data = view('front.cartPage.add_to_card_all_product',['cartCollection1'=>$cartCollection1])->render();
                 return response()->json($data);
@@ -376,7 +396,8 @@ return redirect('/check_out');
             ),
     ));
     
-      $cartCollection1 = \Cart::getContent();
+    $cartCollection12 = \Cart::getContent();
+        $cartCollection1 = $cartCollection12->sort();
       
       $data = view('front.cartPage.add_to_card_all_product',['cartCollection1'=>$cartCollection1])->render();
                 return response()->json($data);
@@ -423,7 +444,7 @@ return redirect('/check_out');
     public function check_out(){
 
         $cartCollection1 = \Cart::getContent();
-        $shipping_details = DB::table('shipping_prices')->latest()->get();
+        $shipping_details = DB::table('shipping_prices')->get();
         return view('front.otherPage.check_out',compact('cartCollection1','shipping_details'));
 
     }
@@ -527,6 +548,8 @@ if($get_verification_status == 1){
         $category_list->slug = Str::slug($request->name.'_'.$request->phone);
         $category_list->phone = $request->phone;
         $category_list->email = $request->email;
+        $category_list->c_type ='Normal';
+        $category_list->status = 0;
         $category_list->user_id = $customer_id;
         $category_list->save();
 
@@ -604,10 +627,19 @@ if($get_verification_status == 1){
              return redirect()->back()->with('error','invalid code');
          }else{
                $get_the_email = User::where('id',$get_id_user)->value('non_verified_email');
+
+
              DB::table('users')
             ->where('id', $get_id_user)
             ->update(['is_email_verified' => 1,'email'=>$get_the_email]);
-             return redirect('/login_page_dash')->with('success','Confirmed ,Login again');
+
+         DB::table('clients')
+            ->where('user_id', $get_id_user)
+            ->update(['status' => 1]);
+
+
+
+             return redirect('/login_page_dash')->with('success','Phone Number Verified ,Please Login Again');
          }
         
     }
@@ -622,10 +654,19 @@ if($get_verification_status == 1){
              return redirect('')->back()->with('error','invalid code');
          }else{
                $get_the_email = User::where('id',$get_id_user)->value('non_verified_email');
+
+
               DB::table('users')
             ->where('id', $get_id_user)
             ->update(['is_email_verified' => 1,'email'=>$get_the_email]);
-             return redirect('/login_page')->with('success','Confirmed ,Login again');
+
+            DB::table('clients')
+            ->where('user_id', $get_id_user)
+            ->update(['status' => 1]);
+
+
+
+             return redirect('/login_page')->with('success','Phone Number Verified ,Please Login Again');
          }
         
     }
@@ -652,6 +693,8 @@ if($get_verification_status == 1){
         $category_list->slug = Str::slug($request->name.'_'.'77');
         $category_list->phone = $request->phone;
         $category_list->email = $request->email;
+        $category_list->c_type ='Normal';
+        $category_list->status = 0;
         $category_list->user_id = $customer_id;
         $category_list->save();
 
@@ -765,7 +808,11 @@ if($get_verification_status == 1){
 
     public function final_confirm(Request $request){
 
-         //dd($request->all());
+         $lastIdInvoice = Invoice::latest()->value('id');
+
+              // dd($lastIdInvoice);
+
+
 
              $search_ship_address  =  DelivaryAddress::where('user_id',Auth::user()->id)->value('first_name');
 
@@ -810,12 +857,27 @@ if($get_verification_status == 1){
           //end shipping_address_add
 
 
+        $clientType = Client::where('user_id',Auth::user()->id)->value('c_type');
 
+            if($clientType == 'Silver'){
+
+                   $getClientWiseDiscount = (\Cart::getTotal()*5)/100;
+                   $getClientWiseDiscountFinal = \Cart::getTotal() - $getClientWiseDiscount;
+               
+                    }elseif($clientType == 'Platinum'){
+  $getClientWiseDiscount = (\Cart::getTotal()*10)/100;
+                   $getClientWiseDiscountFinal = \Cart::getTotal() - $getClientWiseDiscount;
+
+
+                 }else{
+$getClientWiseDiscount = 0;
+  $getClientWiseDiscountFinal = 0;
+                  } 
 
 
          $database_save = new Invoice();
          $database_save->client_slug =  Auth::user()->id;
-         $database_save->order_id = Str::random(10).'_'.Auth::user()->id;
+         $database_save->order_id = $lastIdInvoice.Auth::user()->id;
          $database_save->payment_term = 'web';
          $database_save->pay_date = date('d-m-Y');
          $database_save->due_date = date('d-m-Y');
@@ -825,19 +887,19 @@ if($get_verification_status == 1){
          $database_save->order_from = 'web';
          $database_save->shippingaddres_id = $shipping_address_id;
          $database_save->total_net_price = \Cart::getTotal();
-         $database_save->total_discount = 0;
+         $database_save->total_discount = $getClientWiseDiscount;
          $database_save->total_vat_tax = 0;
 
          if($request->ship_price == '0'){
              $database_save->delivery_charge = $request->ship_price_c;
-             $database_save->grand_total = $request->ship_price_c+\Cart::getTotal();
-             $database_save->total_pay = $request->ship_price_c+\Cart::getTotal();
-             $database_save->cod = $request->ship_price_c+\Cart::getTotal();
+             $database_save->grand_total = ($request->ship_price_c+\Cart::getTotal()) - $getClientWiseDiscountFinal;
+             $database_save->total_pay = ($request->ship_price_c+\Cart::getTotal()) - $getClientWiseDiscountFinal;
+             $database_save->cod = ($request->ship_price_c+\Cart::getTotal()) - $getClientWiseDiscountFinal;
          }else{
              $database_save->delivery_charge = $request->ship_price_c;
-             $database_save->grand_total = $request->ship_price_c+\Cart::getTotal();
-             $database_save->total_pay = $request->ship_price_c+\Cart::getTotal();
-             $database_save->cod = $request->ship_price_c+\Cart::getTotal();
+             $database_save->grand_total = ($request->ship_price_c+\Cart::getTotal()) - $getClientWiseDiscountFinal;
+             $database_save->total_pay = ($request->ship_price_c+\Cart::getTotal()) - $getClientWiseDiscountFinal;
+             $database_save->cod = ($request->ship_price_c+\Cart::getTotal()) - $getClientWiseDiscountFinal;
 
          }
 

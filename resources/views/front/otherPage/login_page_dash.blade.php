@@ -74,18 +74,9 @@ Login Page
                                     <form action="{{route('customer_login_post_dash')}}" method="post"  enctype="multipart/form-data" id="form1" data-parsley-validate="">
                 @csrf
 
-                                        <input class="account__login--input" placeholder="Email Addres" name="email1"  type="text">
+                                        <input class="account__login--input" placeholder="Email Address" name="email1"  type="text">
                                         <input class="account__login--input" placeholder="Password" name="pass" type="password">
-                                        <div class="account__login--remember__forgot mb-15 d-flex justify-content-between align-items-center">
-                                            <div class="account__login--remember position__relative">
-                                                <input class="checkout__checkbox--input" id="check1" type="checkbox">
-                                                <span class="checkout__checkbox--checkmark"></span>
-                                                <label class="checkout__checkbox--label login__remember--label" for="check1">
-                                                    Remember me</label>
-                                            </div>
-                                            {{-- <button class="account__login--forgot" type="submit">Forgot Your Password?</button> --}}
-                                        </div>
-                                        <input name="b_value" value="Login" class="account__login--btn primary__btn" type="submit"/>
+                                          <a href="{{ route('forget_password_link') }}" class="account__login--forgot" >Forgot Your Password?</a>                                        <input name="b_value" value="Login" class="account__login--btn primary__btn" type="submit"/>
 
 
                                         {{-- <div class="account__social d-flex justify-content-center mb-15">
@@ -117,8 +108,8 @@ Login Page
                                         <form action="{{route('customer_reg_post_dash')}}" method="post"  enctype="multipart/form-data" id="form" data-parsley-validate="">
                                             @csrf
 
-                                        <input class="account__login--input" placeholder="Username" name="name" type="text" maxlength="50" required>
-                                       <input class="account__login--input" placeholder="Email Addres" id="email" name="email"  type="email" maxlength="50" required>
+                                        <input class="account__login--input" placeholder="Your Name" name="name" type="text" maxlength="50" required>
+                                       <input class="account__login--input" placeholder="Email Address" id="email" name="email"  type="email" maxlength="50" required>
                                         <small id="view_text"></small>
 
                                        <div class="form-group has-search">
@@ -155,7 +146,7 @@ Login Page
                 <div class="shipping__section2--inner shipping__style3--inner d-flex justify-content-between">
                     <div class="shipping__items2 d-flex align-items-center">
                         <div class="shipping__items2--icon">
-                            <img src="{{asset('/')}}public/front/assets/img/other/shipping1.png" alt="">
+                            <img src="{{asset('/')}}public/shipping1.png" alt="">
                         </div>
                         <div class="shipping__items2--content">
                             <h2 class="shipping__items2--content__title h3">Shipping</h2>
@@ -164,7 +155,7 @@ Login Page
                     </div>
                     <div class="shipping__items2 d-flex align-items-center">
                         <div class="shipping__items2--icon">
-                            <img src="{{asset('/')}}public/front/assets/img/other/shipping2.png" alt="">
+                            <img src="{{asset('/')}}public/shipping2.png" alt="">
                         </div>
                         <div class="shipping__items2--content">
                             <h2 class="shipping__items2--content__title h3">Payment</h2>
@@ -173,7 +164,7 @@ Login Page
                     </div>
                     <div class="shipping__items2 d-flex align-items-center">
                         <div class="shipping__items2--icon">
-                            <img src="{{asset('/')}}public/front/assets/img/other/shipping3.png" alt="">
+                            <img src="{{asset('/')}}public/shipping3.png" alt="">
                         </div>
                         <div class="shipping__items2--content">
                             <h2 class="shipping__items2--content__title h3">Return</h2>
@@ -182,7 +173,7 @@ Login Page
                     </div>
                     <div class="shipping__items2 d-flex align-items-center">
                         <div class="shipping__items2--icon">
-                            <img src="{{asset('/')}}public/front/assets/img/other/shipping4.png" alt="">
+                            <img src="{{asset('/')}}public/shipping4.png" alt="">
                         </div>
                         <div class="shipping__items2--content">
                             <h2 class="shipping__items2--content__title h3">Support</h2>
@@ -223,7 +214,7 @@ $("#mainPhone").keyup(function(){
         //alert(email);
 
          $.ajax({
-        url: "{{ route('check_email_value') }}",
+        url: "https://spotlightattires.com/check_email_value",
         method: 'GET',
         data: {email:email},
         success: function(data) {

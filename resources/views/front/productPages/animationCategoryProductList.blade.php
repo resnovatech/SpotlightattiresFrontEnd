@@ -256,9 +256,9 @@ Animation Category
                                         
                                         ?>
                                          @if( $total_quantityM >= 1)
-                                        <li class="product__items--action__list">
-                                           
-                                            <a class="product__items--action__btn add__to--cart" id="add_to_cart_m{{ $all_feature_product_list->id }}">
+                                        <li class="product__items--action__list" data-detailp = "{{ $all_feature_product_list->product_detail }}" data-pricep = "{{ $all_feature_product_list->selling_price }}" data-namep = "{{ $all_feature_product_list->product_name }}" id="qq_view{{ $all_feature_product_list->id }}">
+
+                                            <a class="product__items--action__btn add__to--cart" data-open="modal1">
                                                 <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg" width="22.51" height="20.443" viewBox="0 0 14.706 13.534">
                                                     <g transform="translate(0 0)">
                                                       <g>
@@ -270,8 +270,8 @@ Animation Category
                                                 </svg>
                                                 <span class="add__to--cart__text"> + Add to cart</span>
                                             </a>
-                                        </li>
-                                        @else
+                                        </li>                                       
+ @else
                                         <li class="product__items--action__list">
                                            
                                             <a class="product__items--action__btn">

@@ -31,7 +31,19 @@ Customer Dasboard
         <!-- my account section start -->
         <section class="my__account--section section--padding">
             <div class="container">
+               <?php
+                        $client_type_new = DB::table('clients')->where('user_id',Auth::user()->id)->value('c_type');
+
+                        ?>
+
+
                 <p class="account__welcome--text">Hello, {{ Auth::user()->name }} welcome to your dashboard!</p>
+
+
+                <p class="account__welcome--text">Customer Type: {{$client_type_new}}</p>
+
+
+
                 <div class="my__account--section__inner border-radius-10 d-flex">
                     <div class="account__left--sidebar">
                         <h2 class="account__content--title h3 mb-20">My Profile</h2>
@@ -116,7 +128,7 @@ Customer Dasboard
                 <div class="shipping__section2--inner shipping__style3--inner d-flex justify-content-between">
                     <div class="shipping__items2 d-flex align-items-center">
                         <div class="shipping__items2--icon">
-                            <img src="{{asset('/')}}public/front/assets/img/other/shipping1.png" alt="">
+                            <img src="{{asset('/')}}public/shipping1.png" alt="">
                         </div>
                         <div class="shipping__items2--content">
                             <h2 class="shipping__items2--content__title h3">Shipping</h2>
@@ -125,7 +137,7 @@ Customer Dasboard
                     </div>
                     <div class="shipping__items2 d-flex align-items-center">
                         <div class="shipping__items2--icon">
-                            <img src="{{asset('/')}}public/front/assets/img/other/shipping2.png" alt="">
+                            <img src="{{asset('/')}}public/shipping2.png" alt="">
                         </div>
                         <div class="shipping__items2--content">
                             <h2 class="shipping__items2--content__title h3">Payment</h2>
@@ -134,7 +146,7 @@ Customer Dasboard
                     </div>
                     <div class="shipping__items2 d-flex align-items-center">
                         <div class="shipping__items2--icon">
-                            <img src="{{asset('/')}}public/front/assets/img/other/shipping3.png" alt="">
+                            <img src="{{asset('/')}}public/shipping3.png" alt="">
                         </div>
                         <div class="shipping__items2--content">
                             <h2 class="shipping__items2--content__title h3">Return</h2>
@@ -143,7 +155,7 @@ Customer Dasboard
                     </div>
                     <div class="shipping__items2 d-flex align-items-center">
                         <div class="shipping__items2--icon">
-                            <img src="{{asset('/')}}public/front/assets/img/other/shipping4.png" alt="">
+                            <img src="{{asset('/')}}public/shipping4.png" alt="">
                         </div>
                         <div class="shipping__items2--content">
                             <h2 class="shipping__items2--content__title h3">Support</h2>

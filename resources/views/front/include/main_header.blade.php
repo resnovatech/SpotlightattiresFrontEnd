@@ -119,7 +119,7 @@
                      $sub_cat_list = DB::table('categories')
                      ->where('cat_name',$all_get_all_category->cat_name)
                      ->whereNotNull('sub_cat')
-                     ->select('sub_cat')->distinct()->latest()->get();
+                     ->select('sub_cat')->groupby('sub_cat')->get();
                         ?>
                                 <li class="header__mega--menu__li">
                                     <span class="header__mega--subtitle">

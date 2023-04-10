@@ -157,7 +157,7 @@ var main_quantity = $('#gv'+id_for_pass).val()
 
 
    $.ajax({
-            url: "{{ route('cart_page_all_update_minus') }}",
+            url: "https://spotlightattires.com/cart_page_all_update_minus",
             method: 'GET',
             data: {id_for_pass:id_for_pass,get_value:get_value},
             success: function(data) {
@@ -207,7 +207,7 @@ var main_quantity = $('#gv'+id_for_pass).val()
 
 
   $.ajax({
-            url: "{{ route('cart_page_all_update') }}",
+            url: "https://spotlightattires.com/cart_page_all_update",
             method: 'GET',
             data: {id_for_pass:id_for_pass,get_value:get_value},
             success: function(data) {

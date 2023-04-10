@@ -9,7 +9,7 @@
             </a>
         </li>
         <li class="offcanvas__stikcy--toolbar__list">
-            <a class="offcanvas__stikcy--toolbar__btn" href="{{ route('index') }}">
+            <a class="offcanvas__stikcy--toolbar__btn" href="{{ route('shop') }}">
                     <span class="offcanvas__stikcy--toolbar__icon">
                         <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" width="18.51" height="17.443" viewBox="0 0 448 512"><path d="M416 32H32A32 32 0 0 0 0 64v384a32 32 0 0 0 32 32h384a32 32 0 0 0 32-32V64a32 32 0 0 0-32-32zm-16 48v152H248V80zm-200 0v152H48V80zM48 432V280h152v152zm200 0V280h152v152z"></path></svg>
                         </span>

@@ -32,7 +32,10 @@ class AppServiceProvider extends ServiceProvider
 
         $offer_title = DB::table('system_information')->value('offer_title');
 
-        $get_all_category = DB::table('product_categories')->select('cat_name')->distinct()->limit(11)->latest()->get();
+      
+
+  $get_all_category = DB::table('product_categories')->select("*")    
+                                                      ->orderBy('id', 'desc')->get();
 
         $about_us_title1 = DB::table('aboutustitles')->value('title_one');
 

@@ -116,15 +116,69 @@ $get_all_address = DB::table('delivary_addresses')
                                                 <td class="checkout__total--title text-left">Total </td>
                                                 <td class="checkout__total--amount text-right">৳  {{ \Cart::getTotal() }}</td>
                                             </tr>
+ <?php
+                        $client_type_new = DB::table('clients')->where('user_id',Auth::user()->id)->value('c_type');
+
+                        ?>
+
+@if( $client_type_new == 'Silver')
+<?php 
+ if(\Cart::getTotal() > 1){
+$get_discount_value = (\Cart::getTotal()*5)/100;
+$get_main_value = \Cart::getTotal() - $get_discount_value;
+}else{
+$get_main_value = '';
+}
+?>
+ <tr class="checkout__total--items">
+                                                <td class="checkout__total--title text-left">Special Discount</td>
+                                                <td class="checkout__total--amount text-right">5%</td>
+                                            </tr>
+ <tr class="checkout__total--items">
+                                                <td class="checkout__total--title text-left">Grand Total</td>
+                                                <td class="checkout__total--amount text-right">{{$get_main_value}}</td>
+                                            </tr>
+
+
+ 
+
+@elseif( $client_type_new == 'Platinum')
+<?php 
+ if(\Cart::getTotal() > 1){
+$get_discount_value = (\Cart::getTotal()*10)/100;
+$get_main_value = \Cart::getTotal() - $get_discount_value;
+}else{
+$get_main_value = '';
+}
+?>
+ <tr class="checkout__total--items">
+                                                <td class="checkout__total--title text-left">Special Discount</td>
+                                                <td class="checkout__total--amount text-right">10%</td>
+                                            </tr>
+ <tr class="checkout__total--items">
+                                                <td class="checkout__total--title text-left">Grand Total</td>
+                                                <td class="checkout__total--amount text-right">{{$get_main_value}}</td>
+                                            </tr>
+
+@else
+
+@endif
+
                                             <tr class="checkout__total--items">
                                                 <td class="checkout__total--title text-left">Shipping</td>
                                                 <td class="checkout__total--calculated__text text-right">
 
 
-                                                    @foreach($shipping_details as $key=>$all_ship)
-                                                    <input type="radio" class="" id="html{{ $key+1 }}" name="ship_price_c" value="{{ $all_ship->price }}" required>
-                                                   <label for="html{{ $key+1 }}">{{ $all_ship->title }} : ৳ {{ $all_ship->price }}</label><br>
-                                                   @endforeach
+                                                   @foreach($shipping_details as $key=>$all_ship)
+                <div class="shipping_contact--box_list">
+                    <div class="shipping__radio--input">
+                        <input class="shipping_radio--input_field" id="radiobox{{ $key+1 }}" name="ship_price_c" value="{{ $all_ship->price }}" type="radio" required>
+                    </div>
+                    <label class="shipping__radio--label" for="radiobox{{ $key+1 }}">
+                        <span class="shipping_radio--label_primary">{{ $all_ship->title }} : ৳ {{ $all_ship->price }}</span>
+                    </label>
+                </div>
+ @endforeach
 
                                                 </td>
                                             </tr>
@@ -328,7 +382,7 @@ $get_all_address = DB::table('delivary_addresses')
 
                 </div>
                 <aside class="checkout__sidebar sidebar">
-                    <div class="cart__table checkout__product--table">
+                    <div class="">
                         <table class="cart__table--inner">
                             <tbody class="cart__table--body">
 
@@ -356,45 +410,96 @@ $get_all_address = DB::table('delivary_addresses')
                         </table>
                     </div>
 
-                    <div class="checkout__total">
+                    <div class="pt-4">
                         <table class="checkout__total--table">
                             <tbody class="checkout__total--body">
                                 <tr class="checkout__total--items">
                                     <td class="checkout__total--title text-left">Total </td>
                                     <td class="checkout__total--amount text-right">৳  {{ \Cart::getTotal() }}</td>
                                 </tr>
-                                <tr class="checkout__total--items">
-                                    <td class="checkout__total--title text-left">Shipping</td>
-                                    <td class="checkout__total--calculated__text text-right">
-                                        @foreach($shipping_details as $key=>$all_ship)
-                                        <input type="radio" class="" id="html{{ $key+1 }}" name="ship_price_c" value="{{ $all_ship->price }}" required>
-                                       <label for="html{{ $key+1 }}">{{ $all_ship->title }} : ৳ {{ $all_ship->price }}</label><br>
-                                       @endforeach
+ <?php
+                        $client_type_new = DB::table('clients')->where('user_id',Auth::user()->id)->value('c_type');
+
+                        ?>
+
+@if( $client_type_new == 'Silver')
+<?php 
+ if(\Cart::getTotal() > 1){
+$get_discount_value = (\Cart::getTotal()*5)/100;
+$get_main_value = \Cart::getTotal() - $get_discount_value;
+}else{
+$get_main_value = '';
+}
+?>
+ <tr class="checkout__total--items">
+                                                <td class="checkout__total--title text-left">Special Discount</td>
+                                                <td class="checkout__total--amount text-right">5%</td>
+                                            </tr>
+ <tr class="checkout__total--items">
+                                                <td class="checkout__total--title text-left">Grand Total</td>
+                                                <td class="checkout__total--amount text-right">{{$get_main_value}}</td>
+                                            </tr>
 
 
+ 
 
+@elseif( $client_type_new == 'Platinum')
+<?php 
+ if(\Cart::getTotal() > 1){
+$get_discount_value = (\Cart::getTotal()*10)/100;
+$get_main_value = \Cart::getTotal() - $get_discount_value;
+}else{
+$get_main_value = '';
+}
+?>
+ <tr class="checkout__total--items">
+                                                <td class="checkout__total--title text-left">Special Discount</td>
+                                                <td class="checkout__total--amount text-right">10%</td>
+                                            </tr>
+ <tr class="checkout__total--items">
+                                                <td class="checkout__total--title text-left">Grand Total</td>
+                                                <td class="checkout__total--amount text-right">{{$get_main_value}}</td>
+                                            </tr>
 
+@else
 
+@endif
 
-
-
-
-
-                                    </td>
-                                </tr>
                             </tbody>
-
                         </table>
+
+<!-- check box start -->
+<div class="checkout_content--step section_shipping--address checkout__total">
+        <div class="section__header">
+            <h3 class="section__header--title">Delivery Method</h3>
+        </div>
+        <div class="checkout_content--step_inner3 border-radius-5">
+            <div class="checkout_address--content_header">
+
+ @foreach($shipping_details as $key=>$all_ship)
+                <div class="shipping_contact--box_list">
+                    <div class="shipping__radio--input">
+                        <input class="shipping_radio--input_field" id="radiobox{{ $key+1 }}" name="ship_price_c" value="{{ $all_ship->price }}" type="radio" required>
+                    </div>
+                    <label class="shipping__radio--label" for="radiobox{{ $key+1 }}">
+                        <span class="shipping_radio--label_primary">{{ $all_ship->title }} : ৳ {{ $all_ship->price }}</span>
+                    </label>
+                </div>
+ @endforeach
+
+               
+                           </div>
+        </div>
+    </div>
+<!-- check box end -->
+
+
                     </div>
                 </aside>
             </div>
         </div>
     </div>
     <!-- End checkout page area -->
-
-
-
-
 
 </form>
         </main

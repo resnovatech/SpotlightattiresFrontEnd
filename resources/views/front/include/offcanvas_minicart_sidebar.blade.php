@@ -13,32 +13,51 @@
 
 
 <div class="minicart__product">
-
-    <?php  $totalProductPrice = 0; ?>
-    @foreach($cartCollection1 as $item)
+  
+   @if (Auth::guest())
+  <p class="minicart__header--desc">Please Login To See Cart Information</p> 
+  <div class="minicart__button d-flex justify-content-center mt-4">
+    <a class="primary__btn minicart__button--link" href="{{ route('login_page_dash') }}">Login</a>
+    
+</div>
+   @else
+    <?php  
+  
+  $userCartInfo = DB::table('cart_tbls')->where('status',0)->where('user_id',Auth::user()->id)->latest()->get();
+  $totalProductPrice = 0;
+  ?>
+    @foreach($userCartInfo as $item)
+  <?php 
+  $mainProductInfo = DB::table('main_products')->where('id',$item->product_id)->first();
+  ?>
+  @if (!$mainProductInfo) 
+  
+  @else
     <div class="minicart__product--items d-flex">
         <div class="minicart__thumb">
-            <a href="product-details.html"><img src="{{ $url_name }}{{$item->attributes->image }}" alt="prduct-img"></a>
+            <a href="{{ route('productDetail',$mainProductInfo->slug) }}"><img src="{{ $url_name }}{{$mainProductInfo->front_image }}" alt="prduct-img"></a>
         </div>
         <div class="minicart__text">
-            <h3 class="minicart__subtitle h4"><a href="product-details.html">{{ $item->name }}</a></h3>
-            @if($item->attributes->color == 0)
-
+            <h3 class="minicart__subtitle h4"><a href="{{ route('productDetail',$mainProductInfo->slug) }}">{{ $mainProductInfo->product_name }}</a></h3>
+            
+            @if(empty($item->color))
+            
             @else
-            <span class="color__variant"><b>Color:</b> {{$item->attributes->color }}</span>
-            @endif
-
-
-            @if($item->attributes->color == 0)
-
+         
+            <span class="color__variant"><b>Color:</b> {{$item->color }}</span>
+           @endif
+@if(empty($item->size))
+            
             @else
-            <span class="color__variant"><b>Size:</b> {{$item->attributes->size }}</span>
-            @endif
+
+           
+            <span class="color__variant"><b>Size:</b> {{$item->size }}</span>
+        @endif
 
 
 
             <div class="minicart__price">
-                <span class="current__price">৳ {{ $item->price }}</span>
+                <span class="current__price">৳ {{ $mainProductInfo->selling_price - $mainProductInfo->discount }}</span>
                 {{-- <span class="old__price">$140.00</span> --}}
             </div>
             <div class="minicart__text--footer d-flex align-items-center">
@@ -54,7 +73,8 @@
         </div>
     </div>
 
-   <?php $totalProductPrice = $totalProductPrice  +  ($item->price*$item->quantity)  ?>
+   <?php $totalProductPrice = $totalProductPrice  +  (($mainProductInfo->selling_price - $mainProductInfo->discount)*$item->quantity)  ?>
+  @endif
     @endforeach
 </div>
 <div class="minicart__amount">
@@ -66,13 +86,17 @@
         <span>Total:</span>
         <span><b> ৳ {{ $totalProductPrice }}</b></span>
     </div>
+  
 </div>
 
 <div class="minicart__button d-flex justify-content-center mt-4">
     <a class="primary__btn minicart__button--link" href="{{ route('cart') }}">View cart</a>
-    <a class="primary__btn minicart__button--link" href="{{ route('check_out_from_cart') }}">Checkout</a>
+    <!--<a class="primary__btn minicart__button--link" href="{{ route('check_out_from_cart') }}">Checkout</a>-->
 </div>
+      
+      @endif
 
 
     </div>
+</div>
 </div>

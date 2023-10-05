@@ -128,21 +128,18 @@ Customer Dasboard
         <!-- my account section start -->
         <section class="my__account--section section--padding">
             <div class="container">
-               <?php
+               
+<?php
                         $client_type_new = DB::table('clients')->where('user_id',Auth::user()->id)->value('c_type');
 
                         ?>
 
-
-
-
-
-
+           
                 <div class="my__account--section__inner border-radius-10 d-flex">
                     <div class="account__left--sidebar">
                         <h2 class="account__content--title h3 mb-20">My Profile</h2>
-                        <ul class="account__menu">
-                              <li class="account__menu--list {{ Route::is('customer_dashboard')  ? 'active' : '' }}"><a href="{{route('customer_dashboard')}}">Dashboard</a></li>
+                         <ul class="account__menu">
+                             <li class="account__menu--list {{ Route::is('customer_dashboard')  ? 'active' : '' }}"><a href="{{route('customer_dashboard')}}">Dashboard</a></li>
                              <li class="account__menu--list {{ Route::is('customer_profile')  ? 'active' : '' }}"><a href="{{route('customer_profile')}}">Profile</a></li>
                             
                             <li class="account__menu--list {{ Route::is('customer_address')  ? 'active' : '' }}"><a href="{{route('customer_address')}}">Address</a></li>
@@ -158,8 +155,7 @@ Customer Dasboard
                     <div class="account__wrapper">
                         @include('flash_message')
                         <div class="account__content">
-                            
-                              <div class="profile_welcome_box">
+                      <div class="profile_welcome_box">
                             <div class="row">
                                 <div class="col-lg-7 col-sm-12 profile_welcome_box_left">
                                     <h3>Hello <span>{{ Auth::user()->name }}</span></h3>
@@ -178,61 +174,62 @@ Customer Dasboard
                                 </div>
                             </div>
                         </div>
+                        <?php
+
+                        $get_all_address12_id = DB::table('delivary_addresses')
+                        ->where('user_id',Auth::user()->id)->value('id');
                         
-                           <section class="cart__section section--padding">
-        <div class="container">
-            <div class="cart__section--inner">
-                <form action="#">
-                    <h2 class="cart__title mb-40">Wishlist</h2>
-                    <div class="cart__table">
-                        <table class="cart__table--inner">
-                            <thead class="cart__table--header">
-                                <tr class="cart__table--header__items">
-                                    <th class="cart__table--header__list">Product</th>
-                                    <th class="cart__table--header__list">Price</th>
-                                    <th class="cart__table--header__list text-center">STOCK STATUS</th>
-                                    <th class="cart__table--header__list text-right">ADD TO CART</th>
-                                </tr>
-                            </thead>
-                            <tbody class="cart__table--body">
+                        
+                         $get_all_address12_first = DB::table('delivary_addresses')
+                        ->where('user_id',Auth::user()->id)->value('first_name');
+                        
+                 $get_all_address12_last = DB::table('delivary_addresses')
+                        ->where('user_id',Auth::user()->id)->value('last_name');
+                        
+                $get_all_address12_phone = DB::table('delivary_addresses')
+                        ->where('user_id',Auth::user()->id)->value('phone');
+                        
+                        
+            
+            
+              $get_all_address12_address = DB::table('delivary_addresses')
+                        ->where('user_id',Auth::user()->id)->value('address');
+    
+    
+       $get_all_address12_town = DB::table('delivary_addresses')
+                        ->where('user_id',Auth::user()->id)->value('town');
+                        
+                        
+                          $get_all_address12_district = DB::table('delivary_addresses')
+                        ->where('user_id',Auth::user()->id)->value('district');
+                        
+                   $get_all_address12_post_code = DB::table('delivary_addresses')
+                        ->where('user_id',Auth::user()->id)->value('post_code');       
+                        
 
-                                @foreach($main_product as $all_feature_product_list)
-                                <tr class="cart__table--body__items">
-                                    <td class="cart__table--body__list">
-                                        <div class="cart__product d-flex align-items-center">
-                                            <a class="cart__remove--btn" href="{{ route('deleteWishList',$all_feature_product_list->id) }}" aria-label="search button" type="button">
-                                                <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="16px" height="16px"><path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"/></svg>
-                                            </a>
-                                            <div class="cart__thumbnail">
-                                                <a href="{{ route('productDetail',$all_feature_product_list->slug) }}"><img class="border-radius-5" src="{{ $url_name }}{{ $all_feature_product_list->front_image }}" alt="cart-product"></a>
-                                            </div>
-                                            <div class="cart__content">
-                                                <h4 class="cart__content--title"><a href="{{ route('productDetail',$all_feature_product_list->slug) }}">{{ $all_feature_product_list->product_name }}</a></h4>
-                                                {{-- <span class="cart__content--variant">COLOR: Blue</span>
-                                                <span class="cart__content--variant">WEIGHT: 2 Kg</span> --}}
-                                            </div>
+ ?>
+<h2 class="account__content--title h3 mb-20">Password</h2>
+  <form action="{{route('postPasswordUpdate')}}" method="post" enctype="multipart/form-data" id="form" data-parsley-validate="">
+                                            @csrf
+                 <input type="hidden" name="id" value="{{Auth::user()->id}}"  required/>                              
+                                       
+<input class="account__login--input" placeholder="Current Password" name="current_password"  type="password" maxlength="20" required/>
+<small id="view_text23"></small>
+
+                                        <input class="account__login--input" placeholder="Password" name="pass" id="pass" type="password" maxlength="20" required/>
+                                        
+                                           <input class="account__login--input" placeholder="Confirm Password" name="confirm_pass" id="confirm_pass" type="password" maxlength="20" required/>
+   <small id="view_text2"></small>
+                                        <input name="b_value" class="account__login--btn primary__btn mb-10" id="final_button" value="Update" type="submit" />
+<div class="account__login--remember position__relative">
+                                        
+                                           
                                         </div>
-                                    </td>
-                                    <td class="cart__table--body__list">
-                                        <span class="cart__price">৳ {{ $all_feature_product_list->selling_price }}</span>
-                                    </td>
-                                    <td class="cart__table--body__list text-center">
-                                        <span class="in__stock text__secondary">in stock</span>
-                                    </td>
-                                    <td class="cart__table--body__list text-right">
-                                        <a class="wishlist__cart--btn primary__btn" id="add_to_cart_m{{ $all_feature_product_list->id }}">Add To Cart</a>
-                                    </td>
-                                </tr>
-                                @endforeach
+                                        </form>
 
-                            </tbody>
-                        </table>
-                       
-                    </div>
-                </form>
-            </div>
-        </div>
-    </section>
+
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -285,5 +282,112 @@ Customer Dasboard
         <!-- End shipping section -->
 
     </main>
+
+@endsection
+@section('script')
+
+
+<script>
+
+
+//new current password
+$("#current_password").keyup(function(){
+    
+    var current_password = $(this).val();
+    
+      $.ajax({
+        url: "{{ route('checkPasswordAvailable') }}",
+        method: 'GET',
+        data: {current_password:current_password},
+        success: function(data) {
+
+            //alert(data);
+            
+            if(data == 1){
+
+
+               $("#final_button").attr('disabled', 'disabled');
+               $('#view_text23').html('password did not matched with current password');
+                $("#view_text23").css({"color": "red"});
+            }else{
+
+                $("#final_button").removeAttr('disabled');
+                $('#view_text23').html('password matched with current password');
+                $("#view_text23").css({"color": "green"});
+            }
+
+        }
+        });
+    
+});
+//end new current password
+//password//
+$("#confirm_pass").keyup(function(){
+    var pass = $('#pass').val();
+    var confirm_pass = $(this).val();
+    
+    if(confirm_pass == pass){
+           $("#final_button").removeAttr('disabled');
+                $('#view_text2').html('Password Matched');
+                $("#view_text2").css({"color": "green"});
+        
+    }else{
+          $("#final_button").attr('disabled', 'disabled');
+               $('#view_text2').html('Password Not Matched');
+                $("#view_text2").css({"color": "red"});
+    }
+});
+//end password//
+
+$("#mainPhone").keyup(function(){
+    var phone = $(this).val();
+    
+    var mphone = phone.substr(0, 3);
+    
+    if (mphone == '017' || mphone == '019' || mphone == '018' || mphone == '016' || mphone == '015' || mphone == '013' || mphone == '014'){
+        $("#final_button").removeAttr('disabled');
+                $('#view_text1').html('Phone Available');
+                $("#view_text1").css({"color": "green"});
+        
+    }else{
+        
+        $("#final_button").attr('disabled', 'disabled');
+               $('#view_text1').html('Phone Not Available');
+                $("#view_text1").css({"color": "red"});
+    }
+   // alert(mphone);
+});
+///////////
+    $("#email").keyup(function(){
+
+        var email = $(this).val();
+        //alert(email);
+
+         $.ajax({
+        url: "{{ route('check_email_value') }}",
+        method: 'GET',
+        data: {email:email},
+        success: function(data) {
+
+            //alert(data);
+
+            if(data >= 1){
+
+
+               $("#final_button").attr('disabled', 'disabled');
+               $('#view_text').html('Email Not Available');
+                $("#view_text").css({"color": "red"});
+            }else{
+
+                $("#final_button").removeAttr('disabled');
+                $('#view_text').html('Email Available');
+                $("#view_text").css({"color": "green"});
+            }
+
+        }
+        });
+
+    });
+</script>
 
 @endsection

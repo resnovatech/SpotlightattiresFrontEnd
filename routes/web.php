@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Front\FrontController;
 use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\FilterController;
+use App\Http\Controllers\Front\BkashController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,6 +15,15 @@ use App\Http\Controllers\Front\FilterController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+// Checkout (URL) User Part
+Route::get('/bkash/pay', [BkashController::class, 'payment'])->name('url-pay');
+Route::get('/bkash/create', [BkashController::class, 'createPayment'])->name('url-create');
+Route::get('/bkash/callback', [BkashController::class, 'callback'])->name('url-callback');
+
+// Checkout (URL) Admin Part
+Route::get('/bkash/refund', [BkashController::class, 'getRefund'])->name('url-get-refund');
+Route::post('/bkash/refund', [BkashController::class, 'refundPayment'])->name('url-post-refund');
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -37,12 +47,22 @@ Route::get('/shop_page_filter','shop_page_filter')->name('shop_page_filter');
 });
 
 Route::controller(CartController::class)->group(function () {
-    
+     Route::get('/increaseDataFromCartPage','increaseDataFromCartPage')->name('increaseDataFromCartPage');
+    Route::get('/loginPageToAddCart','loginPageToAddCart')->name('loginPageToAddCart');
+   Route::get('/checkCartCondition','checkCartCondition')->name('checkCartCondition');
+
+  ///new code for cart
+  //Route::get('/search_product','search_product')->name('search_product');
+  Route::post('/postRegisterToAddCart','postRegisterToAddCart')->name('postRegisterToAddCart');
+  Route::post('/postLoginToAddCart', 'postLoginToAddCart')->name('postLoginToAddCart');
+
+  ///end new code for cart
+
     Route::get('/delete_from_sidebar_new', 'delete_from_sidebar_new')->name('delete_from_sidebar_new');
 
        Route::get('/increase_data_from_side_bar', 'increase_data_from_side_bar')->name('increase_data_from_side_bar');
     Route::get('/dcrease_data_from_side_bar', 'dcrease_data_from_side_bar')->name('dcrease_data_from_side_bar');
-    
+
            Route::get('/cart_page_all_update_minus','cart_page_all_update_minus')->name('cart_page_all_update_minus');
       Route::get('/cart_page_all_update','cart_page_all_update')->name('cart_page_all_update');
       Route::get('/sidebar_update_from_cart_page','sidebar_update_from_cart_page')->name('sidebar_update_from_cart_page');
@@ -93,8 +113,10 @@ Route::post('/customer_reg_post_dash','customer_reg_post_dash')->name('customer_
 
 Route::get('/customer_dashboard','customer_dashboard')->name('customer_dashboard');
 Route::get('/customer_address','customer_address')->name('customer_address');
+Route::get('/customer_order','customer_order')->name('customer_order');
 Route::get('/customer_wishlist','customer_wishlist')->name('customer_wishlist');
 Route::get('/customer_profile','customer_profile')->name('customer_profile');
+Route::get('/customer_password','customer_password')->name('customer_password');
 
 Route::post('/personal_information_update','personal_information_update')->name('personal_information_update');
 
@@ -145,16 +167,27 @@ Route::get('/get_filter_data_from_page', 'get_filter_data_from_page')->name('get
 
 Route::controller(FrontController::class)->group(function () {
 
+    Route::get('/getAddressFromType', 'getAddressFromType')->name('getAddressFromType');
+    Route::get('/deleteCupon/{id}', 'deleteCupon')->name('deleteCupon');
+
+
+Route::get('/get_district_from_division', 'get_district_from_division')->name('get_district_from_division');
+Route::get('/get_thana_from_district', 'get_thana_from_district')->name('get_thana_from_district');
+
+Route::get('/get_price_from_thana', 'get_price_from_thana')->name('get_price_from_thana');
+
+Route::post('/postPasswordUpdate', 'postPasswordUpdate')->name('postPasswordUpdate');
+Route::get('/checkPasswordAvailable', 'checkPasswordAvailable')->name('checkPasswordAvailable');
 
 Route::get('/shop', 'shop')->name('shop');
-    
-  
+    Route::get('/getFilterDataFromOrderHistory', 'getFilterDataFromOrderHistory')->name('getFilterDataFromOrderHistory');
+
     Route::get('/cart_update_from_side_bar', 'cart_update_from_side_bar')->name('cart_update_from_side_bar');
-    
-     
+
+
 
     Route::get('/check_email_value', 'check_email_value')->name('check_email_value');
-    
+
     Route::get('/search_product_ajax', 'search_product_ajax')->name('search_product_ajax');
 
   Route::get('/search_product', 'search_product')->name('search_product');

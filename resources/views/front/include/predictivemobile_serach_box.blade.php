@@ -12,7 +12,7 @@
     <button class="predictive__search--close__btn" aria-label="search close button" data-offcanvas>
         <svg class="predictive__search--close__icon" xmlns="http://www.w3.org/2000/svg" width="40.51" height="30.443"  viewBox="0 0 512 512"><path fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M368 368L144 144M368 144L144 368"/></svg>
     </button>
-    <div class="container" style="height: 60vh; overflow-y: auto;"  id="MainSearchMobile">
+    <div class="container" style="height: 40vh; overflow-y: auto;"  id="MainSearchMobile">
         <table class="table table-borderless">
             <tbody id="search_area_new">
 

@@ -133,7 +133,7 @@ Customer Dasboard
 
                         ?>
 
-        
+ 
                 
                 
 
@@ -157,20 +157,7 @@ Customer Dasboard
                     <div class="account__wrapper">
                         @include('flash_message')
                         <div class="account__content">
-                           
-                            
-                            <?php  
-                             $totalOrderList = DB::table('invoices')->where('client_slug',Auth::user()->id)
-                            ->count('id');
-                            
-                            $totalOrderAmount = DB::table('invoices')->where('client_slug',Auth::user()->id)
-                            ->sum('grand_total');
-                            
-                            $thisYeatTotalOrderAmount = DB::table('invoices')->where('client_slug',Auth::user()->id)
-                            ->whereYear('created_at', date('Y'))->sum('grand_total');
-                            ?>
-                            
-                            <div class="profile_welcome_box">
+                              <div class="profile_welcome_box">
                             <div class="row">
                                 <div class="col-lg-7 col-sm-12 profile_welcome_box_left">
                                     <h3>Hello <span>{{ Auth::user()->name }}</span></h3>
@@ -189,46 +176,18 @@ Customer Dasboard
                                 </div>
                             </div>
                         </div>
-                        
-                             <div class="row">
-                            <div class="col-md-4 stretch-card grid-margin">
-                                <div class="card bg-gradient-danger card-img-holder text-white">
-                                    <div class="card-body">
-                                        <div class="profile_stat_text_box">
-                                        <img src="{{asset('/')}}public/front/assets/img/circle.svg" class="card-img-absolute" alt="circle-image">
-                                        <h4 class="font-weight-normal mb-2">Total Order</h4>
-                                        <h2>{{$totalOrderList}}</h2>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 stretch-card grid-margin">
-                                <div class="card bg-gradient-info card-img-holder text-white">
-                                    <div class="card-body">
-                                        <div class="profile_stat_text_box">
-                                        <img src="{{asset('/')}}public/front/assets/img/circle.svg" class="card-img-absolute" alt="circle-image">
-                                        <h4 class="font-weight-normal mb-2">Total Order Amount
-                                        </h4>
-                                        <h2>{{$totalOrderAmount}}</h2>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 stretch-card grid-margin">
-                                <div class="card bg-gradient-success card-img-holder text-white">
-                                    <div class="card-body">
-                                        <div class="profile_stat_text_box">
-                                            <img src="{{asset('/')}}public/front/assets/img/circle.svg" class="card-img-absolute" alt="circle-image">
-                                            <h4 class="font-weight-normal mb-2">Current Year Amount
-                                            </h4>
-                                            <h2>{{$thisYeatTotalOrderAmount}}</h2>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            <?php  
+                             $totalOrderList = DB::table('invoices')->where('client_slug',Auth::user()->id)
+                            ->count('id');
                             
-                           
+                            $totalOrderAmount = DB::table('invoices')->where('client_slug',Auth::user()->id)
+                            ->sum('grand_total');
+                            
+                            $thisYeatTotalOrderAmount = DB::table('invoices')->where('client_slug',Auth::user()->id)
+                            ->whereYear('created_at', date('Y'))->sum('grand_total');
+                            ?>
+                            
+                         
                  
 
 
@@ -320,7 +279,7 @@ Customer Dasboard
                                 <h5 class="modal-title" id="orderdetailsModalLabel&quot;">Order Details</h5>
                             </div>
                             <div class="modal-body">
-                                <p class="mb-2">Product id: <span class="text-primary">{{ $all_recent_list->order_id }}</span></p>
+                                <p class="mb-2">Order id: <span class="text-primary">{{ $all_recent_list->order_id }}</span></p>
                                 
                                 <?php
                         $first_name = DB::table('delivary_addresses')->where('user_id',$all_recent_list->client_slug)->value('first_name');
@@ -340,6 +299,10 @@ $invoice_details = DB::table('invoice_details')->where('invoice_id',$all_recent_
                                         </tr>
                                         </thead>
                                         <tbody>
+                                            <?php
+                                            $totalProductPrice=0;
+                                            
+                                            ?>
                                             @foreach($invoice_details as $all_invoice_details)
                                             <?php  
                                             $product_details = DB::table('main_products')->where('id',$all_invoice_details->product_id)->first();
@@ -358,21 +321,34 @@ $invoice_details = DB::table('invoice_details')->where('invoice_id',$all_recent_
                                             </td>
                                             <td>৳ {{$all_invoice_details->price* $all_invoice_details->qty}}</td>
                                         </tr>
+                                        
+                                         <?php
+                                         $totalProductPrice = $totalProductPrice  +  ($all_invoice_details->price* $all_invoice_details->qty) ;
+                                         ?>
                                        @endforeach
-                                        <tr>
+                                       <tr>
                                             <td colspan="2">
                                                 <h6 class="m-0 text-right">Sub Total:</h6>
                                             </td>
                                             <td>
-                                                ৳ {{$all_recent_list->total_net_price}}
+                                                 {{$totalProductPrice}}
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <h6 class="m-0 text-right">Discount:</h6>
+                                            </td>
+                                            <td>
+                                                 {{$all_recent_list->total_discount}}
+                                            </td>
+                                        </tr>
+                                        
                                         <tr>
                                             <td colspan="2">
                                                 <h6 class="m-0 text-right">Shipping:</h6>
                                             </td>
                                             <td>
-                                               ৳  {{$all_recent_list->delivery_charge}}
+                                                 {{$all_recent_list->delivery_charge}}
                                             </td>
                                         </tr>
                                         <tr>
@@ -380,7 +356,7 @@ $invoice_details = DB::table('invoice_details')->where('invoice_id',$all_recent_
                                                 <h6 class="m-0 text-right">Total:</h6>
                                             </td>
                                             <td>
-                                                ৳ {{$all_recent_list->grand_total}}
+                                                 {{$all_recent_list->grand_total}}
                                             </td>
                                         </tr>
                                         </tbody>

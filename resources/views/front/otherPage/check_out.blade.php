@@ -8,6 +8,7 @@ Checkout
 
 
 @section('body')
+
       <main class="main__content_wrapper">
 
         <!-- Start breadcrumb section -->
@@ -39,173 +40,13 @@ $get_all_address = DB::table('delivary_addresses')
 
         ?>
 
-<form action="{{route('final_confirm')}}" method="post">
+<form action="{{route('final_confirm')}}" method="post" enctype="multipart/form-data" id="form1" data-parsley-validate="">
     @csrf
            <!-- Start checkout page area -->
     <div class="checkout__page--area">
         <div class="container">
             <div class="checkout__page--inner d-flex">
                 <div class="main checkout__mian">
-                    <header class="main__header checkout__mian--header mb-30">
-
-                        <details class="order__summary--mobile__version">
-                            <summary class="order__summary--toggle border-radius-5">
-                                <span class="order__summary--toggle__inner">
-                                    <span class="order__summary--toggle__icon">
-                                        <svg width="20" height="19" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M17.178 13.088H5.453c-.454 0-.91-.364-.91-.818L3.727 1.818H0V0h4.544c.455 0 .91.364.91.818l.09 1.272h13.45c.274 0 .547.09.73.364.18.182.27.454.18.727l-1.817 9.18c-.09.455-.455.728-.91.728zM6.27 11.27h10.09l1.454-7.362H5.634l.637 7.362zm.092 7.715c1.004 0 1.818-.813 1.818-1.817s-.814-1.818-1.818-1.818-1.818.814-1.818 1.818.814 1.817 1.818 1.817zm9.18 0c1.004 0 1.817-.813 1.817-1.817s-.814-1.818-1.818-1.818-1.818.814-1.818 1.818.814 1.817 1.818 1.817z" fill="currentColor"></path>
-                                        </svg>
-                                    </span>
-                                    <span class="order__summary--toggle__text show">
-                                        <span>Show order summary</span>
-                                        <svg width="11" height="6" xmlns="http://www.w3.org/2000/svg" class="order-summary-toggle__dropdown" fill="currentColor"><path d="M.504 1.813l4.358 3.845.496.438.496-.438 4.642-4.096L9.504.438 4.862 4.534h.992L1.496.69.504 1.812z"></path></svg>
-                                    </span>
-                                    <span class="order__summary--final__price">৳  {{ \Cart::getTotal() }}</span>
-                                </span>
-                            </summary>
-                            <div class="order__summary--section">
-                                <div class="cart__table checkout__product--table">
-                                    <table class="summary__table">
-                                        <tbody class="summary__table--body">
-<?php
-  $cartCollection1 = \Cart::getContent();
-
-    ?>
-
-    @foreach($cartCollection1 as $item)
-
-                                            <tr class=" summary__table--items">
-                                                <td class=" summary__table--list">
-                                                    <div class="product__image two  d-flex align-items-center">
-                                                        <div class="product__thumbnail border-radius-5">
-                                                            <a href="#"><img class="border-radius-5" src="{{ $url_name }}{{$item->attributes->image }}" alt="cart-product"></a>
-                                                            <span class="product__thumbnail--quantity">{{ $item->quantity }}</span>
-                                                        </div>
-                                                        <div class="product__description">
-                                                            <h3 class="product__description--name h4"><a href="#"> {{ $item->name }}</a></h3>
-                                                            @if($item->attributes->color == 0)
-
-                                                            @else
-                                                            <span class="product__description--variant">Color: {{ $item->attributes->color }}</span>
-                                                            @endif
-
-                                                            @if($item->attributes->size == 0)
-
-                                                            @else
-                                                            <span class="product__description--variant">COLOR: {{ $item->attributes->size }}</span>
-                                                            @endif
-
-
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class=" summary__table--list">
-                                                    <span class="cart__price">৳ {{ $item->price }}</span>
-                                                </td>
-                                            </tr>
-                                            @endforeach
-
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div class="checkout__total">
-                                    <table class="checkout__total--table">
-                                        <tbody class="checkout__total--body">
-                                            <tr class="checkout__total--items">
-                                                <td class="checkout__total--title text-left">Total </td>
-                                                <td class="checkout__total--amount text-right">৳  {{ \Cart::getTotal() }}</td>
-                                            </tr>
- <?php
-                        $client_type_new = DB::table('clients')->where('user_id',Auth::user()->id)->value('c_type');
-
-                        ?>
-
-@if( $client_type_new == 'Silver')
-<?php 
- if(\Cart::getTotal() > 1){
-$get_discount_value = (\Cart::getTotal()*5)/100;
-$get_main_value = \Cart::getTotal() - $get_discount_value;
-}else{
-$get_main_value = '';
-}
-?>
- <tr class="checkout__total--items">
-                                                <td class="checkout__total--title text-left">Special Discount</td>
-                                                <td class="checkout__total--amount text-right">5%</td>
-                                            </tr>
- <tr class="checkout__total--items">
-                                                <td class="checkout__total--title text-left">Grand Total</td>
-                                                <td class="checkout__total--amount text-right">{{$get_main_value}}</td>
-                                            </tr>
-
-
- 
-
-@elseif( $client_type_new == 'Platinum')
-<?php 
- if(\Cart::getTotal() > 1){
-$get_discount_value = (\Cart::getTotal()*10)/100;
-$get_main_value = \Cart::getTotal() - $get_discount_value;
-}else{
-$get_main_value = '';
-}
-?>
- <tr class="checkout__total--items">
-                                                <td class="checkout__total--title text-left">Special Discount</td>
-                                                <td class="checkout__total--amount text-right">10%</td>
-                                            </tr>
- <tr class="checkout__total--items">
-                                                <td class="checkout__total--title text-left">Grand Total</td>
-                                                <td class="checkout__total--amount text-right">{{$get_main_value}}</td>
-                                            </tr>
-
-@else
-
-@endif
-
-                                            <tr class="checkout__total--items">
-                                                <td class="checkout__total--title text-left">Shipping</td>
-                                                <td class="checkout__total--calculated__text text-right">
-
-
-                                                   @foreach($shipping_details as $key=>$all_ship)
-                <div class="shipping_contact--box_list">
-                    <div class="shipping__radio--input">
-                        <input class="shipping_radio--input_field" id="radiobox{{ $key+1 }}" name="ship_price_c" value="{{ $all_ship->price }}" type="radio" required>
-                    </div>
-                    <label class="shipping__radio--label" for="radiobox{{ $key+1 }}">
-                        <span class="shipping_radio--label_primary">{{ $all_ship->title }} : ৳ {{ $all_ship->price }}</span>
-                    </label>
-                </div>
- @endforeach
-
-                                                </td>
-                                            </tr>
-                                        </tbody>
-
-                                    </table>
-                                </div>
-                            </div>
-                        </details>
-                        <nav>
-                            <ol class="breadcrumb checkout__breadcrumb d-flex">
-                                <li class="breadcrumb__item breadcrumb__item--completed d-flex align-items-center">
-                                    <a class="breadcrumb__link" href="{{ route('cart') }}">Cart</a>
-                                    <svg class="readcrumb__chevron-icon" xmlns="http://www.w3.org/2000/svg" width="17.007" height="16.831" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M184 112l144 144-144 144"></path></svg>
-                                </li>
-
-                                <li class="breadcrumb__item breadcrumb__item--current d-flex align-items-center">
-                                    <span class="breadcrumb__text current">Information</span>
-                                    <svg class="readcrumb__chevron-icon" xmlns="http://www.w3.org/2000/svg" width="17.007" height="16.831" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M184 112l144 144-144 144"></path></svg>
-                                </li>
-
-                                    <li class="breadcrumb__item breadcrumb__item--blank">
-                                    <span class="breadcrumb__text">Success</span>
-                                </li>
-                            </ol>
-                            </nav>
-                    </header>
 
                     <!--new code -->
 
@@ -230,6 +71,88 @@ $get_main_value = '';
                                 <div class="section__header mb-25">
                                     <h3 class="section__header--title">Shipping address</h3>
                                 </div>
+              <!--code -->
+                                <div class="checkout__content--step__inner3 border-radius-5">
+                                    <div class="checkout__address--content__header">
+                                        <div class="shipping__contact--box__list">
+                                            <div class="shipping__radio--input">
+                                                <input class="shipping__radio--input__field" id="radiobox" name="checkmethod" type="radio">
+                                            </div>
+                                            <label class="shipping__radio--label" for="radiobox">
+                                                <span class="shipping__radio--label__primary">Same as Default address</span>
+                                            </label>
+                                        </div>
+                                        <div class="shipping__contact--box__list">
+                                            <div class="shipping__radio--input">
+                                                <input class="shipping__radio--input__field" id="radiobox2" name="checkmethod" type="radio">
+                                            </div>
+                                            <label class="shipping__radio--label" for="radiobox2">
+                                                <span class="shipping__radio--label__primary">Use a different Shipping address</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="checkout__content--input__box--wrapper ">
+                                        <div class="row">
+                                            <div class="col-lg-6 mb-12">
+                                                <div class="checkout__input--list ">
+                                                    <label>
+                                                        <input class="checkout__input--field border-radius-5" placeholder="First name (optional)" type="text">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 mb-12">
+                                                <div class="checkout__input--list">
+                                                    <label>
+                                                        <input class="checkout__input--field border-radius-5" placeholder="Last name" type="text">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 mb-12">
+                                                <div class="checkout__input--list">
+                                                    <label>
+                                                        <input class="checkout__input--field border-radius-5" placeholder="Address1" type="text">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 mb-12">
+                                                <div class="checkout__input--list">
+                                                    <label>
+                                                        <input class="checkout__input--field border-radius-5" placeholder="Apartment, suite, etc. (optional)" type="text">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 mb-12">
+                                                <div class="checkout__input--list">
+                                                    <label>
+                                                        <input class="checkout__input--field border-radius-5" placeholder="City" type="text">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 mb-12">
+                                                <div class="checkout__input--list checkout__input--select select">
+                                                    <label class="checkout__select--label" for="country">Country/region</label>
+                                                    <select class="checkout__input--select__field border-radius-5" id="country">
+                                                        <option value="1">India</option>
+                                                        <option value="2">United States</option>
+                                                        <option value="3">Netherlands</option>
+                                                        <option value="4">Afghanistan</option>
+                                                        <option value="5">Islands</option>
+                                                        <option value="6">Albania</option>
+                                                        <option value="7">Antigua Barbuda</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 mb-12">
+                                                <div class="checkout__input--list">
+                                                    <label>
+                                                        <input class="checkout__input--field border-radius-5" placeholder="Postal code" type="text">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--code-->
                                 <div class="section__shipping--address__content">
                                     <div class="row">
                                         <div class="col-lg-12 mb-12">
@@ -249,31 +172,40 @@ $get_main_value = '';
                                             </div>
                                         </div>
 
-                                        <div class="col-12 mb-12">
+<?php
+
+
+$district_list_all_dis = DB::table('rede')->select('District')->groupBy('District')->get();
+$district_list_all_div = DB::table('rede')->select('District')->groupBy('District')->get();
+?>
+
+
+
+ <div class="col-12 mb-12">
                                             <div class="checkout__input--list">
                                                 <label>
-                                                    <input class="checkout__input--field border-radius-5" placeholder="Thana/Upozila" name="town"  type="text" required>
+                                                    <select  class="checkout__input--field border-radius-5 " placeholder="Division"
+name="district"    required id="district" >
+<option value="">-- Select District --</option>
+@foreach($district_list_all_dis as $all_district_list_all)
+<option value="{{$all_district_list_all->District}}">{{$all_district_list_all->District}}</option>
+@endforeach
+</select>
                                                 </label>
                                             </div>
                                         </div>
 
 
-                                        <div class="col-12 mb-12">
+ <div class="col-12 mb-12">
                                             <div class="checkout__input--list">
                                                 <label>
-                                                    <input class="checkout__input--field border-radius-5" placeholder="District" name="district"  type="text" required>
+                                                    <select  class="checkout__input--field border-radius-5" placeholder="Division"
+name="town"    required id="town" >
+<option value="">-- Select Thana/Upazila --</option>
+</select>
                                                 </label>
                                             </div>
                                         </div>
-
-                                        <div class="col-12 mb-12">
-                                            <div class="checkout__input--list">
-                                                <label>
-                                                    <input class="checkout__input--field border-radius-5" placeholder="Post Code" name="post_code"  type="text" required>
-                                                </label>
-                                            </div>
-                                        </div>
-
 
                                     </div>
 
@@ -287,13 +219,9 @@ $get_main_value = '';
                     <?php
 
                     $get_all_address12 = DB::table('delivary_addresses')
-                    ->where('user_id',Auth::user()->id)->first();
+                    ->where('user_id',Auth::user()->id)->orderBy('id','desc')->first();
 
-
-
-
-
-                            ?>
+?>
                     <main class="main__content_wrapper">
 
                             <div class="checkout__content--step section__contact--information">
@@ -304,66 +232,136 @@ $get_main_value = '';
                                 <div class="customer__information">
                                     <div class="checkout__email--phone mb-12">
                                        <label>
-                                            <input class="checkout__input--field border-radius-5" placeholder="Email or mobile phone mumber" name="ephone" value="{{ $get_all_address12->phone }}"  type="text">
+                                            <input class="checkout__input--field border-radius-5" placeholder="Email or mobile phone mumber" name="ephone" value="{{ Auth::user()->phone }}"  type="text">
                                        </label>
                                     </div>
 
                                 </div>
                             </div>
+
+
+                            <div class="checkout_content--step section_shipping--address">
+                                <div class="section__header mb-25">
+                                    <h3 class="section__header--title">Payment</h3>
+                                    <p class="section__header--desc">All transactions are secure and encrypted.</p>
+                                </div>
+                                <div class="checkout_content--step_inner3 border-radius-5">
+                                    <div class="checkout_address--content_header d-flex align-items-center justify-content-between">
+                                        <span class="checkout_address--content_title">Select Payment Method</span>
+                                        <span class="heckout_address--content_icon"><img
+                                                src="{{ asset('/') }}public/front/assets/img/icon/credit-card.svg" alt="card"></span>
+                                    </div>
+                                    <div class="checkout_content--input_box--wrapper ">
+                                        <div class="row checkout_box">
+                                            <div class="col-lg-6 col-sm-12">
+                                                <div>
+                                                    <input type="radio" id="control_01" name="bbValue" value="Checkout With Bkash Payment" checked>
+                                                    <label for="control_01">
+                                                        <h2>Bkash Payment</h2>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-sm-12">
+                                                <div>
+                                                    <input type="radio" id="control_02" name="bbValue" value="Checkout with COD">
+                                                    <label for="control_02">
+                                                        <h2>COD Payment</h2>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="checkout__content--step section__shipping--address">
                                 <div class="section__header mb-25">
                                     <h3 class="section__header--title">Shipping address</h3>
                                 </div>
-                                <div class="section__shipping--address__content">
-                                    <div class="row">
-                                        <div class="col-lg-12 mb-12">
+
+
+
+                                <!--code -->
+                                <div class="checkout__content--step__inner3 border-radius-5">
+                                    <div class="checkout__address--content__header">
+                                        <div class="shipping__contact--box__list">
+                                            <div class="shipping__radio--input">
+                                                <input class="shipping__radio--input__field" id="radiobox" value="0" name="address_type" {{$get_all_address12->title == 0 ? 'checked':''}} type="radio">
+                                            </div>
+                                            <label class="shipping__radio--label" for="radiobox">
+                                                <span class="shipping__radio--label__primary">Same as Default address</span>
+                                            </label>
+                                        </div>
+                                        <div class="shipping__contact--box__list">
+                                            <div class="shipping__radio--input">
+                                                <input class="shipping__radio--input__field" id="radiobox2" value="1" name="address_type"{{$get_all_address12->title == 1 ? 'checked':''}} type="radio">
+                                            </div>
+                                            <label class="shipping__radio--label" for="radiobox2">
+                                                <span class="shipping__radio--label__primary">Use a different Shipping address</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="checkout__content--input__box--wrapper ">
+                                        <div class="row">
+                                             <div class="col-lg-12 mb-12">
                                             <div class="checkout__input--list ">
                                                 <label>
-                                                    <input class="checkout__input--field border-radius-5" placeholder="First name (optional)" name="first_name" value="{{ $get_all_address12->first_name }}"  type="text">
+                                                    <input class="checkout__input--field border-radius-5" placeholder="First name (optional)" name="first_name" id="first_namen" value="{{ $get_all_address12->first_name }}"  type="text">
                                                 </label>
                                             </div>
                                         </div>
 
-
-                                        <div class="col-12 mb-12">
+                                           <div class="col-12 mb-12">
                                             <div class="checkout__input--list">
                                                 <label>
-                                                    <input class="checkout__input--field border-radius-5" placeholder="Address1" name="address" value="{{ $get_all_address12->address }}"  type="text">
+                                                    <input class="checkout__input--field border-radius-5" placeholder="Address1" name="address" id="addressn" value="{{ $get_all_address12->address }}"  type="text">
                                                 </label>
                                             </div>
                                         </div>
 
+                                        <?php
 
 
-                                        <div class="col-12 mb-12">
+$district_list_all_dis = DB::table('rede')->select('District')->groupBy('District')->get();
+$district_list_all_thana = DB::table('rede')->select('Upazila_Thana')->groupBy('Upazila_Thana')->get();
+?>
+
+                                         <div class="col-12 mb-12">
                                             <div class="checkout__input--list">
                                                 <label>
-                                                    <input class="checkout__input--field border-radius-5" placeholder="Thana/Upozila" name="town" value="{{ $get_all_address12->town }}"   type="text" required>
+                                                    <select  class="checkout__input--field border-radius-5 " placeholder="Division"
+name="district"    required id="district" >
+<option value="">-- Select District --</option>
+@foreach($district_list_all_dis as $all_district_list_all)
+<option value="{{$all_district_list_all->District}}" {{ $get_all_address12->district == $all_district_list_all->District ? 'selected':'' }}>{{$all_district_list_all->District}}</option>
+@endforeach
+
+</select>
                                                 </label>
                                             </div>
                                         </div>
 
 
-                                        <div class="col-12 mb-12">
+ <div class="col-12 mb-12">
                                             <div class="checkout__input--list">
                                                 <label>
-                                                    <input class="checkout__input--field border-radius-5" placeholder="District" value="{{ $get_all_address12->district }}"  name="district"  type="text" required>
+                                                    <select  class="checkout__input--field border-radius-5" placeholder="Division"
+name="town"    required id="town" >
+<option value="">-- Select Thana/Upazila --</option>
+@foreach($district_list_all_thana as $all_district_list_all)
+<option value="{{$all_district_list_all->Upazila_Thana}}" {{ $get_all_address12->town == $all_district_list_all->Upazila_Thana ? 'selected':'' }}>{{$all_district_list_all->Upazila_Thana}}</option>
+@endforeach
+
+</select>
                                                 </label>
                                             </div>
                                         </div>
-
-                                        <div class="col-12 mb-12">
-                                            <div class="checkout__input--list">
-                                                <label>
-                                                    <input class="checkout__input--field border-radius-5" placeholder="Post Code" value="{{ $get_all_address12->post_code }}"  name="post_code"  type="text" required>
-                                                </label>
-                                            </div>
                                         </div>
-
-
                                     </div>
-
                                 </div>
+                                <!--code-->
+
+
                             </div>
 
 
@@ -371,99 +369,365 @@ $get_main_value = '';
 
 
                     @endif
-                    <div class="checkout__content--step__footer d-flex align-items-center">
 
-                        <input type="submit" style="margin-bottom: 25px;" class="continue__shipping--btn primary__btn border-radius-5" value="Checkout" />
-
-                        <a style="margin-bottom: 25px;margin-left:5px;" class="continue__shipping--btn primary__btn border-radius-5" href="{{ route('index') }}">Continue To Shopping</a>
-                        <a style="margin-bottom: 25px;" class="previous__link--content" href="{{ route('cart') }}">Return to cart</a>
-                    </div>
                     <!--end code -->
 
                 </div>
-                <aside class="checkout__sidebar sidebar">
+                <aside class="checkout__sidebar sidebar" style="display:block !important; border-top: 1px solid #e4e4e4; padding: 15px; margin-bottom: 30px;">
                     <div class="">
                         <table class="cart__table--inner">
                             <tbody class="cart__table--body">
 
-                                @foreach($cartCollection1 as $item)
+                                <?php
+               $userCartInfo = DB::table('cart_tbls')->where('status',0)->where('user_id',Auth::user()->id)->latest()->get();
+               $totalProductPrice = 0;
+               $totalProductPriceforDiscount=0;
+
+              ?>
+
+                                                                   @foreach($userCartInfo as $item)
+  <?php
+  $mainProductInfo = DB::table('main_products')->where('id',$item->product_id)->first();
+  ?>
+  @if (!$mainProductInfo)
+
+  @else
                                 <tr class="cart__table--body__items">
                                     <td class="cart__table--body__list">
                                         <div class="product__image two  d-flex align-items-center">
                                             <div class="product__thumbnail border-radius-5">
-                                                <a href="#"><img class="border-radius-5" src="{{ $url_name }}{{$item->attributes->image }}" alt="cart-product"></a>
+                                                <a href="#"><img class="border-radius-5" src="{{ $url_name }}{{$mainProductInfo->front_image }}" alt="cart-product"></a>
                                                 <span class="product__thumbnail--quantity">{{ $item->quantity }}</span>
                                             </div>
                                             <div class="product__description">
-                                                <h3 class="product__description--name h4"><a href="#">{{ $item->name }}</a></h3>
-                                                <span class="product__description--variant">COLOR: Blue</span>
+                                                <h3 class="product__description--name h4"><a href="#">{{ $mainProductInfo->product_name }}</a></h3>
+
+                                                @if(empty($item->color))
+
+                                                @else
+                                                <span >COLOR: {{ $item->color }}</span>,
+                                                @endif
+                                                @if(empty($item->size))
+
+                                                @else
+                                                <span >SIZE: {{ $item->size }}</span>
+                                                @endif
                                             </div>
                                         </div>
                                     </td>
                                     <td class="cart__table--body__list">
-                                        <span class="cart__price">৳ {{ $item->price }}</span>
+                                        <span class="cart__price">৳  {{ ($mainProductInfo->selling_price - $mainProductInfo->discount)*$item->quantity }}</span>
                                     </td>
                                 </tr>
+ <?php
+
+                                        if($mainProductInfo->discount == 0){
+
+                                            $totalProductPriceforDiscount = $totalProductPriceforDiscount  +  ($mainProductInfo->selling_price*$item->quantity);
+
+                                        }
+                                           $totalProductPrice = $totalProductPrice  +  (($mainProductInfo->selling_price - $mainProductInfo->discount)*$item->quantity) ;
+
+
+
+
+                                        ?>
+                                @endif
                                 @endforeach
 
                             </tbody>
                         </table>
                     </div>
+                    <?php
+                    $client_type_new = DB::table('clients')->where('user_id',Auth::user()->id)->value('c_type');
+                    $client_area_new = DB::table('delivary_addresses')->where('user_id',Auth::user()->id)->orderBy('id','desc')->value('town');
 
+                    $clientDeliveryCharge = DB::table('rede')->where('Upazila_Thana',$client_area_new)->value('Delivery_Charge');
+
+                    ?>
                     <div class="pt-4">
                         <table class="checkout__total--table">
                             <tbody class="checkout__total--body">
                                 <tr class="checkout__total--items">
-                                    <td class="checkout__total--title text-left">Total </td>
-                                    <td class="checkout__total--amount text-right">৳  {{ \Cart::getTotal() }}</td>
+                                    <td class="checkout__total--title text-left">Delivery Charge </td>
+                                    <td class="checkout__total--amount text-right">৳
+                                        <span id="delivery_charge_value">{{ $clientDeliveryCharge }}</span>
+                                        <input class="checkout__discount--code__input--field border-radius-5" id="ship_price_c" value="{{ $clientDeliveryCharge }}" name="ship_price_c" placeholder="Delivery Charge"  type="hidden">
+                                    </td>
                                 </tr>
- <?php
-                        $client_type_new = DB::table('clients')->where('user_id',Auth::user()->id)->value('c_type');
 
-                        ?>
 
 @if( $client_type_new == 'Silver')
-<?php 
- if(\Cart::getTotal() > 1){
-$get_discount_value = (\Cart::getTotal()*5)/100;
-$get_main_value = \Cart::getTotal() - $get_discount_value;
+<?php
+ if($totalProductPrice > 1){
+$get_discount_value = ($totalProductPriceforDiscount*5)/100;
+//dd($totalProductPriceforDiscount);
+$get_main_value = $totalProductPrice;
+$get_main_value1 = $totalProductPrice - $get_discount_value ;
 }else{
 $get_main_value = '';
 }
 ?>
- <tr class="checkout__total--items">
-                                                <td class="checkout__total--title text-left">Special Discount</td>
-                                                <td class="checkout__total--amount text-right">5%</td>
+
+ <?php
+
+                                  $getIdForType=DB::table('cupon_history')
+                              ->where('user_id',Auth::user()->id)
+                              ->orderBy('id','desc')->value('cupon_id');
+
+                              $getCuponTypem = DB::table('cupons')
+                              ->where('id',$getIdForType)->value('coupon_type');
+
+                              if($getCuponTypem =="Multiple Times"){
+                                         $getCuponId = DB::table('cupon_history')
+                              ->where('user_id',Auth::user()->id)
+                               ->where('mstatus',0)->orderBy('id','desc')->value('cupon_id');
+
+                                 $getCuponIdMain = DB::table('cupon_history')
+                              ->where('user_id',Auth::user()->id)
+                               ->where('mstatus',0)->orderBy('id','desc')->value('id');
+                              }else{
+                                         $getCuponId = DB::table('cupon_history')
+                              ->where('user_id',Auth::user()->id)
+                               ->where('status',0)->orderBy('id','desc')->value('cupon_id');
+
+                                 $getCuponIdMain = DB::table('cupon_history')
+                              ->where('user_id',Auth::user()->id)
+                               ->where('status',0)->orderBy('id','desc')->value('id');
+                              }
+
+                                 $checkCodeFirst = DB::table('cupons')
+                                           ->where('id',$getCuponId)
+                                           ->first();
+
+                                           if(!$checkCodeFirst){
+
+                                               $final_cal = $totalProductPrice;
+                                               $disval = 0 ;
+
+                                           }else{
+
+                                           if($checkCodeFirst->amount_type == "Percentage"){
+
+    $calculateFinalVal = ($totalProductPriceforDiscount*$checkCodeFirst->amount)/100;
+    $final_cal = $totalProductPrice -  Session::get('discountMain');
+    $disval = Session::get('discountMain');
+
+}else{
+
+     $final_cal =$totalProductPrice -  Session::get('discountMain');
+     $disval = Session::get('discountMain');
+}
+
+                                           }
+
+
+                                           ?>
+                                           @if(empty($getCuponId))
+                                            <tr class="checkout__total--items">
+                                                <td class="checkout__total--title text-left"> Discount</td>
+                                                <td class="checkout__total--amount text-right"> ৳ {{$get_discount_value}}</td>
                                             </tr>
  <tr class="checkout__total--items">
                                                 <td class="checkout__total--title text-left">Grand Total</td>
-                                                <td class="checkout__total--amount text-right">{{$get_main_value}}</td>
+                                                <td class="checkout__total--amount text-right">
+
+                                                    ৳  <span id="grand_final_value">{{($get_main_value + $clientDeliveryCharge) - $get_discount_value}}</span>
+
+                                                    <input type="hidden" name="getGrandTotal" value="{{($get_main_value + $clientDeliveryCharge) - $get_discount_value}}" />
+
+                                                </td>
                                             </tr>
+                                           @else
+ <tr class="checkout__total--items">
+                                                <td class="checkout__total--title text-left"> Discount</td>
+                                                <td class="checkout__total--amount text-right">  {{$disval}}</td>
+                                            </tr>
+ <tr class="checkout__total--items">
+                                                <td class="checkout__total--title text-left">Grand Total</td>
+                                                <td class="checkout__total--amount text-right">
+
+                                                    ৳  <span id="grand_final_value">{{($get_main_value + $clientDeliveryCharge) - $disval}}</span>
+
+                                                    <input type="hidden" name="getGrandTotal" value="{{($get_main_value + $clientDeliveryCharge) - $disval}}" />
+
+                                                </td>
+                                            </tr>
+                                            @endif
 
 
- 
+
 
 @elseif( $client_type_new == 'Platinum')
-<?php 
- if(\Cart::getTotal() > 1){
-$get_discount_value = (\Cart::getTotal()*10)/100;
-$get_main_value = \Cart::getTotal() - $get_discount_value;
+<?php
+ if($totalProductPrice > 1){
+$get_discount_value = ($totalProductPriceforDiscount*10)/100;
+$get_main_value1 = $totalProductPrice - $get_discount_value ;
+$get_main_value = $totalProductPrice;
 }else{
 $get_main_value = '';
 }
 ?>
- <tr class="checkout__total--items">
-                                                <td class="checkout__total--title text-left">Special Discount</td>
-                                                <td class="checkout__total--amount text-right">10%</td>
+  <?php
+
+                                  $getIdForType=DB::table('cupon_history')
+                              ->where('user_id',Auth::user()->id)
+                              ->orderBy('id','desc')->value('cupon_id');
+
+                              $getCuponTypem = DB::table('cupons')
+                              ->where('id',$getIdForType)->value('coupon_type');
+
+                              if($getCuponTypem =="Multiple Times"){
+                                         $getCuponId = DB::table('cupon_history')
+                              ->where('user_id',Auth::user()->id)
+                               ->where('mstatus',0)->orderBy('id','desc')->value('cupon_id');
+
+                                 $getCuponIdMain = DB::table('cupon_history')
+                              ->where('user_id',Auth::user()->id)
+                               ->where('mstatus',0)->orderBy('id','desc')->value('id');
+                              }else{
+                                         $getCuponId = DB::table('cupon_history')
+                              ->where('user_id',Auth::user()->id)
+                               ->where('status',0)->orderBy('id','desc')->value('cupon_id');
+
+                                 $getCuponIdMain = DB::table('cupon_history')
+                              ->where('user_id',Auth::user()->id)
+                               ->where('status',0)->orderBy('id','desc')->value('id');
+                              }
+
+                                 $checkCodeFirst = DB::table('cupons')
+                                           ->where('id',$getCuponId)
+                                           ->first();
+
+                                           if(!$checkCodeFirst){
+
+                                               $final_cal = $totalProductPrice;
+                                               $disval = 0 ;
+
+                                           }else{
+
+                                           if($checkCodeFirst->amount_type == "Percentage"){
+
+    $calculateFinalVal = ($totalProductPriceforDiscount*$checkCodeFirst->amount)/100;
+    $final_cal = $totalProductPrice -  Session::get('discountMain');
+    $disval = Session::get('discountMain');
+
+}else{
+
+     $final_cal =$totalProductPrice -  Session::get('discountMain');
+     $disval = Session::get('discountMain');
+}
+
+                                           }
+
+
+                                           ?>
+                                              @if(empty($getCuponId))
+                                            <tr class="checkout__total--items">
+                                                <td class="checkout__total--title text-left"> Discount</td>
+                                                <td class="checkout__total--amount text-right"> ৳ {{$get_discount_value}}</td>
                                             </tr>
  <tr class="checkout__total--items">
                                                 <td class="checkout__total--title text-left">Grand Total</td>
-                                                <td class="checkout__total--amount text-right">{{$get_main_value}}</td>
+                                                <td class="checkout__total--amount text-right">
+
+                                                    ৳  <span id="grand_final_value">{{($get_main_value + $clientDeliveryCharge) - $get_discount_value}}</span>
+
+                                                    <input type="hidden" name="getGrandTotal" value="{{($get_main_value + $clientDeliveryCharge) - $get_discount_value}}" />
+
+                                                </td>
                                             </tr>
+                                           @else
+ <tr class="checkout__total--items">
+                                                <td class="checkout__total--title text-left"> Discount</td>
+                                                <td class="checkout__total--amount text-right"> ৳ {{$disval}}</td>
+                                            </tr>
+ <tr class="checkout__total--items">
+                                                <td class="checkout__total--title text-left">Grand Total</td>
+                                                <td class="checkout__total--amount text-right" >
+                                                    ৳  <span id="grand_final_value">{{($get_main_value + $clientDeliveryCharge) - $disval}}</span>
+
+                                                    <input type="hidden" name="getGrandTotal" value="{{($get_main_value + $clientDeliveryCharge) - $disval}}" />
+
+                                                </td>
+
+
+                                            </tr>
+                                            @endif
 
 @else
 
+ <?php
+                                $getIdForType=DB::table('cupon_history')
+                              ->where('user_id',Auth::user()->id)
+                              ->orderBy('id','desc')->value('cupon_id');
+
+                              $getCuponTypem = DB::table('cupons')
+                              ->where('id',$getIdForType)->value('coupon_type');
+
+                              if($getCuponTypem =="Multiple Times"){
+                                     $getCuponId = DB::table('cupon_history')
+                              ->where('user_id',Auth::user()->id)
+                               ->where('mstatus',0)->orderBy('id','desc')->value('cupon_id');
+
+                                 $getCuponIdMain = DB::table('cupon_history')
+                              ->where('user_id',Auth::user()->id)
+                               ->where('mstatus',0)->orderBy('id','desc')->value('id');
+                              }else{
+                                         $getCuponId = DB::table('cupon_history')
+                              ->where('user_id',Auth::user()->id)
+                               ->where('status',0)->orderBy('id','desc')->value('cupon_id');
+
+                                 $getCuponIdMain = DB::table('cupon_history')
+                              ->where('user_id',Auth::user()->id)
+                               ->where('status',0)->orderBy('id','desc')->value('id');
+                              }
+
+                                 $checkCodeFirst = DB::table('cupons')
+                                           ->where('id',$getCuponId)
+                                           ->first();
+
+                                           if(!$checkCodeFirst){
+
+                                               $final_cal = $totalProductPrice;
+                                               $disval = 0 ;
+
+                                           }else{
+
+                                           if($checkCodeFirst->amount_type == "Percentage"){
+
+    $calculateFinalVal = ($totalProductPriceforDiscount*$checkCodeFirst->amount)/100;
+    $final_cal = $totalProductPrice -  Session::get('discountMain');
+    $disval = Session::get('discountMain');
+
+}else{
+
+     $final_cal =$totalProductPrice -  Session::get('discountMain');
+     $disval = Session::get('discountMain');
+}
+
+                                           }
+
+
+                                           ?>
+ <tr class="checkout__total--items">
+                                                <td class="checkout__total--title text-left"> Discount</td>
+                                                <td class="checkout__total--amount text-right">  {{$disval}}</td>
+                                            </tr>
+<tr class="checkout__total--items">
+    <td class="checkout__total--title text-left">Grand Total </td>
+    <td class="checkout__total--amount text-right">
+
+        <span id="grand_final_value">{{ ($totalProductPrice + $clientDeliveryCharge) - $disval}}</span>
+
+        <input type="hidden" name="getGrandTotal" value="{{($totalProductPrice + $clientDeliveryCharge) - $disval}}" />
+
+
+    </td>
+</tr>
 @endif
+
+
 
                             </tbody>
                         </table>
@@ -471,29 +735,38 @@ $get_main_value = '';
 <!-- check box start -->
 <div class="checkout_content--step section_shipping--address checkout__total">
         <div class="section__header">
-            <h3 class="section__header--title">Delivery Method</h3>
+            <!--<h3 class="section__header--title">Delivery Method</h3>-->
         </div>
         <div class="checkout_content--step_inner3 border-radius-5">
             <div class="checkout_address--content_header">
 
- @foreach($shipping_details as $key=>$all_ship)
-                <div class="shipping_contact--box_list">
-                    <div class="shipping__radio--input">
-                        <input class="shipping_radio--input_field" id="radiobox{{ $key+1 }}" name="ship_price_c" value="{{ $all_ship->price }}" type="radio" required>
-                    </div>
-                    <label class="shipping__radio--label" for="radiobox{{ $key+1 }}">
-                        <span class="shipping_radio--label_primary">{{ $all_ship->title }} : ৳ {{ $all_ship->price }}</span>
-                    </label>
-                </div>
- @endforeach
 
-               
+
+
                            </div>
+
+                        <!--   <div class="checkout__discount--code mt-3">-->
+                        <!--    <form class="d-flex" action="#">-->
+                        <!--        <label>-->
+                        <!--            <input class="checkout__discount--code__input--field border-radius-5" placeholder="Promo code"  type="text">-->
+                        <!--        </label>-->
+                        <!--        <button class="checkout__discount--code__btn primary__btn border-radius-5 mt-2" type="submit">Apply</button>-->
+                        <!--    </form>-->
+                        <!--</div>-->
         </div>
     </div>
 <!-- check box end -->
 
 
+                    </div>
+
+                   <div class="checkout__content--step__footer d-flex align-items-center mt-4">
+
+                        <input type="submit" style="margin-bottom: 25px;" class="continue__shipping--btn primary__btn border-radius-5"  value="Checkout" />
+
+
+                        <a style="margin-bottom: 25px;margin-left:5px;" class="continue__shipping--btn primary__btn border-radius-5" href="{{ route('index') }}">Shopping</a>
+                        <a style="margin-bottom: 25px;" class="previous__link--content" href="{{ route('cart') }}">Return to cart</a>
                     </div>
                 </aside>
             </div>
@@ -503,5 +776,143 @@ $get_main_value = '';
 
 </form>
         </main
+
+@endsection
+
+@section('script')
+<script></script>
+<script>
+    $(document).ready(function(){
+
+        //new code all
+
+         $('input[type=radio][name=address_type]').change(function() {
+
+             var addressType  = $(this).val();
+             //alert(addressType);
+
+                               $.ajax({
+url: "{{ route('getAddressFromType') }}",
+type: "GET",
+data: {
+'addressType':addressType
+},
+success: function (data) {
+
+
+$("#first_namen").val(data.name);
+$("#addressn").val(data.address);
+$("#district").val(data.district);
+$("#town").val(data.thana);
+// $("#district").html('');
+// $('#district').html(data);
+
+
+}
+
+});
+
+         });
+
+        //end new code all
+          $("#division").change(function(){
+
+
+                var currentId  = $(this).val();
+
+                  $.ajax({
+url: "{{ route('get_district_from_division') }}",
+type: "GET",
+data: {
+'currentId':currentId
+},
+success: function (data) {
+
+$("#district").html('');
+$('#district').html(data);
+
+
+}
+
+});
+
+
+
+
+
+          });
+});
+</script>
+
+<script>
+    $(document).ready(function(){
+          $("#district").change(function(){
+
+
+                var currentId  = $(this).val();
+
+                  $.ajax({
+url: "{{ route('get_thana_from_district') }}",
+type: "GET",
+data: {
+'currentId':currentId
+},
+success: function (data) {
+
+$("#town").html('');
+$('#town').html(data);
+
+
+}
+
+});
+
+
+
+
+
+          });
+});
+</script>
+
+
+<script>
+    $(document).ready(function(){
+          $("#town").change(function(){
+
+                var grandTotal  = $('#grand_final_value').html();
+                var currentId  = $(this).val();
+
+                  $.ajax({
+url: "{{ route('get_price_from_thana') }}",
+type: "GET",
+data: {
+'currentId':currentId
+},
+success: function (data) {
+
+    var final_val = parseInt(grandTotal) + parseInt(data);
+
+
+    $('#grand_final_value').html(final_val);
+
+
+
+$("#delivery_charge_value").html('');
+$('#delivery_charge_value').html(data);
+
+$('#ship_price_c').val(data);
+
+}
+
+});
+
+
+
+
+
+          });
+});
+</script>
 
 @endsection

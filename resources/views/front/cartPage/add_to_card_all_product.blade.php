@@ -2,31 +2,43 @@
 
 <div class="minicart__product">
 
-    <?php  $totalProductPrice = 0; ?>
-    @foreach($cartCollection1 as $item)
+    <?php  
+  $userCartInfo = DB::table('cart_tbls')->where('status',0)->where('user_id',Auth::user()->id)->latest()->get();
+  $totalProductPrice = 0;
+  ?>
+     @foreach($userCartInfo as $item)
+  <?php 
+  $mainProductInfo = DB::table('main_products')->where('id',$item->product_id)->first();
+  ?>
+  @if (!$mainProductInfo) 
+ 
+  @else
     <div class="minicart__product--items d-flex">
         <div class="minicart__thumb">
-            <a href="#"><img src="{{ $url_name }}{{$item->attributes->image }}" alt="prduct-img"></a>
+            <a href="{{ route('productDetail',$mainProductInfo->slug) }}"><img src="{{ $url_name }}{{$mainProductInfo->front_image }}" alt="prduct-img"></a>
         </div>
         <div class="minicart__text">
-            <h3 class="minicart__subtitle h4"><a href="#">{{ $item->name }}</a></h3>
-            @if($item->attributes->color == 0)
-
+            <h3 class="minicart__subtitle h4"><a href="{{ route('productDetail',$mainProductInfo->slug) }}">{{ $mainProductInfo->product_name }}</a></h3>
+          
+               @if(empty($item->color))
+            
             @else
-            <span class="color__variant"><b>Color:</b> {{$item->attributes->color }}</span>
-            @endif
-
-
-            @if($item->attributes->size == 0)
-
+         
+            <span class="color__variant"><b>Color:</b> {{$item->color }}</span>
+           @endif
+@if(empty($item->size))
+            
             @else
-            <span class="color__variant"><b>Size:</b> {{$item->attributes->size }}</span>
-            @endif
+
+           
+            <span class="color__variant"><b>Size:</b> {{$item->size }}</span>
+        @endif
+         
 
 
 
             <div class="minicart__price">
-                <span class="current__price">৳ {{ $item->price }}</span>
+                <span class="current__price">৳ {{ $mainProductInfo->selling_price - $mainProductInfo->discount }}</span>
                 {{-- <span class="old__price">$140.00</span> --}}
             </div>
             <div class="minicart__text--footer d-flex align-items-center">
@@ -42,7 +54,8 @@
         </div>
     </div>
 
-    <?php $totalProductPrice = $totalProductPrice  +  ($item->price*$item->quantity)  ?>
+    <?php $totalProductPrice = $totalProductPrice  +  (($mainProductInfo->selling_price - $mainProductInfo->discount)*$item->quantity)  ?>
+  @endif
     @endforeach
 </div>
 <div class="minicart__amount">
@@ -52,7 +65,7 @@
     </div> --}}
     <div class="minicart__amount_list d-flex justify-content-between">
         <span>Total:</span>
-        <span><b> ৳ {{ $totalProductPrice }}</b></span>
+        <span><b>  {{ $totalProductPrice }}</b></span>
     </div>
 </div>
 
@@ -75,9 +88,9 @@
                  
                  var main_quantity = $('#sidebarQuantity'+after_string_slice_id).val()
                  
-                 var final_quantity = parseInt(main_quantity+1);
+                 var final_quantity = parseInt(main_quantity) + parseInt(1);
                 
-                //alert(main_quantity);
+                
                 
                 $('#main_cart_count1').html(get_main_value);
                 $('#main_cart_count2').html(get_main_value);
@@ -87,7 +100,7 @@
 url: "https://spotlightattires.com/add_to_card_all_product",
 type: "GET",
 data: {
-'after_string_slice_id': after_string_slice_id
+'after_string_slice_id': after_string_slice_id,'final_quantity':final_quantity
 },
 success: function (data) {
 

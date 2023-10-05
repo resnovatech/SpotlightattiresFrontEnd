@@ -12,7 +12,7 @@
                     <a class="offcanvas__menu_item" href="{{ route('index') }}">Home</a>
                 </li>
                 <li class="offcanvas__menu_li">
-                    <a class="offcanvas__menu_item" href="#">Shop</a>
+                    <a class="offcanvas__menu_item" href="{{route('shop')}}">Shop</a>
                     <ul class="offcanvas__sub_menu">
 
                         @foreach($get_all_category as $all_get_all_category)

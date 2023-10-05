@@ -103,32 +103,68 @@ Login Page
                                         <form action="{{route('customer_reg_post')}}" method="post" enctype="multipart/form-data" id="form" data-parsley-validate="">
                                             @csrf
 
-                                        <input class="account__login--input" placeholder="Your Name" name="name" type="text" maxlength="50" required>
-                                        <input class="account__login--input" placeholder="Email Address" id="email" name="email"  type="email" maxlength="50" required>
+                                      <input class="account__login--input" placeholder="Your Name" name="name" type="text" maxlength="50" required>
+                                       <input class="account__login--input" placeholder="Email Address" id="email" name="email"  type="email" maxlength="50" required>
                                         <small id="view_text"></small>
-                                        {{-- <input type="tel" id="mobile-number" readonly> --}}
-
-
-                                        <div class="form-group has-search">
+                                        
+                                          <div class="form-group has-search mt-3">
                                             <span class="form-control-feedback">
                                                 <img src="{{ asset('/') }}public/download.jpg" alt="">
                                                 <span>+88</span>
                                             </span>
-                                            <input type="text" class="account__login--input" placeholder="Phone" id="mainPhone" name="phone"  type="text" maxlength="11" required>
+                                            <input type="text" class="account__login--input" placeholder="Phone" id="mainPhone" name="phone"  type="text" minlength="11" maxlength="11" required>
                                         </div>
+                                        
+                                        <label class="mt-3">Profile Photo</label>
+                                         <input class="account__login--input" placeholder="" name="image" type="file" >
+                                        
+<input class="checkout__input--field border-radius-5 mt-3" placeholder="Address" name="address"  type="text" required>
+                                     
+                                          
+                                          <?php  
 
+$district_list_all_dis = DB::table('rede')->select('District')->groupBy('District')->get();
+$district_list_all_div = DB::table('rede')->select('District')->groupBy('District')->get();
+?>
+                                       
+                                          <!--dd-->
+                                          
+                                           <div class="checkout__input--list mt-4">
+                                                <label>
+                                                    <select  class="checkout__input--field border-radius-5 " placeholder="Division" 
+name="district"    required id="district" >
+<option value="">-- Select District --</option>
+@foreach($district_list_all_dis as $all_district_list_all)
+<option value="{{$all_district_list_all->District}}" >{{$all_district_list_all->District}}</option>
+@endforeach
+</select>
+                                                </label>
+                                            </div>
+                                          <!--dd2-->
+                                          <div class="checkout__input--list mt-4">
+                                                <label>
+                                                    <select  class="checkout__input--field border-radius-5" placeholder="Division" 
+name="town"    required id="town" >
+<option value="">-- Select Thana/Upazila --</option>
+</select>
+                                                </label>
+                                            </div>
+                                          
+                                          <!--dd3-->
+                                        
+                                    
+                                             <input class="account__login--input" placeholder="Password" name="pass" id="pass" type="password" maxlength="20" />
+                                        
+                                           <input class="account__login--input" placeholder="Confirm Password" name="confirm_pass" id="confirm_pass" type="password" maxlength="20" />
+   <small id="view_text2"></small>
 
-
-
-                                        <input class="account__login--input" placeholder="Password" name="pass" type="password" maxlength="20" required>
-
-                                        <input name="b_value" class="account__login--btn primary__btn mb-10" id="final_button" value="Register" type="submit" />
-<div class="account__login--remember position__relative">
+                                        <input name="b_value" class="account__login--btn primary__btn mb-10" id="final_button" value="Register" type="submit"/>
+                                        {{-- <div class="account__login--remember position__relative">
                                             <input class="checkout__checkbox--input" id="check2" type="checkbox">
                                             <span class="checkout__checkbox--checkmark"></span>
                                             <label class="checkout__checkbox--label login__remember--label" for="check2">
                                                 I have read and agree to the terms & conditions</label>
-                                        </div>
+                                        </div> --}}
                                         </form>
                                     </div>
                                 </div>
@@ -188,7 +224,104 @@ Login Page
     </main>
 @endsection
 @section('script')
+
 <script>
+    $(document).ready(function(){
+          $("#division").change(function(){
+              
+              
+                var currentId  = $(this).val();
+                            
+                  $.ajax({
+url: "https://spotlightattires.com/get_district_from_division",
+type: "GET",
+data: {
+'currentId':currentId  
+},
+beforeSend: function(){
+    // Show image container
+    $("#district").html('<option id="nnn"><i class="fa fa-spinner fa-spin"></i> Loading.....</option>');
+   },
+success: function (data) {
+
+$("#district").html('');
+$('#district').html(data);
+
+
+},
+complete:function(data){
+    // Hide image container
+    $("#nnn").hide();
+   }
+
+});
+
+               
+               
+               
+              
+          });
+});
+</script>
+
+<script>
+    $(document).ready(function(){
+          $("#district").change(function(){
+              
+              
+                var currentId  = $(this).val();
+                            
+                  $.ajax({
+url: "https://spotlightattires.com/get_thana_from_district",
+type: "GET",
+data: {
+'currentId':currentId  
+},
+beforeSend: function(){
+    // Show image container
+    $("#town").html('<option id="nnnn"><i class="fa fa-spinner fa-spin"></i> Loading.....</option>');
+   },
+success: function (data) {
+
+$("#town").html('');
+$('#town').html(data);
+
+
+},
+complete:function(data){
+    // Hide image container
+    $("#nnnn").hide();
+   }
+
+});
+
+               
+               
+               
+              
+          });
+});
+</script>
+
+<script>
+
+//password//
+$("#confirm_pass").keyup(function(){
+    var pass = $('#pass').val();
+    var confirm_pass = $(this).val();
+    
+    if(confirm_pass == pass){
+           $("#final_button").removeAttr('disabled');
+                $('#view_text2').html('Password Matched');
+                $("#view_text2").css({"color": "green"});
+        
+    }else{
+          $("#final_button").attr('disabled', 'disabled');
+               $('#view_text2').html('Password Not Matched');
+                $("#view_text2").css({"color": "red"});
+    }
+});
+//end password//
 
 $("#mainPhone").keyup(function(){
     var phone = $(this).val();

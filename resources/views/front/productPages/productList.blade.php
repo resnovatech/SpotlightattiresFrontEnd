@@ -65,109 +65,85 @@ input.checkbox:checked + label:before {
         <div class="single__widget widget__bg">
             <h2 class="widget__title h3">Categories</h2>
             <ul class="widget__categories--menu">
-                @foreach($main_category as $all_main_category)
-                <li class="widget__categories--menu__list">
-                    <label class="widget__categories--menu__label d-flex align-items-center">
-                        <img class="widget__categories--menu__img"
-                             src="{{ $url_name }}{{ $all_main_category->icon }}" alt="categories-img">
-                        <span class="widget__categories--menu__text">{{$all_main_category->cat_name}}</span>
-                        <svg class="widget__categories--menu__arrowdown--icon"
-                             xmlns="http://www.w3.org/2000/svg" width="12.355" height="8.394">
-                            <path d="M15.138,8.59l-3.961,3.952L7.217,8.59,6,9.807l5.178,5.178,5.178-5.178Z"
-                                  transform="translate(-6 -8.59)" fill="currentColor"></path>
-                        </svg>
-                    </label>
+                   @foreach($main_category as $all_main_category)
+                                
+                                <li class="widget__categories--menu__list">
+                                    <a href="{{route('categoryProduct',$all_main_category->cat_name)}}" >
+                                    <label class="widget__categories--menu__label d-flex align-items-center">
+<img class="widget__categories--menu__img"
+                                             src="{{ $url_name }}{{ $all_main_category->icon }}" alt="categories-img">
 
-                    <?php
+                                                                          <span class="widget__categories--menu__text">{{$all_main_category->cat_name}}</span></a>
 
-                    $sub_cat_list = DB::table('categories')
-                    ->where('cat_name',$all_main_category->cat_name)
-                    ->whereNotNull('sub_cat')
-                    ->select('sub_cat')->groupby('sub_cat')->get();
-                       ?>
+                                                                        </label>
 
-
-
-                    <ul class="widget__categories--sub__menu">
-
-                                <input class="widget__form--check__input"  name="cat_name_hidden" value="{{$all_main_category->cat_name}}" type="hidden">
-
-
-
-                        @foreach($sub_cat_list as $key=>$all_sub_cat_list)
-                        <li class="widget__categories--sub__menu--list">
-                            <div class="widget__form--check__list">
-                                <label class="widget__form--check__label" for="category_name{{$key+1}}">{{$all_sub_cat_list->sub_cat}}</label>
-                                <input class="widget__form--check__input" name="subcat[]" id="category_name{{$key+1}}" value="{{$all_sub_cat_list->sub_cat}}" type="checkbox">
-                                <span class="widget__form--checkmark"></span>
-                            </div>
-                        </li>
-                        @endforeach
-                    </ul>
-                </li>
-                @endforeach
-            </ul>
-        </div>
-        <div class="single__widget widget__bg">
-            <h2 class="widget__title h3">Size</h2>
-            <ul class="widget__form--check">
-                @foreach($size_atttribute as $key=>$all_size_atttribute)
-                                <li class="widget__form--check__list">
-                                    <label class="widget__form--check__label" for="size_value{{ $key+1 }}">{{ $all_size_atttribute->name_list }}</label>
-                                    <input class="widget__form--check__input" name="size[]" id="size_value{{ $key+1 }}" value="{{ $all_size_atttribute->name_list }}" type="checkbox">
-                                    <span class="widget__form--checkmark"></span>
+                                 
+</a>
                                 </li>
+
                                 @endforeach
             </ul>
         </div>
-        <div class="single__widget price__filter widget__bg">
-            <h2 class="widget__title h3">Filter By Price</h2>
+        <!--<div class="single__widget widget__bg">-->
+        <!--    <h2 class="widget__title h3">Size</h2>-->
+        <!--    <ul class="widget__form--check">-->
+        <!--        @foreach($size_atttribute as $key=>$all_size_atttribute)-->
+        <!--                        <li class="widget__form--check__list">-->
+        <!--                            <label class="widget__form--check__label" for="size_value{{ $key+1 }}">{{ $all_size_atttribute->name_list }}</label>-->
+        <!--                            <input class="widget__form--check__input" name="size[]" id="size_value{{ $key+1 }}" value="{{ $all_size_atttribute->name_list }}" type="checkbox">-->
+        <!--                            <span class="widget__form--checkmark"></span>-->
+        <!--                        </li>-->
+        <!--                        @endforeach-->
+        <!--    </ul>-->
+        <!--</div>-->
+        <!--<div class="single__widget price__filter widget__bg">-->
+        <!--    <h2 class="widget__title h3">Filter By Price</h2>-->
 
-                                <div class="price__filter--form__inner mb-15 d-flex align-items-center">
-                                    <div class="price__filter--group">
-                                        <label class="price__filter--label" for="Filter-Price-GTE2">From</label>
-                                        <div class="price__filter--input border-radius-5 d-flex align-items-center">
-                                            <span class="price__filter--currency">৳</span>
-                                            <label>
-                                                <input class="price__filter--input__field border-0"
-                                                       type="number" name="from" id="min_price" placeholder="0" min="0"
-                                                       >
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="price__divider">
-                                        <span>-</span>
-                                    </div>
-                                    <div class="price__filter--group">
-                                        <label class="price__filter--label" for="Filter-Price-LTE2">To</label>
-                                        <div class="price__filter--input border-radius-5 d-flex align-items-center">
-                                            <span class="price__filter--currency">৳</span>
-                                            <label>
-                                                <input class="price__filter--input__field border-0"
-                                                       name="to" type="number" id="max_price" min="0"
-                                                       placeholder="250" >
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-        </div>
-        <div class="single__widget widget__bg">
-            <h2 class="widget__title h3">Color</h2>
-            <ul class="widget__tagcloud">
+        <!--                        <div class="price__filter--form__inner mb-15 d-flex align-items-center">-->
+        <!--                            <div class="price__filter--group">-->
+        <!--                                <label class="price__filter--label" for="Filter-Price-GTE2">From</label>-->
+        <!--                                <div class="price__filter--input border-radius-5 d-flex align-items-center">-->
+        <!--                                    <span class="price__filter--currency">৳</span>-->
+        <!--                                    <label>-->
+        <!--                                        <input class="price__filter--input__field border-0"-->
+        <!--                                               type="number" name="from" id="min_price" placeholder="0" min="0"-->
+        <!--                                               >-->
+        <!--                                    </label>-->
+        <!--                                </div>-->
+        <!--                            </div>-->
+        <!--                            <div class="price__divider">-->
+        <!--                                <span>-</span>-->
+        <!--                            </div>-->
+        <!--                            <div class="price__filter--group">-->
+        <!--                                <label class="price__filter--label" for="Filter-Price-LTE2">To</label>-->
+        <!--                                <div class="price__filter--input border-radius-5 d-flex align-items-center">-->
+        <!--                                    <span class="price__filter--currency">৳</span>-->
+        <!--                                    <label>-->
+        <!--                                        <input class="price__filter--input__field border-0"-->
+        <!--                                               name="to" type="number" id="max_price" min="0"-->
+        <!--                                               placeholder="250" >-->
+        <!--                                    </label>-->
+        <!--                                </div>-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <!--</div>-->
+        <!--<div class="single__widget widget__bg">-->
+        <!--    <h2 class="widget__title h3">Color</h2>-->
+        <!--    <ul class="widget__tagcloud">-->
 
 
-                @foreach($color_atttribute as $key=>$all_color_atttribute)
-                <li class="widget__tagcloud--list">
+        <!--        @foreach($color_atttribute as $key=>$all_color_atttribute)-->
+        <!--        <li class="widget__tagcloud--list">-->
 
-                <input class="checkbox" id="color_value{{ $key+1 }}" type="checkbox" name="color[]" value="{{ $all_color_atttribute->name_list}}" name="lists" />
-                <label for="color_value{{ $key+1 }}" class="widget__tagcloud--link"><span class="check">✓</span>{{ $all_color_atttribute->name_list}}</label>
+        <!--        <input class="checkbox" id="color_value{{ $key+1 }}" type="checkbox" name="color[]" value="{{ $all_color_atttribute->name_list}}" name="lists" />-->
+        <!--        <label for="color_value{{ $key+1 }}" class="widget__tagcloud--link"><span class="check">✓</span>{{ $all_color_atttribute->name_list}}</label>-->
 
-                <li>
-               @endforeach
+        <!--        <li>-->
+        <!--       @endforeach-->
 
 
-            </ul>
-        </div>
+        <!--    </ul>-->
+        <!--</div>-->
     </div>
 </div>
 <!-- End offcanvas filter sidebar -->
@@ -185,7 +161,7 @@ input.checkbox:checked + label:before {
                         <circle cx="336" cy="384" r="28" fill="none" stroke="currentColor" stroke-linecap="round"
                                 stroke-linejoin="round" stroke-width="28"/>
                     </svg>
-                    <span class="widget__filter--btn__text">Filter</span>
+                 
                 </button>
                 <div class="product__view--mode d-flex align-items-center">
                     {{-- <div class="product__view--mode__list product__short--by align-items-center d-none d-lg-flex">
@@ -215,7 +191,7 @@ input.checkbox:checked + label:before {
                                 <li class="widget__categories--menu__list">
                                     <label class="widget__categories--menu__label d-flex align-items-center">
 <img class="widget__categories--menu__img"
-                                             src="https://adminpanel.spotlightattires.com/public/uploads/small-product3.png" alt="categories-img">
+                                             src="https://adminpanel.spotlightattires.com/public/uploads/soccer-jersey.png" alt="categories-img">
 
                                                                           <span class="widget__categories--menu__text">All</span></a>
 
@@ -228,125 +204,103 @@ input.checkbox:checked + label:before {
                         
 
                                 @foreach($main_category as $all_main_category)
+                                
                                 <li class="widget__categories--menu__list">
+                                    <a href="{{route('categoryProduct',$all_main_category->cat_name)}}" >
                                     <label class="widget__categories--menu__label d-flex align-items-center">
-                                        <img class="widget__categories--menu__img"
+<img class="widget__categories--menu__img"
                                              src="{{ $url_name }}{{ $all_main_category->icon }}" alt="categories-img">
-                                        <span class="widget__categories--menu__text">{{$all_main_category->cat_name}}</span>
-                                        <svg class="widget__categories--menu__arrowdown--icon"
-                                             xmlns="http://www.w3.org/2000/svg" width="12.355" height="8.394">
-                                            <path d="M15.138,8.59l-3.961,3.952L7.217,8.59,6,9.807l5.178,5.178,5.178-5.178Z"
-                                                  transform="translate(-6 -8.59)" fill="currentColor"></path>
-                                        </svg>
-                                    </label>
 
-                                    <?php
+                                                                          <span class="widget__categories--menu__text">{{$all_main_category->cat_name}}</span></a>
 
-                                    $sub_cat_list = DB::table('categories')
-                                    ->where('cat_name',$all_main_category->cat_name)
-                                    ->whereNotNull('sub_cat')
-                                    ->select('sub_cat')->groupby('sub_cat')->get();
-                                       ?>
+                                                                        </label>
 
-
-
-                                    <ul class="widget__categories--sub__menu">
-
-                                                <input class="widget__form--check__input"  name="cat_name_hidden" value="{{$all_main_category->cat_name}}" type="hidden">
-
-
-
-                                        @foreach($sub_cat_list as $key=>$all_sub_cat_list)
-                                        <li class="widget__categories--sub__menu--list">
-                                            <div class="widget__form--check__list">
-                                                <label class="widget__form--check__label" for="category_name{{$key+1}}">{{$all_sub_cat_list->sub_cat}}</label>
-                                                <input class="widget__form--check__input" name="subcat[]" id="category_name{{$key+1}}" value="{{$all_sub_cat_list->sub_cat}}" type="checkbox">
-                                                <span class="widget__form--checkmark"></span>
-                                            </div>
-                                        </li>
-                                        @endforeach
-                                    </ul>
+                                 
+</a>
                                 </li>
+
                                 @endforeach
+                               
+                                
                             </ul>
                         </div>
-                        <div class="single__widget widget__bg">
-                            <h2 class="widget__title h3">Size</h2>
-                            <ul class="widget__form--check">
-                                @foreach($size_atttribute as $key=>$all_size_atttribute)
-                                <li class="widget__form--check__list">
-                                    <label class="widget__form--check__label" for="size_value{{ $key+1 }}">{{ $all_size_atttribute->name_list }}</label>
-                                    <input class="widget__form--check__input" name="size[]" id="size_value{{ $key+1 }}" value="{{ $all_size_atttribute->name_list }}" type="checkbox">
-                                    <span class="widget__form--checkmark"></span>
-                                </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        <div class="single__widget price__filter widget__bg">
-                            <h2 class="widget__title h3">Filter By Price</h2>
+                        <!--<div class="single__widget widget__bg">-->
+                        <!--    <h2 class="widget__title h3">Size</h2>-->
+                        <!--    <ul class="widget__form--check">-->
+                        <!--        @foreach($size_atttribute as $key=>$all_size_atttribute)-->
+                        <!--        <li class="widget__form--check__list">-->
+                        <!--            <label class="widget__form--check__label" for="size_value{{ $key+1 }}">{{ $all_size_atttribute->name_list }}</label>-->
+                        <!--            <input class="widget__form--check__input" name="size[]" id="size_value{{ $key+1 }}" value="{{ $all_size_atttribute->name_list }}" type="checkbox">-->
+                        <!--            <span class="widget__form--checkmark"></span>-->
+                        <!--        </li>-->
+                        <!--        @endforeach-->
+                        <!--    </ul>-->
+                        <!--</div>-->
+                        <!--<div class="single__widget price__filter widget__bg">-->
+                        <!--    <h2 class="widget__title h3">Filter By Price</h2>-->
 
-                                <div class="price__filter--form__inner mb-15 d-flex align-items-center">
-                                    <div class="price__filter--group">
-                                        <label class="price__filter--label" for="Filter-Price-GTE2">From</label>
-                                        <div class="price__filter--input border-radius-5 d-flex align-items-center">
-                                            <span class="price__filter--currency">৳</span>
-                                            <label>
-                                                <input class="price__filter--input__field border-0"
-                                                       type="number" name="from" id="min_price" placeholder="0" min="0"
-                                                       >
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="price__divider">
-                                        <span>-</span>
-                                    </div>
-                                    <div class="price__filter--group">
-                                        <label class="price__filter--label" for="Filter-Price-LTE2">To</label>
-                                        <div class="price__filter--input border-radius-5 d-flex align-items-center">
-                                            <span class="price__filter--currency">৳</span>
-                                            <label>
-                                                <input class="price__filter--input__field border-0"
-                                                       name="to" type="number" id="max_price" min="0"
-                                                       placeholder="250" >
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                        </div>
-                        <div class="single__widget widget__bg">
-                            <h2 class="widget__title h3">Color</h2>
-                            <ul class="widget__tagcloud">
+                        <!--        <div class="price__filter--form__inner mb-15 d-flex align-items-center">-->
+                        <!--            <div class="price__filter--group">-->
+                        <!--                <label class="price__filter--label" for="Filter-Price-GTE2">From</label>-->
+                        <!--                <div class="price__filter--input border-radius-5 d-flex align-items-center">-->
+                        <!--                    <span class="price__filter--currency">৳</span>-->
+                        <!--                    <label>-->
+                        <!--                        <input class="price__filter--input__field border-0"-->
+                        <!--                               type="number" name="from" id="min_price" placeholder="0" min="0"-->
+                        <!--                               >-->
+                        <!--                    </label>-->
+                        <!--                </div>-->
+                        <!--            </div>-->
+                        <!--            <div class="price__divider">-->
+                        <!--                <span>-</span>-->
+                        <!--            </div>-->
+                        <!--            <div class="price__filter--group">-->
+                        <!--                <label class="price__filter--label" for="Filter-Price-LTE2">To</label>-->
+                        <!--                <div class="price__filter--input border-radius-5 d-flex align-items-center">-->
+                        <!--                    <span class="price__filter--currency">৳</span>-->
+                        <!--                    <label>-->
+                        <!--                        <input class="price__filter--input__field border-0"-->
+                        <!--                               name="to" type="number" id="max_price" min="0"-->
+                        <!--                               placeholder="250" >-->
+                        <!--                    </label>-->
+                        <!--                </div>-->
+                        <!--            </div>-->
+                        <!--        </div>-->
 
 
-                                @foreach($color_atttribute as $key=>$all_color_atttribute)
-                                <li class="widget__tagcloud--list">
-
-                                <input class="checkbox" id="color_value{{ $key+1 }}" type="checkbox" name="color[]" value="{{ $all_color_atttribute->name_list}}" name="lists" />
-                                <label for="color_value{{ $key+1 }}" class="widget__tagcloud--link"><span class="check">✓</span>{{ $all_color_atttribute->name_list}}</label>
-
-                                <li>
-                               @endforeach
+                        <!--</div>-->
+                        <!--<div class="single__widget widget__bg">-->
+                        <!--    <h2 class="widget__title h3">Color</h2>-->
+                        <!--    <ul class="widget__tagcloud">-->
 
 
-                            </ul>
-                        </div>
-                        <button class="price__filter--btn primary__btn" type="submit">Filter</button>
+                        <!--        @foreach($color_atttribute as $key=>$all_color_atttribute)-->
+                        <!--        <li class="widget__tagcloud--list">-->
+
+                        <!--        <input class="checkbox" id="color_value{{ $key+1 }}" type="checkbox" name="color[]" value="{{ $all_color_atttribute->name_list}}" name="lists" />-->
+                        <!--        <label for="color_value{{ $key+1 }}" class="widget__tagcloud--link"><span class="check">✓</span>{{ $all_color_atttribute->name_list}}</label>-->
+
+                        <!--        <li>-->
+                        <!--       @endforeach-->
+
+
+                        <!--    </ul>-->
+                        <!--</div>-->
+                       
                     </form>
                     </div>
                 </div>
                 <div class="col-xl-9 col-lg-8">
                     <div class="shop__header bg__gray--color mb-30">
                         <div class="d-flex justify-content-start">
-                            <div class="filter-text">
-                                <p>Filtered By:</p>
-                            </div>
+                            <!--<div class="filter-text">-->
+                            <!--    <p>Filtered By:</p>-->
+                            <!--</div>-->
 
-                            <div class="filter-box">
-                                <div class="d-flex">
-                                    <span class="pe-2" id="f_list">{{ $cat_name }}</span>                                </div>
-                            </div>
+                            <!--<div class="filter-box">-->
+                            <!--    <div class="d-flex">-->
+                            <!--        <span class="pe-2" id="f_list">{{ $cat_name }}</span>                                </div>-->
+                            <!--</div>-->
                             {{--<div class="filter-box">
                                 <div class="d-flex">
                                     <span class="pe-2">Denim Jacket</span>
@@ -377,7 +331,12 @@ input.checkbox:checked + label:before {
                                                     <h3 class="product__items--content__title h4"><a href="{{ route('productDetail',$all_feature_product_list->slug) }}">{{ $all_feature_product_list->product_name }}</a></h3>
                                                     <div class="product__items--price">
                                                         <span class="current__price">৳ {{ $all_feature_product_list->selling_price - $all_feature_product_list->discount  }}</span>
-
+ @if($all_feature_product_list->discount == 0)
+                                        
+                                        @else
+                                        <span class="price__divided"></span>
+                                        <span class="old__price">{{$all_feature_product_list->selling_price}}</span>
+                                        @endif
                                                     </div>
  <ul class="rating product__rating d-flex">
                                     <?php
@@ -475,7 +434,7 @@ input.checkbox:checked + label:before {
 
                                         @endforeach
                             </div>
-<div class="d-flex justify-content-center">
+<div class="d-flex justify-content-center custom_pagination_count">
      {!! $main_product->links() !!}
 </div>
                         </div>

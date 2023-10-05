@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <title>@yield('title')</title>
 <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+<meta name="facebook-domain-verification" content="0iw0dik10f14fe46yjyc7x7o7hm2m6" />
     <meta name="description" content="Spotlight Attires">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="{{$url_name}}{{ $icon }}">
@@ -17,14 +18,15 @@
     <!-- Plugin css -->
     <link rel="stylesheet" href="{{asset('/')}}public/front/assets/css/vendor/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.tutorialjinni.com/intl-tel-input/17.0.19/css/intlTelInput.css"/>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- Custom Style CSS -->
-    <link rel="stylesheet" href="{{asset('/')}}public/front/assets/css/style.css">
+    <link rel="stylesheet" href="{{asset('/')}}public/front/assets/css/style.css?v=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/css/alertify.min.css" integrity="sha512-IXuoq1aFd2wXs4NqGskwX2Vb+I8UJ+tGJEu/Dc0zwLNKeQ7CW3Sr6v0yU3z5OQWe3eScVIkER4J9L7byrgR/fA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/css/themes/default.min.css" integrity="sha512-RgUjDpwjEDzAb7nkShizCCJ+QTSLIiJO1ldtuxzs0UIBRH4QpOjUU9w47AF9ZlviqV/dOFGWF6o7l3lttEFb6g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.tutorialjinni.com/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
 
-
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 
 
@@ -35,6 +37,14 @@
     <script src="{{ asset('/')}}public/parsely1.js"></script>
 
     <style>
+    
+/*    .select2-container--default .select2-selection--single*/
+/*{*/
+/*    width: 305px !important;*/
+/*    border: 1px solid #e4e4e4 !important;*/
+/*    height: 4.5rem !important;*/
+/*    padding: 0 1.5rem !important;*/
+/*}*/
 
         .swal2-confirm{
 
@@ -145,6 +155,32 @@
 
 
             </style>
+            <!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '542221744497083');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=542221744497083&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-F2W7PPNLY9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-F2W7PPNLY9');
+</script>
 </head>
 
 <body>
@@ -159,7 +195,7 @@
     <!-- Top Header -->
     @include('front.include.header')
     <!-- End Top Header -->
-    <!-- Main Header -->
+    <!-- Main Header change -->
 
     @include('front.include.main_header')
     <!-- End Main Header -->
@@ -188,8 +224,6 @@
     <!-- End offCanvas minicart -->
 
     <!-- Start serch box area -->
-
-
     @include('front.include.predictivemobile_serach_box')
     <!-- End serch box area -->
 </header>
@@ -379,9 +413,9 @@ alertify.set('notifier','position', 'top-center');
                  
                  var main_quantity = $('#sidebarQuantity'+after_string_slice_id).val()
                  
-                 var final_quantity = parseInt(main_quantity+1);
+                 var final_quantity = parseInt(main_quantity) + parseInt(1);
                 
-                //alert(main_quantity);
+              
                 
                 $('#main_cart_count1').html(get_main_value);
                 $('#main_cart_count2').html(get_main_value);
@@ -391,7 +425,7 @@ alertify.set('notifier','position', 'top-center');
 url: "https://spotlightattires.com/add_to_card_all_product",
 type: "GET",
 data: {
-'after_string_slice_id': after_string_slice_id
+'after_string_slice_id': after_string_slice_id,'final_quantity':final_quantity
 },
 success: function (data) {
 
@@ -735,6 +769,8 @@ $('#main_cart_count3').html(data);
          $.ajax({
         url: "https://spotlightattires.com/search_product_ajax",
         method: 'GET',
+        cache: false,
+	headers: { "cache-control": "no-cache" },
         data: {category_name:category_name,product_name:product_name},
         success: function(data) {
             
@@ -771,6 +807,8 @@ $('#main_cart_count3').html(data);
          $.ajax({
         url: "https://spotlightattires.com/mobile_search_product",
         method: 'GET',
+        cache: false,
+	headers: { "cache-control": "no-cache" },
         data: {search_product_in_mobile:search_product_in_mobile},
         success: function(data) {
 if(search_product_in_mobile_length == 0){
@@ -789,11 +827,19 @@ if(search_product_in_mobile_length == 0){
 
 </script>
 <script>
-    var input = document.querySelector("#mobile-number");
-    window.intlTelInput(input, {
-        separateDialCode: true,
-        onlyCountries: ["bd"],
-    });
+  $(document).ready(function() {
+    $('.js-example-basic-single').select2();
+});
+</script>
+  <script>
+  $(document).ready(function() {
+    $('.js-example-basic-single1').select2();
+});
+</script>
+  <script>
+  $(document).ready(function() {
+    $('.js-example-basic-single2').select2();
+});
 </script>
 </body>
 </html>

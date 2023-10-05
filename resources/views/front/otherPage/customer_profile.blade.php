@@ -8,6 +8,103 @@ Customer Dasboard
 
 
 @section('body')
+<style>
+    /*profile css*/
+.profile_welcome_box {
+    background-color: var(--secondary-color);
+    padding: 20px 30px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.profile_welcome_box_left h3 {
+    font-size: 16px;
+    color: #c6c6c6;
+    padding-top: 6px;
+}
+
+.profile_welcome_box_left h3 span {
+    font-size: 22px;
+    font-weight: bold;
+    color: #ffffff;
+    padding-top: 6px;
+}
+
+.profile_welcome_box_left p {
+    font-size: 16px;
+    color: #c6c6c6;
+}
+
+.profile_welcome_box_left p span {
+    font-size: 18px;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.profile_welcome_box_right
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile_welcome_box_right h5 {
+    font-size: 18px;
+    color: #ffffff;
+}
+
+.profile_welcome_box_right p {
+    color: #000000;
+    padding: 4px 0;
+    background-color: #ffffff;
+    border-radius: 6px;
+    font-size: 22px;
+    width: 150px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/*box design*/
+
+.stretch-card {
+    justify-content: center;
+    border-radius: 15px;
+}
+
+.grid-margin, .purchase-popup {
+    margin-bottom: 2.5rem;
+}
+
+.bg-gradient-danger {
+
+    background: linear-gradient(to right, #ffbf96, #fe7096) !important;
+}
+
+.bg-gradient-info {
+    background: linear-gradient(to right, #90caf9, #047edf 99%) !important;
+}
+
+.bg-gradient-success {
+    background: linear-gradient(to right, #84d9d2, #07cdae) !important;
+}
+
+.card.card-img-holder {
+    position: relative;
+    border-radius: 5px;
+}
+
+.card.card-img-holder .card-img-absolute {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+}
+
+.profile_stat_text_box {
+    padding: 20px 10px;
+}
+</style>
 <main class="main__content_wrapper">
 
         {{-- <!-- Start breadcrumb section -->
@@ -37,21 +134,20 @@ Customer Dasboard
 
                         ?>
 
-                <p class="account__welcome--text">Hello, {{ Auth::user()->name }} welcome to your dashboard!</p>
-
-
-                <p class="account__welcome--text">Customer Type: {{$client_type_new}}</p>
+              
                 <div class="my__account--section__inner border-radius-10 d-flex">
                     <div class="account__left--sidebar">
                         <h2 class="account__content--title h3 mb-20">My Profile</h2>
                         <ul class="account__menu">
                             <li class="account__menu--list {{ Route::is('customer_dashboard')  ? 'active' : '' }}"><a href="{{route('customer_dashboard')}}">Dashboard</a></li>
+                             <li class="account__menu--list {{ Route::is('customer_profile')  ? 'active' : '' }}"><a href="{{route('customer_profile')}}">Profile</a></li>
                             
                             <li class="account__menu--list {{ Route::is('customer_address')  ? 'active' : '' }}"><a href="{{route('customer_address')}}">Address</a></li>
+                             <li class="account__menu--list {{ Route::is('customer_order')  ? 'active' : '' }}"><a href="{{route('customer_order')}}">Order</a></li>
                             
                              <li class="account__menu--list {{ Route::is('customer_wishlist')  ? 'active' : '' }}"><a href="{{route('customer_wishlist')}}">Wishlist</a></li>
                              
-                               <li class="account__menu--list {{ Route::is('customer_profile')  ? 'active' : '' }}"><a href="{{route('customer_profile')}}">Profile</a></li>
+                            <li class="account__menu--list {{ Route::is('customer_password')  ? 'active' : '' }}"><a href="{{route('customer_password')}}">Password</a></li>
 
                             <li class="account__menu--list"><a href="{{ route('signout') }}">Log Out</a></li>
                         </ul>
@@ -59,10 +155,25 @@ Customer Dasboard
                     <div class="account__wrapper">
                         @include('flash_message')
                         <div class="account__content">
-                        <!--<h2 class="account__content--title h3 mb-20">Personal Info</h2>-->
-                   
-                        <!--<p>{{ Auth::user()->name }}</p>-->
-                        <!--<hr>-->
+                         <div class="profile_welcome_box">
+                            <div class="row">
+                                <div class="col-lg-7 col-sm-12 profile_welcome_box_left">
+                                    <h3>Hello <span>{{ Auth::user()->name }}</span></h3>
+                                    <p>Welcome to <span>Spotlight Attires</span>. Thanks For Shopping</p>
+                                </div>
+                                <div class="col-lg-5 col-sm-12 profile_welcome_box_right">
+                                    <h5>Customer type </h5>
+                                    @if($client_type_new == 'Normal')
+                <p >{{$client_type_new}} </p>
+                @elseif($client_type_new == 'Silver')
+                
+                <p >{{$client_type_new}} </p>
+                @else
+                <p >{{$client_type_new}} </p>
+                @endif
+                                </div>
+                            </div>
+                        </div>
                         <?php
 
                         $get_all_address12_id = DB::table('delivary_addresses')
@@ -98,7 +209,43 @@ Customer Dasboard
 
  ?>
 <h2 class="account__content--title h3 mb-20">Profile</h2>
-  <form action="{{route('personal_information_update')}}" method="post" enctype="multipart/form-data" id="form" data-parsley-validate="">
+
+
+<div class="row">
+ <div class="col-md-6 float-start">
+    
+         <h6>Name:<b> {{Auth::user()->name}}</b></h6>
+         <h6 class="mt-3">Email:<b>  {{Auth::user()->email}}</b></h6>
+         <h6 class="mt-3">Mobile No:<b>  {{Auth::user()->phone}}</b></h6>
+   <!--<p class="account__details--desc">Admin <br> Dhaka <br> Dhaka 12119 <br> Bangladesh</p>-->
+    
+</div>
+ <div class="col-md-6 ">
+     <div class="float-end">
+    @if(empty(Auth::user()->image))
+<img src="{{asset('/')}}public/mainu.jpg"  style="height:120px;border-radius: 50%;" height=""/>
+@else
+<img src="{{asset('public')}}{{ '/'.Auth::user()->image }}"  style="height:120px;border-radius: 50%;" height=""/>
+@endif
+<a class="product__items--action__btn" style="background:#ee2761;color:white;" data-open="mmodal" href="javascript:void(0)">
+      Edit
+    </a>
+    
+    <!-- Quickview Wrapper -->
+    <div class="modal" id="mmodal" data-animation="slideInUp">
+        <div class="modal-dialog quickview__main--wrapper">
+            <header class="modal-header quickview__header">
+                <button class="close-modal quickview__close--btn" aria-label="close modal" data-close>✕ </button>
+            </header>
+            <div class="quickview__inner">
+                <div class="row row-cols-lg-12 row-cols-md-12">
+                    <div class="col">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="orderdetailsModalLabel&quot;">Update Profile</h5>
+                            </div>
+                            <div class="modal-body">
+                            <form action="{{route('personal_information_update')}}" method="post" enctype="multipart/form-data" id="form" data-parsley-vah6date="">
                                             @csrf
                                             
                                             <input class="account__login--input" placeholder="Username" name="id" value="{{ Auth::user()->id }}" type="hidden" maxlength="50" required>
@@ -117,19 +264,42 @@ Customer Dasboard
                                             <input type="text" class="account__login--input" placeholder="Phone" value="{{ Auth::user()->phone }}" id="mainPhone" name="phone"  type="text" maxlength="11" required>
                                         </div>
    <small id="view_text1"></small>
+<label>Profile Photo</label>
+<input class="account__login--input" placeholder="" name="image"  type="file"  />
+@if(empty(Auth::user()->image))
 
+@else
+<img src="{{asset('public')}}{{ '/'.Auth::user()->image }}"  style="height:50px;" height=""/>
+@endif
 
-
-                                        <input class="account__login--input" placeholder="Password" name="pass" id="pass" type="password" maxlength="20" />
+   <!--                                     <input class="account__login--input" placeholder="Password" name="pass" id="pass" type="password" maxlength="20" />-->
                                         
-                                           <input class="account__login--input" placeholder="Confirm Password" name="confirm_pass" id="confirm_pass" type="password" maxlength="20" />
-   <small id="view_text2"></small>
+   <!--                                        <input class="account__login--input" placeholder="Confirm Password" name="confirm_pass" id="confirm_pass" type="password" maxlength="20" />-->
+   <!--<small id="view_text2"></small>-->
                                         <input name="b_value" class="account__login--btn primary__btn mb-10" id="final_button" value="Update" type="submit" />
 <div class="account__login--remember position__relative">
                                         
                                            
                                         </div>
                                         </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Quickview Wrapper End -->  
+</div>
+                                 
+    
+    
+</div>
+</div>
+
 
 
 
@@ -189,6 +359,8 @@ Customer Dasboard
 
 @endsection
 @section('script')
+
+
 <script>
 
 //password//

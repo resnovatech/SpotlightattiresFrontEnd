@@ -107,7 +107,7 @@ $convert_name_title = $get_product_name->implode("product_name", " ");
 $separated_data_title = explode(" ", $convert_name_title);
 
 
-$feature_product_list = DB::table('main_products')->latest()->limit('10')->get();
+$feature_product_list = DB::table('main_products')->inRandomOrder()->limit('10')->get();
     ?>
 
 
@@ -139,8 +139,12 @@ $feature_image_two =DB::table('feature_product_images')->where('product_name',$a
                                     <h3 class="product__items--content__title h4"><a href="{{ route('productDetail',$all_feature_product_list->slug) }}">{{ $all_feature_product_list->product_name }}</a></h3>
                                     <div class="product__items--price">
                                         <span class="current__price">৳ {{ $all_feature_product_list->selling_price - $all_feature_product_list->discount}}</span>
-                                        {{-- <span class="price__divided"></span>
-                                        <span class="old__price">$78</span> --}}
+                                        @if($all_feature_product_list->discount == 0)
+                                        
+                                        @else
+                                        <span class="price__divided"></span>
+                                        <span class="old__price">{{$all_feature_product_list->selling_price}}</span>
+                                        @endif
                                     </div>
                                     <ul class="rating product__rating d-flex">
                                         
@@ -291,8 +295,12 @@ $feature_image_two =DB::table('feature_product_images')->where('product_name',$a
                                                                                             <h3 class="product__items--content__title h4"><a href="{{ route('productDetail',$all_feature_product_list->slug) }}">{{ $all_feature_product_list->product_name }}</a></h3>
                                                                                             <div class="product__items--price">
                                                                                                 <span class="current__price">৳ {{ $all_feature_product_list->selling_price - $all_feature_product_list->discount }}</span>
-                                                                                                {{-- <span class="price__divided"></span>
-                                                                                                <span class="old__price">$78</span> --}}
+                                                                                                 @if($all_feature_product_list->discount == 0)
+                                        
+                                        @else
+                                        <span class="price__divided"></span>
+                                        <span class="old__price">{{$all_feature_product_list->selling_price}}</span>
+                                        @endif
                                                                                             </div>
                                                                                             <ul class="rating product__rating d-flex">
                                                                                                   <?php  
@@ -406,7 +414,12 @@ $feature_image_two =DB::table('feature_product_images')->where('product_name',$a
 
 
                                                     $feature_product_list2 = DB::table('main_products')
-                                                    ->whereIn('slug',$separated_data_title)->latest()->limit('10')->get();
+                                                 ->whereNotNull('trade_count')->orderBy('trade_count','desc')->limit(10)->get();
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
                                                         ?>
                                                         @foreach($feature_product_list2 as $all_feature_product_list)
 
@@ -433,8 +446,12 @@ $feature_image_two =DB::table('feature_product_images')->where('product_name',$a
                                                                                             <h3 class="product__items--content__title h4"><a href="{{ route('productDetail',$all_feature_product_list->slug) }}">{{ $all_feature_product_list->product_name }}</a></h3>
                                                                                             <div class="product__items--price">
                                                                                                 <span class="current__price">৳ {{ $all_feature_product_list->selling_price - $all_feature_product_list->discount }}</span>
-                                                                                                {{-- <span class="price__divided"></span>
-                                                                                                <span class="old__price">$78</span> --}}
+                                                                                                  @if($all_feature_product_list->discount == 0)
+                                        
+                                        @else
+                                        <span class="price__divided"></span>
+                                        <span class="old__price">{{$all_feature_product_list->selling_price}}</span>
+                                        @endif
                                                                                             </div>
                                                                                             <ul class="rating product__rating d-flex">
                                                                                                  <?php  
@@ -614,8 +631,12 @@ $feature_image_two =DB::table('feature_product_images')->where('product_name',$a
                               <h3 class="product__items--content__title h4"><a href="{{ route('productDetail',$all_feature_product_list->slug) }}">{{ $all_feature_product_list->product_name }}</a></h3>
                               <div class="product__items--price">
                                   <span class="current__price">৳ {{ $all_feature_product_list->selling_price - $all_feature_product_list->discount}}</span>
-                                  {{-- <span class="price__divided"></span>
-                                  <span class="old__price">$78</span> --}}
+                                   @if($all_feature_product_list->discount == 0)
+                                        
+                                        @else
+                                        <span class="price__divided"></span>
+                                        <span class="old__price">{{$all_feature_product_list->selling_price}}</span>
+                                        @endif
                               </div>
                               <ul class="rating product__rating d-flex">
                                     <?php  

@@ -173,7 +173,7 @@ width: 100% !important;
                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                          aria-labelledby="pills-home-tab">
                         <div class="d-flex justify-content-center">
-                              <form action="{{route('customer_login_post_dash')}}" method="post"  enctype="multipart/form-data" id="form1" data-parsley-validate="">
+                              <form action="{{route('postLoginToAddCart')}}" method="post"  enctype="multipart/form-data" id="form1" data-parsley-validate="">
                                 @csrf
                                 <div class="login__section--inner">
 
@@ -226,7 +226,7 @@ width: 100% !important;
                     </div>
                     <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                         <div class="d-flex justify-content-center">
-                             <form action="{{route('customer_reg_post_dash')}}" method="post"  enctype="multipart/form-data" id="form" data-parsley-validate="">
+                             <form action="{{route('postRegisterToAddCart')}}" method="post"  enctype="multipart/form-data" id="form" data-parsley-validate="">
                                            @csrf
                                 <div class="login__section--inner">
 
@@ -258,7 +258,7 @@ width: 100% !important;
                                                         <div class="d-flex align-content-center pt-5">
                                                             <p>Photo Must be JPG, JPEG, GIF,or PNG, <br>
                                                                 For Best View Photo 100 * 100px (File Size no more
-                                                                than 50 KB)</p>
+                                                                than 50KB)</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -299,7 +299,7 @@ name="town"    required id="town" >
 </select>
                                             </label>
                                            </div>
-                                             <div class="form-group has-search ">
+                                            <div class="form-group has-search ">
                                                 <span class="form-control-feedback">
                                                     <img src="{{ asset('/') }}public/download.jpg" alt="">
                                                     <span>+88</span>

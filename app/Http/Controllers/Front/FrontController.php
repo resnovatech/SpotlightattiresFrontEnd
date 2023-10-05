@@ -5,11 +5,87 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Hash;
+use Session;
 use App\Models\Review;
 class FrontController extends Controller
 {
     
+     public function deleteCupon($id){
+        
+        $checkCodeFirst = DB::table('cupon_history')
+        ->where('id',$id)->delete(); 
+        session()->forget('discountMain');
+        return redirect()->back();
+    }
     
+    
+    public function getAddressFromType(Request $request){
+        
+        $getDataAddressType = DB::table('delivary_addresses')->where('user_id',Auth::user()->id)
+        ->where('title',$request->addressType)->first();
+        
+        if(!$getDataAddressType){
+            
+            
+            
+             $name ='';
+            $address ='';
+            $district ='';
+            $thana ='';
+            
+        }else{
+            
+           $name =$getDataAddressType->first_name;
+            $address =$getDataAddressType->address;
+            $district =$getDataAddressType->district;
+            $thana =$getDataAddressType->town;
+            
+        }
+        
+           $response = [
+    'name' => $name,
+    'address' => $address,
+    'district' => $district,
+    'thana' => $thana
+];
+        
+  return response()->json($response); 
+        
+    }
+    
+    public function get_district_from_division(Request $request){
+
+      $get_district_from_div = DB::table('redex_area')->where('Division',$request->currentId)->select('District')->groupBy('District')->get();
+       $data = view('front.productPages.get_district_from_division',compact('get_district_from_div'))->render();
+        return response()->json($data);
+ 
+
+
+}
+
+public function get_thana_from_district(Request $request){
+
+      $get_district_from_div = DB::table('rede')->where('District',$request->currentId)->select('Upazila_Thana')->groupBy('Upazila_Thana')->get();
+       $data = view('front.productPages.get_thana_from_district',compact('get_district_from_div'))->render();
+        return response()->json($data);
+
+
+
+}
+
+
+public function get_price_from_thana(Request $request){
+
+
+    $get_district_from_div = DB::table('rede')->where('Upazila_Thana',$request->currentId)->value('Delivery_Charge');
+    $data = $get_district_from_div;
+     return response()->json($data);
+
+
+}
      public function search_product_ajax(Request $request){
 
       
@@ -53,7 +129,7 @@ class FrontController extends Controller
 //dd($request->all());
       
        
-            $main_product=DB::table('main_products')->where('product_name','LIKE','%'.$request->product_name.'%')->get();
+            $main_product=DB::table('main_products')->where('product_name','LIKE','%'.$request->product_name.'%')->paginate(28);
 
     
      
@@ -94,8 +170,8 @@ return view('front.productPages.productList',compact('size_atttribute','color_at
                 $product_url_single = url('productDetail/'.$product->slug);
 
             $data.='<tr>'.
-            '<td>'.' <img src="'.$image_location.'"  class="searchImage" style="height:40px;"> '. '</td>'.
-            '<td>'.'<a href="'.$product_url_single.'">'.$product->product_name.'</a>'.'</td>'.
+            '<td>'.' <img src="'.$image_location.'"  class="searchImage" style="height:40px; width: 50px;"> '. '</td>'.
+            '<td>'.'<a style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap; width: 150px" href="'.$product_url_single.'">'.$product->product_name.'</a>'.'</td>'.
  '<td>'.'<a href="">&#2547;'.$product->selling_price.'</a>'.'</td>'.
             //'<td>'.'<button onclick="singleData('.$product->product_slug.')">'.$product->product_name.'</button>'.'</td>'.
 
@@ -328,6 +404,58 @@ return view('front.productPages.animationCategoryProductList',compact('size_attt
 
         return view('front.productPages.productDetail',compact('total_quantity','assaign_size_all','assaign_color_all','cartCollection1','total_review_list_avg','total_review_list_count','product_information','feature_image_first','feature_image_all','total_review_list','catch_product_name_first'));
 
+    }
+    
+    public function getFilterDataFromOrderHistory(Request $rquest){
+        
+        $mainVal = $request->mainVal;
+        
+        
+        
+           $datac = view('front.otherPage.computerData',compact('mainVal'))->render();
+         $datam  = view('front.otherPage.mobileData',compact('mainVal'))->render();
+         
+            $response = [
+    'datac' => $datac,
+    'datam' => $datam
+];
+        
+  return response()->json($response); 
+  
+  
+    }
+    
+    public function checkPasswordAvailable(Request $request){
+        
+        $current_password = $request->current_password;
+        $hashPassword =Hash::make($current_password);
+        dd($hashPassword);
+        $previousData = User::where('id',Auth::user()->id)->value('password');
+        
+        if($hashPassword == $previousData){
+            
+            $data = 0;
+        }else{
+            $data = 1;
+            
+        }
+        
+        return $data;
+        
+        
+    }
+    
+    public function postPasswordUpdate(Request $request){
+        
+        $customer =User::find($request->id);
+     
+        if(empty($request->pass)){
+        }else{
+        $customer->password = Hash::make($request->pass);
+        }
+        $customer->save();
+        
+        return redirect()->back()->with('success','Updated');
     }
 
 

@@ -159,11 +159,9 @@
                 </div>
             </div>
         </div>
-        <div class="footer__bottom d-flex justify-content-between align-items-center">
-            <p class="copyright__content text-ofwhite m-0">Copyright © 2023 <a class="copyright__content--link" href="{{ route('index') }}">{{ $ins_name }}</a> . All Rights Reserved.Design By {{ $ins_name }}</p>
-            <div class="footer__payment text-right">
-                <img class="display-block" src="{{ asset('/') }}public/front/assets/img/other/payment-visa-card.png" alt="visa-card">
-            </div>
+        <div class="footer__bottom  align-items-center">
+            <center><p class="copyright__content text-ofwhite m-0">Copyright © 2023 <a class="copyright__content--link" href="{{ route('index') }}">{{ $ins_name }}</a> . All Rights Reserved.Design By {{ $ins_name }}</p></center>
+            
         </div>
     </div>
 </footer>

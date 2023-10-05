@@ -111,69 +111,15 @@ Animation Category
                                 @endforeach
                             </ul>
                         </div>
-                        <div class="single__widget widget__bg">
-                            <h2 class="widget__title h3">Size</h2>
-                            <ul class="widget__form--check">
-                                @foreach($size_atttribute as $key=>$all_size_atttribute)
-                                <li class="widget__form--check__list">
-                                    <label class="widget__form--check__label" for="check{{ $key+1 }}">{{ $all_size_atttribute->name_list }}</label>
-                                    <input class="widget__form--check__input" id="check{{ $key+1 }}" value="{{ $all_size_atttribute->name_list }}" type="checkbox">
-                                    <span class="widget__form--checkmark"></span>
-                                </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        <div class="single__widget price__filter widget__bg">
-                            <h2 class="widget__title h3">Filter By Price</h2>
-                            <form class="price__filter--form" action="#">
-                                <div class="price__filter--form__inner mb-15 d-flex align-items-center">
-                                    <div class="price__filter--group">
-                                        <label class="price__filter--label" for="Filter-Price-GTE2">From</label>
-                                        <div class="price__filter--input border-radius-5 d-flex align-items-center">
-                                            <span class="price__filter--currency">৳</span>
-                                            <label>
-                                                <input class="price__filter--input__field border-0"
-                                                       name="filter.v.price.gte" type="number" placeholder="0" min="0"
-                                                       max="250.00">
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="price__divider">
-                                        <span>-</span>
-                                    </div>
-                                    <div class="price__filter--group">
-                                        <label class="price__filter--label" for="Filter-Price-LTE2">To</label>
-                                        <div class="price__filter--input border-radius-5 d-flex align-items-center">
-                                            <span class="price__filter--currency">৳</span>
-                                            <label>
-                                                <input class="price__filter--input__field border-0"
-                                                       name="filter.v.price.lte" type="number" min="0"
-                                                       placeholder="250.00" max="250.00">
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button class="price__filter--btn primary__btn" type="submit">Filter</button>
-                            </form>
-                        </div>
-                        <div class="single__widget widget__bg">
-                            <h2 class="widget__title h3">Color</h2>
-                            <ul class="widget__tagcloud">
-
-                                @foreach($color_atttribute as $all_color_atttribute)
-                                <li class="widget__tagcloud--list"><a class="widget__tagcloud--link" href="">{{ $all_color_atttribute->name_list}}</a>
-                                </li>
-                                @endforeach
-                            </ul>
-                        </div>
+                     
                     </div>
                 </div>
                 <div class="col-xl-9 col-lg-8">
                     <div class="shop__header bg__gray--color mb-30">
                         <div class="d-flex justify-content-start">
-                            <div class="filter-text">
-                                <p>Filtered By:</p>
-                            </div>
+                            <!--<div class="filter-text">-->
+                            <!--    <p>Filtered By:</p>-->
+                            <!--</div>-->
                             {{-- <div class="filter-box">
                                 <div class="d-flex">
                                     <span class="pe-2">Denim Jacket</span>
@@ -308,6 +254,9 @@ Animation Category
 
                                         @endforeach
                             </div>
+                            <div class="d-flex justify-content-center custom_pagination_count">
+     {!! $main_product->links() !!}
+</div>
                         </div>
                     </div>
                 </div>
@@ -316,13 +265,13 @@ Animation Category
     </section>
     <!-- End shop section -->
 
-    <!-- Start shipping section -->
+      <!-- Start shipping section -->
     <section class="shipping__section2 shipping__style3 section--padding pt-0">
         <div class="container">
             <div class="shipping__section2--inner shipping__style3--inner d-flex justify-content-between">
                 <div class="shipping__items2 d-flex align-items-center">
                     <div class="shipping__items2--icon">
-                        <img src="assets/img/other/shipping1.png" alt="">
+                        <img src="{{ asset('/') }}public/shipping1.png" alt="">
                     </div>
                     <div class="shipping__items2--content">
                         <h2 class="shipping__items2--content__title h3">Shipping</h2>
@@ -331,7 +280,7 @@ Animation Category
                 </div>
                 <div class="shipping__items2 d-flex align-items-center">
                     <div class="shipping__items2--icon">
-                        <img src="assets/img/other/shipping2.png" alt="">
+                        <img src="{{ asset('/') }}public/shipping2.png" alt="">
                     </div>
                     <div class="shipping__items2--content">
                         <h2 class="shipping__items2--content__title h3">Payment</h2>
@@ -340,7 +289,7 @@ Animation Category
                 </div>
                 <div class="shipping__items2 d-flex align-items-center">
                     <div class="shipping__items2--icon">
-                        <img src="assets/img/other/shipping3.png" alt="">
+                        <img src="{{ asset('/') }}public/shipping3.png" alt="">
                     </div>
                     <div class="shipping__items2--content">
                         <h2 class="shipping__items2--content__title h3">Return</h2>
@@ -349,7 +298,7 @@ Animation Category
                 </div>
                 <div class="shipping__items2 d-flex align-items-center">
                     <div class="shipping__items2--icon">
-                        <img src="assets/img/other/shipping4.png" alt="">
+                        <img src="{{ asset('/') }}public/shipping4.png" alt="">
                     </div>
                     <div class="shipping__items2--content">
                         <h2 class="shipping__items2--content__title h3">Support</h2>

@@ -231,7 +231,7 @@
 @else
  <input type="hidden" value="{{ $product_information->selling_price - $product_information->discount }}" name="s_price"/>
 <input type="hidden" value="{{ $product_information->id }}" name="m_id"/>
-                                    <span class="current__price">৳ {{ $product_information->selling_price - $product_information->discount }}</span>
+                                    <span class="current__price"> {{ $product_information->selling_price - $product_information->discount }}</span>
                                     <span class="price__divided"></span>
                                     <span class="old__price">৳ {{ $product_information->selling_price }}</span>
 
@@ -288,9 +288,12 @@
                                     @endif
                                     )</span>
                                 </div>
-                                <p class="product__details--info__desc mb-15">  {!! Str::limit($product_information->product_detail, 50) !!}</p>
+                                <!--<p class="product__details--info__desc mb-15">  {!! Str::limit($product_information->product_detail, 50) !!}</p>-->
                                 <div class="product__variant">
                                     <div class="product__variant--list mb-10">
+                                        @if(count($assaign_color_all) == 0 )
+                                        
+                                        @else
                                         <fieldset class="variant__input--fieldset">
                                             <legend class="product__variant--title mb-8">Color :</legend>
                                             @foreach($assaign_color_all as $key=>$all_assaign_color_all)
@@ -312,25 +315,49 @@
 @endforeach
 
                                         </fieldset>
+                                        @endif
                                     </div>
                                     <div class="product__variant--list mb-15">
+                                        
+                                        @if(count($assaign_size_all) == 0 )
+                                        
+                                        @else
                                         <fieldset class="variant__input--fieldset weight">
                                             <legend class="product__variant--title mb-8">Size :</legend>
 
                                             @foreach($assaign_size_all as $key=>$all_assaign_size_all)
+                                            
+                                            <?php    
+
+$checkQuantity = DB::table('product_colors')->where('product_name',$all_assaign_size_all->product_name)
+  ->where('size',$all_assaign_size_all->size_name)->value('quantity');
+
+
+?>
 
                                             @if(($key+1) == 1)
+                                            @if($checkQuantity == 0)
+
+@else
                                             <input id="weight{{ $key+1 }}" name="weight" type="radio" value="{{ $all_assaign_size_all->size_name }}" checked>
                                             <label class="variant__size--value red" for="weight{{ $key+1 }}">{{ $all_assaign_size_all->size_name }}</label>
+                                           
+                                           @endif
+                                           
                                             @else
+                                            
+                                            @if($checkQuantity == 0)
+
+@else
 
                                             <input id="weight{{ $key+1 }}" name="weight" type="radio" value="{{ $all_assaign_size_all->size_name }}" >
                                             <label class="variant__size--value red" for="weight{{ $key+1 }}">{{ $all_assaign_size_all->size_name }}</label>
-
+                                            @endif
                                             @endif
                                             @endforeach
 
                                         </fieldset>
+                                        @endif
                                     </div>
                                     <div class="product__variant--list quantity d-flex align-items-center mb-20">
                                         <div class="quantity__box">
@@ -393,6 +420,26 @@
 
                                     </ul>
                                 </div>
+                                @if(empty($product_information->video_link))
+                                
+                                @else
+                                <div class="quickview__social d-flex align-items-center mb-15">
+                                    <label class="quickview__social--title">Video:</label>
+                                    <ul class="quickview__social--wrapper mt-0 d-flex">
+                                        <li class="quickview__social--list">
+                                            <a class="quickview__social--icon" target="_blank" href="{{$product_information->video_link}}">
+                                                    <svg  xmlns="http://www.w3.org/2000/svg" width="16.49" height="11.582" viewBox="0 0 16.49 11.582">
+                                                    <path  data-name="Path 321" d="M967.759,1365.592q0,1.377-.019,1.717-.076,1.114-.151,1.622a3.981,3.981,0,0,1-.245.925,1.847,1.847,0,0,1-.453.717,2.171,2.171,0,0,1-1.151.6q-3.585.265-7.641.189-2.377-.038-3.387-.085a11.337,11.337,0,0,1-1.5-.142,2.206,2.206,0,0,1-1.113-.585,2.562,2.562,0,0,1-.528-1.037,3.523,3.523,0,0,1-.141-.585c-.032-.2-.06-.5-.085-.906a38.894,38.894,0,0,1,0-4.867l.113-.925a4.382,4.382,0,0,1,.208-.906,2.069,2.069,0,0,1,.491-.755,2.409,2.409,0,0,1,1.113-.566,19.2,19.2,0,0,1,2.292-.151q1.82-.056,3.953-.056t3.952.066q1.821.067,2.311.142a2.3,2.3,0,0,1,.726.283,1.865,1.865,0,0,1,.557.49,3.425,3.425,0,0,1,.434,1.019,5.72,5.72,0,0,1,.189,1.075q0,.095.057,1C967.752,1364.1,967.759,1364.677,967.759,1365.592Zm-7.6.925q1.49-.754,2.113-1.094l-4.434-2.339v4.66Q958.609,1367.311,960.156,1366.517Z" transform="translate(-951.269 -1359.8)" fill="currentColor"/>
+                                                </svg>
+                                                <span class="visually-hidden">Youtube</span>
+                                            </a>
+                                        </li>
+                                      
+
+
+                                    </ul>
+                                </div>
+                                @endif
                                 {{-- <div class="guarantee__safe--checkout">
                                     <h5 class="guarantee__safe--checkout__title">Guaranteed Safe Checkout</h5>
                                     <img class="guarantee__safe--checkout__img" src="{{ asset('/') }}public/front/assets/img/other/safe-checkout.png" alt="Payment Image">
